@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django_extensions.db.fields import AutoSlugField
 from django.utils.text import slugify
 from model_utils import Choices
+from django.shortcuts import resolve_url
+
 
 class Item(models.Model):
     text = models.TextField()
@@ -21,6 +23,7 @@ class Item(models.Model):
 
 class List(models.Model):
     STATUS = Choices(
+
         ('active', 'Active'),
         ('archived', 'Archived'),
     )
@@ -40,6 +43,12 @@ class List(models.Model):
     def __str__(self):
         return self.name
 
+    def get_url(self):
+        if self.parent_list:
+            return resolve_url('list_detail', self.parent_list.context.slug, self.slug)
+        else:
+            return resolve_url('list_detail', self.context.slug, self.slug)
+
     def get_name(self):
         return ":{}".format(self.name)
 
@@ -58,7 +67,7 @@ class List(models.Model):
         return len(self.get_active_items())
 
     def get_active_sublists(self):
-        return self.sublists.filter(status=active)
+        return self.sublists.filter(status='active')
 
     def count_sublists(self):
         return len(self.get_active_sublists())
@@ -83,6 +92,9 @@ class Context(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_url(self):
+        return resolve_url('context_detail', self.slug)
 
     def get_name(self):
         return "/{}".format(self.name)

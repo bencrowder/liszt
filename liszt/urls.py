@@ -6,6 +6,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
 
     url(r'^api/add-items/$', 'liszt.apis.add_items', name='add_items'),
+    url(r'^api/search/$', 'liszt.apis.search', name='search'),
 
     url(r'^$', 'liszt.views.home', name='home'),
     url(r'^login/$', auth_views.login, name='login'),

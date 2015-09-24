@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponse
+from django.core import serializers
 
 from liszt.models import Item, List, Context
 
@@ -60,3 +61,27 @@ def add_items(request):
     else:
         # Return JSON response
         return JsonResponse(response)
+
+@login_required
+def search(request):
+    """ Searches. """
+
+    query = request.GET.get('q', '').strip()
+
+    contexts = Context.objects.filter(name__icontains=query, status='active')
+    lists = List.objects.filter(name__icontains=query, status='active')
+    items = Item.objects.filter(text__icontains=query, checked=False)
+
+    # Serialize it
+    contexts = [{'id': c.id, 'name': c.name, 'url': c.get_url(), 'num_lists': c.count_lists()} for c in contexts]
+    lists = [{'id': l.id, 'name': l.name, 'url': l.get_url(), 'num_items': l.count_items(), 'num_lists': l.count_sublists()} for l in lists]
+    items = [{'id': i.id, 'name': i.text, 'checked': i.checked} for i in items]
+
+    response = {
+        'contexts': contexts,
+        'lists': lists,
+        'items': items,
+    }
+
+    # Return JSON response
+    return JsonResponse(response)

@@ -8,7 +8,7 @@
 {% block content %}
 <ul class="lists">
     {% for list in ctext.lists.all %}
-	<li class="list"><a href="{% url 'list_detail' list.context.slug list.slug %}">{{ list.get_name }}</a> <span>{{ list.count_items }} item{% if list.count_items != 1 %}s{% endif %}</span></li>
+	<li class="list"><a href="{% url 'list_detail' list.context.slug list.slug %}">{{ list.get_name }}</a> <span>{{ list.count_items }} item{% if list.count_items != 1 %}s{% endif %}{% if list.count_sublists %}, {{ list.count_sublists }} list{% if list.count_sublists != 1 %}s{% endif %}{% endif %}</span></li>
     {% endfor %}
 </ul>
 {% endblock content %}
