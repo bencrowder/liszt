@@ -49,7 +49,7 @@
 		</div>
 	</header>
 
-	<section id="search-tray" class="tray">
+	<section id="search-tray" class="tray" data-uri="{% url 'search' %}">
 		<div class="container">
 			<input type="text" />
 		</div>
@@ -65,7 +65,8 @@
 
 	<main id="content">
 		<div class="container">
-			{% block content %}{% endblock content %}
+			<div class="results"></div>
+			<div class="wrapper">{% block content %}{% endblock content %}</div>
 		</div>
 	</main>
 </body>

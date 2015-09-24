@@ -166,7 +166,8 @@ body > header {
 main#content {
   padding: 20px;
   /* Lists */
-  /* Items */ }
+  /* Items */
+  /* Search results */ }
   main#content ul.lists {
     list-style: none;
     margin: 0 0 25px 0;
@@ -215,5 +216,10 @@ main#content {
         flex: 1;
         font-size: 1.2em;
         line-height: 1.2em; }
+  main#content .results h2 {
+    color: #888;
+    font-size: 1em;
+    font-weight: 400;
+    margin: 0 0 1em 0; }
 
 /*# sourceMappingURL=style.css.map */

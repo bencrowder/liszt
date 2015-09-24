@@ -68,13 +68,13 @@ def search(request):
 
     query = request.GET.get('q', '').strip()
 
-    contexts = Context.objects.filter(name__icontains=query, status='active')
-    lists = List.objects.filter(name__icontains=query, status='active')
-    items = Item.objects.filter(text__icontains=query, checked=False)
+    contexts = Context.objects.filter(name__icontains=query, status='active')[:5]
+    lists = List.objects.filter(name__icontains=query, status='active')[:5]
+    items = Item.objects.filter(text__icontains=query, checked=False)[:5]
 
     # Serialize it
-    contexts = [{'id': c.id, 'name': c.name, 'url': c.get_url(), 'num_lists': c.count_lists()} for c in contexts]
-    lists = [{'id': l.id, 'name': l.name, 'url': l.get_url(), 'num_items': l.count_items(), 'num_lists': l.count_sublists()} for l in lists]
+    contexts = [{'id': c.id, 'name': c.get_name(), 'url': c.get_url(), 'num_lists': c.count_lists()} for c in contexts]
+    lists = [{'id': l.id, 'name': l.get_name(), 'url': l.get_url(), 'num_items': l.count_items(), 'num_lists': l.count_sublists()} for l in lists]
     items = [{'id': i.id, 'name': i.text, 'checked': i.checked} for i in items]
 
     response = {

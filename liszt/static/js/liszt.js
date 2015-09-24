@@ -9,6 +9,12 @@ $(document).ready(function() {
 	$("#add-tray a#save-button").on("click", _submitAddTray);
 
 
+	// Search tray
+	// --------------------------------------------------
+	
+	$("#search-tray input[type=text]").on("keyup", _submitSearchTray);
+
+
 	// Header controls
 	// --------------------------------------------------
 
@@ -59,6 +65,7 @@ function _hideSearchTray() {
 	// Hide the search tray
 	$("#search-tray").slideUp(75, function() {
 		$("#search-tray input").val('').blur();
+		$("#content .results").hide().siblings(".wrapper").show();
 	});
 
 	return false;
@@ -69,6 +76,96 @@ function _toggleSearchTray() {
 		_hideSearchTray();
 	} else {
 		_showSearchTray();
+	}
+
+	return false;
+}
+
+function _submitSearchTray() {
+	// Get value of text box
+	var query = $("#search-tray input[type=text]").val().trim();
+
+	// URL for web service
+	var url = $("#search-tray").attr("data-uri");
+
+	// Make sure it's not blank
+	if (query == '') {
+		$("#content .results").hide().html('').siblings(".wrapper").show();
+	} else {
+		// Payload
+		var data = {
+			'q': query,
+		};
+
+		$.ajax({
+			url: url,
+			method: 'GET',
+			data: data,
+			success: function(data) {
+				// Update the search results
+				var html = '';
+
+				// Total
+				var totalResults = data.contexts.length + data.lists.length + data.items.length;
+				html += '<h2>' + totalResults + ' result' + (totalResults != 1 ? 's' : '') + '</h2>';
+
+				// Contexts
+				if (data.contexts.length > 0) {
+					html += '<ul class="contexts lists">';
+					for (var i=0; i<data.contexts.length; i++) {
+						var c = data.contexts[i];
+						html += '<li class="list">';
+						html += '<a href="' + c.url + '">' + c.name + '</a> <span>' + c.num_lists + ' lists</span>';
+						html += '</li>';
+					}
+					html += '</ul>';
+				}
+
+				// Lists
+				if (data.lists.length > 0) {
+					html += '<ul class="lists">';
+					for (var i=0; i<data.lists.length; i++) {
+						var l = data.lists[i];
+						html += '<li class="list">';
+						html += '<a href="' + l.url + '">' + l.name + '</a> <span>' + l.num_items + ' items';
+						if (l.num_lists > 0) {
+							html += ', ' + l.num_lists + ' lists';
+						}
+						html += '</span>';
+						html += '</li>';
+					}
+					html += '</ul>';
+				}
+
+				// Items
+				if (data.items.length > 0) {
+					html += '<ul class="items">';
+					for (var i=0; i<data.items.length; i++) {
+						var item = data.items[i];
+						html += '<li class="item">';
+						html += '<input type="checkbox"';
+						if (item.checked) {
+							html += ' checked="' + item.checked + '"';
+						}
+						html += '/> ';
+						html += '<label>' + item.name + '</label>';
+						html += '</li>';
+					}
+					html += '</ul>';
+				}
+
+				// Put the HTML in the results panel
+				$("#content .results").html(html);
+
+				// Show the results panel if it's not visible
+				if ($("#content .results:visible").length == 0) {
+					$("#content .results").show().siblings(".wrapper").hide();
+				}
+			},
+			error: function(data) {
+				console.log("error :(", data);
+			},
+		});
 	}
 
 	return false;
