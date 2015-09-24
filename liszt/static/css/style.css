@@ -124,8 +124,8 @@ body > header {
 /* Trays */
 /* -------------------------------------------------- */
 .tray {
-  /* Hidden by default */
-  display: none; }
+  display: none;
+  padding: 0 20px; }
 
 /* Search tray */
 #search-tray {
