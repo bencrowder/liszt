@@ -32,6 +32,9 @@ p {
   -webkit-hyphens: auto;
   hyphens: auto; }
 
+.hidden {
+  display: none; }
+
 @font-face {
   font-family: 'Charter';
   src: url("../fonts/charter/charter_bold_italic-webfont.woff") format("woff");
@@ -59,6 +62,15 @@ body > header {
   /* Page title */ }
   body > header .controls {
     float: right; }
+    body > header .controls a {
+      color: #999999;
+      cursor: pointer;
+      text-decoration: none;
+      /* Spacing */ }
+      body > header .controls a:hover {
+        color: #737373; }
+      body > header .controls a + a {
+        margin-left: 10px; }
   body > header h2 {
     color: #888;
     font-size: .8em;

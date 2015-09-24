@@ -12,6 +12,8 @@ $item-color: hsl(0, 0%, 20%);
 $group-spacing: 25px;
 $item-spacing: 10px;
 
+$header-controls-color: hsl(0, 0%, 60%);
+
 * {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -45,4 +47,8 @@ p {
 	-o-hyphens: auto;
 	-webkit-hyphens: auto;
 	hyphens: auto;
+}
+
+.hidden {
+	display: none;
 }

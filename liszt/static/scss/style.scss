@@ -22,6 +22,21 @@ body > header {
 
 	.controls {
 		float: right;
+
+		a {
+			color: $header-controls-color;
+			cursor: pointer;
+			text-decoration: none;
+
+			&:hover {
+				color: darken($header-controls-color, 15%);
+			}
+
+			/* Spacing */
+			& + a {
+				margin-left: 10px;
+			}
+		}
 	}
 
 	/* Liszt */

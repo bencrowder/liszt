@@ -6,14 +6,25 @@ from django.http import JsonResponse, HttpResponse
 
 from liszt.models import Item, List, Context
 
-from liszt.utils import process_payload, get_or_create_list
+from liszt.utils import process_payload, get_or_create_context, get_or_create_list
 
 @login_required
 def add_items(request):
     """ Adds a sequence of items. """
 
-    payload = request.GET.get('payload', '').strip()
-    key = request.GET.get('key', '')
+    if request.method == 'GET':
+        payload = request.GET.get('payload', '').strip()
+        key = request.GET.get('key', '')
+        d_context = request.GET.get('context', None)
+        d_list = request.GET.get('list', None)
+        d_parent_list = request.GET.get('parent_list', None)
+    elif request.method == 'POST':
+        payload = request.POST.get('payload', '').strip()
+        key = request.POST.get('key', '')
+        d_context = request.POST.get('context', None)
+        d_list = request.POST.get('list', None)
+        d_parent_list = request.POST.get('parent_list', None)
+
     callback = request.GET.get('callback', '')
 
     # Make sure we have the secret key
@@ -21,8 +32,17 @@ def add_items(request):
         return JsonResponse({})
 
     # Get default context/list
-    default_context = Context.objects.filter(status='active').first()
-    default_list = get_or_create_list(default_context, 'inbox')
+    if d_context:
+        default_context = get_or_create_context(d_context)
+    else:
+        # Get the first active context
+        default_context = Context.objects.filter(status='active').first()
+
+    # Get default list
+    if d_list:
+        default_list = get_or_create_list(default_context, d_list, d_parent_list)
+    else:
+        default_list = get_or_create_list(default_context, 'inbox')
 
     # Add the sequence
     status, message = process_payload(payload, default_context, default_list)

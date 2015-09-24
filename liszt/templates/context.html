@@ -2,6 +2,7 @@
 
 {% block pageheader %}
 <span class="context main">{{ ctext.get_name }}</span>
+<div class="hidden" id="page-data" data-type="context" data-context-slug="{{ context.slug }}"></div>
 {% endblock pageheader %}
 
 {% block content %}
