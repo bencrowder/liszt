@@ -51,11 +51,17 @@ class List(models.Model):
             # Normal lists
             return self.slug
 
+    def get_active_items(self):
+        return self.items.filter(checked=False)
+
     def count_items(self):
-        return len(self.items.all())
+        return len(self.get_active_items())
+
+    def get_active_sublists(self):
+        return self.sublists.filter(status=active)
 
     def count_sublists(self):
-        return len(self.sublists.all())
+        return len(self.get_active_sublists())
 
     class Meta:
         ordering = ['order', 'name']
@@ -81,8 +87,11 @@ class Context(models.Model):
     def get_name(self):
         return "/{}".format(self.name)
 
+    def get_active_lists(self):
+        return self.lists.filter(status='active')
+
     def count_lists(self):
-        return len(self.lists.all())
+        return len(self.get_active_lists())
 
     class Meta:
         ordering = ['order', 'name']
