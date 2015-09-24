@@ -266,6 +266,15 @@ main#content {
 				flex: 1;
 				font-size: 1.2em;
 				line-height: 1.2em;
+
+				.tag {
+					color: $tag-color;
+					text-decoration: none;
+
+					&:hover {
+						color: darken($tag-color, 15%);
+					}
+				}
 			}
 
 			/* For sorting */

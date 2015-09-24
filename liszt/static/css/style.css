@@ -233,6 +233,11 @@ main#content {
         flex: 1;
         font-size: 1.2em;
         line-height: 1.2em; }
+        main#content ul.items li.item label .tag {
+          color: #d2320f;
+          text-decoration: none; }
+          main#content ul.items li.item label .tag:hover {
+            color: #8a210a; }
       main#content ul.items li.item.placeholder {
         background: #eee; }
   main#content .results h2 {

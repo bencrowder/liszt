@@ -12,7 +12,8 @@ class Item(models.Model):
     order = models.IntegerField(default=0)
     parent_list = models.ForeignKey('List', related_name="items")
     checked = models.BooleanField(default=False)
-    # tags
+
+    tags = models.ManyToManyField('Tag', blank=True)
 
     def __str__(self):
         return self.text
@@ -41,7 +42,7 @@ class List(models.Model):
     parent_list = models.ForeignKey('List', related_name="sublists", blank=True, null=True)
     context = models.ForeignKey('Context', related_name="lists", blank=True, null=True)
 
-    # Tags
+    tags = models.ManyToManyField('Tag', blank=True)
 
     def __str__(self):
         return self.name
@@ -110,3 +111,20 @@ class Context(models.Model):
 
     class Meta:
         ordering = ['order', 'name']
+
+
+class Tag(models.Model):
+    name = models.CharField(max_length=100)
+    slug = AutoSlugField(populate_from='name', unique=True, editable=True)
+
+    def __str__(self):
+        return self.name
+
+    def get_name(self):
+        return '#{}'.format(self.name)
+
+    def get_url(self):
+        return resolve_url('tag', self.name)
+
+    class Meta:
+        ordering = ['name']

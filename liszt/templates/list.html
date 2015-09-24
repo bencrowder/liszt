@@ -17,7 +17,7 @@
     {% for item in list.get_active_items %}
 	<li class="item" data-item-id="{{ item.id }}" data-item-uri="{% url 'toggle_item' item.id %}">
 		<input type="checkbox" {% if item.checked %}checked="true"{% endif %} />
-		<label>{{ item.text }}</label>
+		<label>{{ item.text }}{% for tag in item.tags.all %} <a class="tag" href="{% url 'tag' tag.slug %}">{{ tag.get_name }}</a>{% endfor %}</label>
 		<span class="handle">=</span>
 	</li>
     {% endfor %}

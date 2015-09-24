@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Item, List, Context
+from .models import Item, List, Context, Tag
 
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
@@ -14,4 +14,9 @@ class ListAdmin(admin.ModelAdmin):
 @admin.register(Context)
 class ContextAdmin(admin.ModelAdmin):
     list_display = ('name', 'status', 'order',)
+    pass
+
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    list_display = ('name',)
     pass

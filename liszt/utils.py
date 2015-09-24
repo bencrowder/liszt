@@ -1,5 +1,22 @@
 from django.conf import settings
-from liszt.models import Item, List, Context
+from liszt.models import Item, List, Context, Tag
+
+def get_or_create_tag(tag_name):
+    tag = None
+
+    # Try to get the context
+    try:
+        tag = Tag.objects.get(name=tag_name)
+    except Exception as e:
+        # Not found, so create it
+        try:
+            tag = Tag()
+            tag.name = tag_name
+            tag.save()
+        except Exception as e:
+            pass
+
+    return tag
 
 def get_or_create_context(context_name):
     context = None
@@ -17,7 +34,6 @@ def get_or_create_context(context_name):
             pass
 
     return context
-
 
 def get_or_create_list(context, list_name, parent_list_name=None):
     # Get the list
@@ -51,7 +67,6 @@ def get_or_create_list(context, list_name, parent_list_name=None):
             pass
 
     return the_list
-
 
 def parse_block(block):
     """
@@ -97,12 +112,18 @@ Parse a block (a sequence of items with/without list/context specifiers.
                     group_response['list'] = line[1:]
             else:
                 # Normal item
-                group_response['items'].append(line)
+
+                # Get tags
+                label, tags = strip_tags(line)
+
+                group_response['items'].append({
+                    'label': label,
+                    'tags': tags,
+                })
 
         response.append(group_response)
 
     return response
-
 
 def process_payload(payload, default_context=None, default_list=None):
     """
@@ -139,11 +160,16 @@ to the appropriate contexts/lists.
             for i, item in enumerate(b_items):
                 b_item = Item()
                 b_item.parent_list = b_list
-                b_item.text = item.strip()
+                b_item.text = item['label'].strip()
+                b_item.order = i + b_list_len # Add to the end of the list
+                b_item.save()
 
-                # Add to the end of the list
-                b_item.order = i + b_list_len
-
+                # Add tags
+                for tag in item['tags']:
+                    print(tag)
+                    tag_obj = get_or_create_tag(tag)
+                    print(tag_obj)
+                    b_item.tags.add(tag_obj)
                 b_item.save()
 
         except Exception as e:
@@ -151,3 +177,18 @@ to the appropriate contexts/lists.
             message = e
 
     return status, message
+
+def strip_tags(item):
+    """ Strips tags from a string. Returns tuple with tagless string and tag list. """
+    label = []
+    tags = []
+
+    for token in item.split(' '):
+        if token[0] == '#':
+            # A tag
+            tags.append(token[1:])
+        else:
+            # Not a tag
+            label.append(token)
+
+    return (' '.join(label).strip(), tags)
