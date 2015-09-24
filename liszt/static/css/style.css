@@ -235,6 +235,7 @@ main#content {
         line-height: 1.2em; }
         main#content ul.items li.item label .tag {
           color: #d2320f;
+          font-size: .8em;
           text-decoration: none; }
           main#content ul.items li.item label .tag:hover {
             color: #8a210a; }

@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 
-from liszt.models import Item, List, Context
+from liszt.models import Item, List, Context, Tag
 
 @login_required
 def home(request):
@@ -23,10 +23,12 @@ def home(request):
 
 @login_required
 def tag(request, tag):
-    # Get everything with that tag
+    # Get the tag
+    tag = Tag.objects.get(slug=tag)
 
     context = {
         'title': '#{} — Tag'.format(tag),
+        'tag': tag,
         'pagetype': 'tag',
         'key': settings.SECRET_KEY,
     }

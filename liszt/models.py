@@ -13,7 +13,7 @@ class Item(models.Model):
     parent_list = models.ForeignKey('List', related_name="items")
     checked = models.BooleanField(default=False)
 
-    tags = models.ManyToManyField('Tag', blank=True)
+    tags = models.ManyToManyField('Tag', blank=True, related_name="items")
 
     def __str__(self):
         return self.text
@@ -42,7 +42,7 @@ class List(models.Model):
     parent_list = models.ForeignKey('List', related_name="sublists", blank=True, null=True)
     context = models.ForeignKey('Context', related_name="lists", blank=True, null=True)
 
-    tags = models.ManyToManyField('Tag', blank=True)
+    tags = models.ManyToManyField('Tag', blank=True, related_name="lists")
 
     def __str__(self):
         return self.name
@@ -125,6 +125,12 @@ class Tag(models.Model):
 
     def get_url(self):
         return resolve_url('tag', self.name)
+
+    def get_active_items(self):
+        return self.items.filter(checked=False)
+
+    def get_active_lists(self):
+        return self.lists.filter(status='active')
 
     class Meta:
         ordering = ['name']

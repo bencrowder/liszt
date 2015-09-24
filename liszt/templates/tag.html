@@ -1,5 +1,33 @@
 {% extends '_base.html' %}
 
+{% block pageheader %}
+<span class="tag main">{{ tag.get_name }}</span>
+{% endblock pageheader %}
+
 {% block content %}
-Tag
+	{% if tag.get_active_items|length > 0 %}
+	<ul class="items">
+		{% for item in tag.get_active_items %}
+		<li class="item" data-item-id="{{ item.id }}" data-item-uri="{% url 'toggle_item' item.id %}">
+			<input type="checkbox" {% if item.checked %}checked="true"{% endif %} />
+			<label>{{ item.text }}{% for tag in item.tags.all %} <a class="tag" href="{% url 'tag' tag.slug %}">{{ tag.get_name }}</a>{% endfor %}</label>
+			<span class="handle">=</span>
+		</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
+
+	{% if tag.get_active_lists|length > 0 %}
+	<ul class="lists">
+		{% for list in tag.get_active_lists %}
+		<li class="list" data-object-id="{{ list.id }}">
+			<div class="wrapper">
+				<a href="{% url 'list_detail' list.context.slug list.slug %}">{{ list.get_name }}</a>
+				<span class="subtitle">{{ list.count_items }} item{% if list.count_items != 1 %}s{% endif %}{% if list.count_sublists %}, {{ list.count_sublists }} list{% if list.count_sublists != 1 %}s{% endif %}{% endif %}</span>
+			</div>
+			<span class="handle">=</span>
+		</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
 {% endblock content %}
