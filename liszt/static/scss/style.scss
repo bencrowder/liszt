@@ -86,6 +86,63 @@ body > header {
 }
 
 
+/* Trays */
+/* -------------------------------------------------- */
+
+.tray {
+	/* Hidden by default */
+	display: none;
+}
+
+/* Search tray */
+#search-tray {
+	background: hsl(213, 7%, 20%);
+	color: #fff;
+
+	input[type=text] {
+		background: none;
+		border: none;
+		color: #fff;
+		font-size: 1.2em;
+		padding: 10px 0;
+		width: 100%;
+
+		&:focus {
+			outline: none;
+		}
+	}
+}
+
+/* Add tray */
+#add-tray {
+	border-bottom: solid 5px $list-color;
+
+	textarea {
+		border: none;
+		font-size: 1.2em;
+		line-height: 1.2em;
+		padding: 15px 0 10px;
+		resize: none;
+		width: 100%;
+
+		&:focus {
+			outline: none;
+		}
+	}
+
+	a#save-button {
+		color: $list-color;
+		display: block;
+		padding: 3px 0 8px;
+		text-decoration: none;
+
+		&:hover {
+			color: darken($list-color, 15%);
+		}
+	}
+}
+
+
 /* Content */
 /* -------------------------------------------------- */
 

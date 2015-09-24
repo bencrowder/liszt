@@ -11,6 +11,7 @@
 	<link href="{% static 'css/style.css' %}?v1" rel="stylesheet" type="text/css" charset="utf-8" />
 
 	<script src="{% static 'js/lib/jquery-2.1.4.min.js' %}" type="text/javascript" charset="utf-8"></script>
+	<script src="{% static 'js/lib/autosize.min.js' %}" type="text/javascript" charset="utf-8"></script>
 	<script src="{% static 'js/lib/mousetrap.min.js' %}" type="text/javascript" charset="utf-8"></script>
 	<script src="{% static 'js/lib/mousetrap-global-bind.min.js' %}" type="text/javascript" charset="utf-8"></script>
 
@@ -40,6 +41,20 @@
 			<h1>{% block pageheader %}{% endblock pageheader %}</h1>
 		</div>
 	</header>
+
+	<section id="search-tray" class="tray">
+		<div class="container">
+			<input type="text" />
+		</div>
+	</section>
+
+	<section id="add-tray" class="tray">
+		<div class="container">
+			<textarea></textarea>
+
+			<a id="save-button" class="button" href="">Save</a>
+		</div>
+	</section>
 
 	<main id="content">
 		<div class="container">

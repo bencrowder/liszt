@@ -109,6 +109,46 @@ body > header {
   margin: 0px auto;
   max-width: 400px; }
 
+/* Trays */
+/* -------------------------------------------------- */
+.tray {
+  /* Hidden by default */
+  display: none; }
+
+/* Search tray */
+#search-tray {
+  background: #2f3337;
+  color: #fff; }
+  #search-tray input[type=text] {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.2em;
+    padding: 10px 0;
+    width: 100%; }
+    #search-tray input[type=text]:focus {
+      outline: none; }
+
+/* Add tray */
+#add-tray {
+  border-bottom: solid 5px #0f97d2; }
+  #add-tray textarea {
+    border: none;
+    font-size: 1.2em;
+    line-height: 1.2em;
+    padding: 15px 0 10px;
+    resize: none;
+    width: 100%; }
+    #add-tray textarea:focus {
+      outline: none; }
+  #add-tray a#save-button {
+    color: #0f97d2;
+    display: block;
+    padding: 3px 0 8px;
+    text-decoration: none; }
+    #add-tray a#save-button:hover {
+      color: #0a648a; }
+
 /* Content */
 /* -------------------------------------------------- */
 main#content {
