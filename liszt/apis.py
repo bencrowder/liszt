@@ -63,6 +63,37 @@ def add_items(request):
         return JsonResponse(response)
 
 @login_required
+def toggle_item(request, item_id):
+    """ Toggles an item's checked state. """
+
+    key = request.GET.get('key', '')
+
+    # Make sure we have the secret key
+    if key != settings.SECRET_KEY:
+        return JsonResponse({})
+
+    try:
+        item = Item.objects.get(id=item_id)
+        item.checked = not item.checked
+        print("here")
+        item.save()
+        print("saved")
+
+        status = 'success'
+        message = ''
+    except Exception as e:
+        status = 'error'
+        message = e
+
+    response = {
+        'status': status,
+        'message': message,
+    }
+
+    # Return JSON response
+    return JsonResponse(response)
+
+@login_required
 def search(request):
     """ Searches. """
 
@@ -85,3 +116,4 @@ def search(request):
 
     # Return JSON response
     return JsonResponse(response)
+

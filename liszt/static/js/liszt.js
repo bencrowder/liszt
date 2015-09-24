@@ -44,6 +44,30 @@ $(document).ready(function() {
 
 		return false;
 	});
+
+
+	// Item toggles
+	// --------------------------------------------------
+
+	$("#content").on("click", "ul.items li.item input", function() {
+		var url = $(this).parents("li.item").attr("data-item-uri");
+
+		var data = {
+			'key': config.apiKey,
+		};
+
+		$.ajax({
+			url: url,
+			method: 'GET',
+			data: data,
+			success: function(data) {
+			},
+			error: function(data) {
+				console.log("error :(", data);
+				return false;
+			},
+		});
+	});
 });
 
 
@@ -252,6 +276,7 @@ function _submitAddTray() {
 
 
 // CSRF stuff
+// --------------------------------------------------
 
 function getCookie(name) {
     var cookieValue = null;

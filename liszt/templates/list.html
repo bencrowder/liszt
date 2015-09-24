@@ -14,14 +14,14 @@
 
 {% block content %}
 <ul class="items">
-    {% for item in list.items.all %}
-    <li class="item"><input type="checkbox" {% if item.checked %}checked="true"{% endif %} /> <label>{{ item.text }}</label></li>
+    {% for item in list.get_active_items %}
+	<li class="item" data-item-uri="{% url 'toggle_item' item.id %}"><input type="checkbox" {% if item.checked %}checked="true"{% endif %} /> <label>{{ item.text }}</label></li>
     {% endfor %}
 </ul>
 
 {% if list.sublists.all|length > 0 %}
 <ul class="sublists lists">
-    {% for sublist in list.sublists.all %}
+    {% for sublist in list.get_active_sublists %}
 	<li class="list"><a href="{% url 'list_detail' list.context.slug sublist.get_full_slug %}">{{ sublist.get_name }}</a> <span>{{ sublist.count_items }} item{% if sublist.count_items != 1 %}s{% endif %}</span></li>
     {% endfor %}
 </ul>
