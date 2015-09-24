@@ -5,13 +5,13 @@ $(document).ready(function() {
 
 	// Add tray
 	// --------------------------------------------------
-	
+
 	$("#add-tray a#save-button").on("click", _submitAddTray);
 
 
 	// Search tray
 	// --------------------------------------------------
-	
+
 	$("#search-tray input[type=text]").on("keyup", _submitSearchTray);
 
 
@@ -166,7 +166,7 @@ function _submitSearchTray() {
 					html += '<ul class="items">';
 					for (var i=0; i<data.items.length; i++) {
 						var item = data.items[i];
-						html += '<li class="item">';
+						html += '<li class="item" data-toggle-item-uri="' + item.toggle_uri + '">';
 						html += '<input type="checkbox"';
 						if (item.checked) {
 							html += ' checked="' + item.checked + '"';

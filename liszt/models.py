@@ -17,6 +17,9 @@ class Item(models.Model):
     def __str__(self):
         return self.text
 
+    def get_toggle_uri(self):
+        return resolve_url("toggle_item", self.id)
+
     class Meta:
         ordering = ['order']
 
