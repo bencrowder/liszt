@@ -1,0 +1,50 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	{% block head %}
+	<title>{% block title %}{{ title }}{% endblock title %}</title>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+
+	<link href="{% static 'css/style.css' %}?v1" rel="stylesheet" type="text/css" charset="utf-8" />
+
+	<script src="{% static 'js/lib/jquery-2.1.4.min.js' %}" type="text/javascript" charset="utf-8"></script>
+	<script src="{% static 'js/lib/mousetrap.min.js' %}" type="text/javascript" charset="utf-8"></script>
+	<script src="{% static 'js/lib/mousetrap-global-bind.min.js' %}" type="text/javascript" charset="utf-8"></script>
+
+	<script src="{% static 'js/liszt.js' %}?v1" type="text/javascript" charset="utf-8"></script>
+
+	{% if section %}
+	<link rel="shortcut icon" href="{% static 'favicon/' %}favicon-{{ section }}.png">
+	{% else %}
+	<link rel="shortcut icon" href="{% static 'favicon.png' %}">
+	{% endif %}
+
+	<link rel="apple-touch-icon" href="{% static 'apple-touch-icon.png' %}">
+	<link rel="apple-touch-icon-precomposed" href="{% static 'apple-touch-icon.png' %}">
+
+	{% endblock head %}
+</head>
+
+<body>
+	<header>
+		<div class="container">
+			<div class="controls">
+				Search / +
+			</div>
+
+			<h2><a href="{% url 'home' %}">Liszt</a></h2>
+
+			<h1>{% block pageheader %}{% endblock pageheader %}</h1>
+		</div>
+	</header>
+
+	<main id="content">
+		<div class="container">
+			{% block content %}{% endblock content %}
+		</div>
+	</main>
+</body>
+</html>

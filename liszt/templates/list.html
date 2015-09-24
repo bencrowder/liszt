@@ -1,0 +1,27 @@
+{% extends '_base.html' %}
+
+{% block pageheader %}
+{% if parent_list %}
+<a class="context" href="{% url 'context_detail' parent_list.context.slug %}">{{ parent_list.context.get_name }}</a>
+<a class="list" href="{% url 'list_detail' parent_list.context.slug parent_list.slug %}">{{ parent_list.get_name }}</a>&thinsp;<span class="list main">:{{ list.name }}</span>
+{% else %}
+<a class="context" href="{% url 'context_detail' list.context.slug %}">{{ list.context.get_name }}</a>
+<span class="list main">{{ list.get_name }}</span>
+{% endif %}
+{% endblock pageheader %}
+
+{% block content %}
+<ul class="items">
+    {% for item in list.items.all %}
+    <li class="item"><input type="checkbox" {% if item.checked %}checked="true"{% endif %} /> <label>{{ item.text }}</label></li>
+    {% endfor %}
+</ul>
+
+{% if list.sublists.all|length > 0 %}
+<ul class="sublists lists">
+    {% for sublist in list.sublists.all %}
+	<li class="list"><a href="{% url 'list_detail' list.context.slug sublist.get_full_slug %}">{{ sublist.get_name }}</a> <span>{{ sublist.count_items }} item{% if sublist.count_items != 1 %}s{% endif %}</span></li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endblock content %}

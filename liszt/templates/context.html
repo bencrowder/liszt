@@ -1,0 +1,13 @@
+{% extends '_base.html' %}
+
+{% block pageheader %}
+<span class="context main">{{ ctext.get_name }}</span>
+{% endblock pageheader %}
+
+{% block content %}
+<ul class="lists">
+    {% for list in ctext.lists.all %}
+	<li class="list"><a href="{% url 'list_detail' list.context.slug list.slug %}">{{ list.get_name }}</a> <span>{{ list.count_items }} item{% if list.count_items != 1 %}s{% endif %}</span></li>
+    {% endfor %}
+</ul>
+{% endblock content %}

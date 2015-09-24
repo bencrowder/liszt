@@ -1,0 +1,167 @@
+/* Liszt styles */
+/* -------------------------------------------------- */
+/* Base */
+/* -------------------------------------------------- */
+* {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font-family: Charter, Arial, sans-serif; }
+
+body {
+  -webkit-font-feature-settings: 'liga';
+  margin: 0;
+  line-height: 1.4em;
+  padding: 0;
+  text-rendering: optimizeLegibility; }
+
+article, aside, figure, figcaption, footer, header, hgroup, menu, nav, section, main {
+  display: block; }
+
+hr {
+  background: #ccc;
+  border-width: 0;
+  height: 1px;
+  margin: 2em auto;
+  text-align: center;
+  width: 100%; }
+
+p {
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  -o-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto; }
+
+@font-face {
+  font-family: 'Charter';
+  src: url("../fonts/charter/charter_bold_italic-webfont.woff") format("woff");
+  font-weight: bold;
+  font-style: italic; }
+@font-face {
+  font-family: 'Charter';
+  src: url("../fonts/charter/charter_bold-webfont.woff") format("woff");
+  font-weight: bold;
+  font-style: normal; }
+@font-face {
+  font-family: 'Charter';
+  src: url("../fonts/charter/charter_italic-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: italic; }
+@font-face {
+  font-family: 'Charter';
+  src: url("../fonts/charter/charter_regular-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal; }
+body > header {
+  background: #eee;
+  padding: 20px;
+  /* Liszt */
+  /* Page title */ }
+  body > header .controls {
+    float: right; }
+  body > header h2 {
+    color: #888;
+    font-size: .8em;
+    font-weight: normal;
+    line-height: 1.2em;
+    margin: 0;
+    text-transform: uppercase; }
+    body > header h2 a {
+      color: #888;
+      display: inline-block;
+      text-decoration: none; }
+      body > header h2 a:hover {
+        color: #444; }
+  body > header h1 {
+    color: #222;
+    font-size: 1em;
+    font-weight: normal;
+    line-height: 1.1em;
+    margin: 5px 0 0; }
+    body > header h1 a {
+      text-decoration: none; }
+      body > header h1 a:hover {
+        color: #444; }
+    body > header h1 .main {
+      display: block;
+      font-size: 1.3em;
+      margin-top: 8px; }
+    body > header h1 .context {
+      color: #409e24; }
+      body > header h1 .context a {
+        color: #409e24; }
+        body > header h1 .context a:hover {
+          color: #276016; }
+    body > header h1 .list {
+      color: #0f97d2; }
+      body > header h1 .list a {
+        color: #0f97d2; }
+        body > header h1 .list a:hover {
+          color: #0a648a; }
+    body > header h1 .tag {
+      color: #d2320f; }
+      body > header h1 .tag a {
+        color: #d2320f; }
+        body > header h1 .tag a:hover {
+          color: #8a210a; }
+
+.container {
+  margin: 0px auto;
+  max-width: 400px; }
+
+/* Content */
+/* -------------------------------------------------- */
+main#content {
+  padding: 20px;
+  /* Lists */
+  /* Items */ }
+  main#content ul.lists {
+    list-style: none;
+    margin: 0 0 25px 0;
+    padding: 0;
+    /* Context-specific stuff */ }
+    main#content ul.lists li.list {
+      /* Spacing */
+      /* List name */ }
+      main#content ul.lists li.list + li.list {
+        margin-top: 10px; }
+      main#content ul.lists li.list a {
+        color: #0f97d2;
+        display: block;
+        font-size: 1.2em;
+        text-decoration: none; }
+        main#content ul.lists li.list a:hover {
+          color: #0a648a; }
+      main#content ul.lists li.list span {
+        color: #cccccc;
+        display: block;
+        font-size: .8em;
+        line-height: 1.2em;
+        margin-top: 2px; }
+    main#content ul.lists.contexts li.list a {
+      color: #409e24; }
+      main#content ul.lists.contexts li.list a:hover {
+        color: #276016; }
+  main#content ul.items {
+    list-style: none;
+    margin: 0 0 25px 0;
+    padding: 0; }
+    main#content ul.items li.item {
+      align-items: baseline;
+      display: flex;
+      /* Spacing */
+      /* Checkbox */
+      /* Label */ }
+      main#content ul.items li.item + li.item {
+        margin-top: 10px; }
+      main#content ul.items li.item input[type=checkbox] {
+        font-size: 1.2em;
+        margin: 0 10px 0 0;
+        width: 20px; }
+      main#content ul.items li.item label {
+        color: #333333;
+        flex: 1;
+        font-size: 1.2em;
+        line-height: 1.2em; }
+
+/*# sourceMappingURL=style.css.map */

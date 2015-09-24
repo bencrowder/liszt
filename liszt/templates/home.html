@@ -1,0 +1,12 @@
+{% extends '_base.html' %}
+
+{% block pageheader %}Home{% endblock pageheader %}
+
+{% block content %}
+
+<ul class="contexts lists">
+    {% for c in contexts %}
+	<li class="list"><a href="{% url 'context_detail' c.slug %}">{{ c.get_name }}</a> <span>{{ c.count_lists }} list{% if c.count_lists != 1 %}s{% endif %}</li>
+    {% endfor %}
+</ul>
+{% endblock content %}
