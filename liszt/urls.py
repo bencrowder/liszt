@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^api/add-items/$', 'liszt.apis.add_items', name='add_items'),
     url(r'^api/search/$', 'liszt.apis.search', name='search'),
     url(r'^api/toggle-item/(?P<item_id>[^\/]+)/$', 'liszt.apis.toggle_item', name='toggle_item'),
+    url(r'^api/sort-things/(?P<type>[^\/]+)/$', 'liszt.apis.sort_things', name='sort_things'),
 
     url(r'^$', 'liszt.views.home', name='home'),
     url(r'^login/$', auth_views.login, name='login'),

@@ -174,10 +174,18 @@ main#content {
     padding: 0;
     /* Context-specific stuff */ }
     main#content ul.lists li.list {
+      display: flex;
       /* Spacing */
+      /* Content wrapper */
+      /* Handle */
       /* List name */ }
       main#content ul.lists li.list + li.list {
         margin-top: 10px; }
+      main#content ul.lists li.list > div.wrapper {
+        flex: 1; }
+      main#content ul.lists li.list .handle {
+        color: #bbb;
+        cursor: move; }
       main#content ul.lists li.list a {
         color: #0f97d2;
         display: block;
@@ -185,12 +193,16 @@ main#content {
         text-decoration: none; }
         main#content ul.lists li.list a:hover {
           color: #0a648a; }
-      main#content ul.lists li.list span {
+      main#content ul.lists li.list span.subtitle {
         color: #a6a6a6;
         display: block;
         font-size: .8em;
         line-height: 1.2em;
         margin-top: 2px; }
+        main#content ul.lists li.list span.subtitle.handle {
+          display: initial; }
+      main#content ul.lists li.list.placeholder {
+        background: #eee; }
     main#content ul.lists.contexts li.list a {
       color: #409e24; }
       main#content ul.lists.contexts li.list a:hover {
@@ -203,10 +215,15 @@ main#content {
       align-items: baseline;
       display: flex;
       /* Spacing */
+      /* Handle */
       /* Checkbox */
-      /* Label */ }
+      /* Label */
+      /* For sorting */ }
       main#content ul.items li.item + li.item {
         margin-top: 10px; }
+      main#content ul.items li.item .handle {
+        color: #bbb;
+        cursor: move; }
       main#content ul.items li.item input[type=checkbox] {
         font-size: 1.2em;
         margin: 0 10px 0 0;
@@ -216,6 +233,8 @@ main#content {
         flex: 1;
         font-size: 1.2em;
         line-height: 1.2em; }
+      main#content ul.items li.item.placeholder {
+        background: #eee; }
   main#content .results h2 {
     color: #888;
     font-size: 1em;

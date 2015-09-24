@@ -3,10 +3,15 @@
 {% block pageheader %}Home{% endblock pageheader %}
 
 {% block content %}
-
-<ul class="contexts lists">
+<ul class="contexts lists" data-sort-uri="{% url 'sort_things' 'context' %}">
     {% for c in contexts %}
-	<li class="list"><a href="{% url 'context_detail' c.slug %}">{{ c.get_name }}</a> <span>{{ c.count_lists }} list{% if c.count_lists != 1 %}s{% endif %}</li>
+	<li class="list" data-object-id="{{ c.id }}">
+		<div class="wrapper">
+			<a href="{% url 'context_detail' c.slug %}">{{ c.get_name }}</a>
+			<span class="subtitle">{{ c.count_lists }} list{% if c.count_lists != 1 %}s{% endif %}
+		</div>
+		<span class="handle">=</span>
+	</li>
     {% endfor %}
 </ul>
 {% endblock content %}

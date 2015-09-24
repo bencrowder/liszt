@@ -75,9 +75,7 @@ def toggle_item(request, item_id):
     try:
         item = Item.objects.get(id=item_id)
         item.checked = not item.checked
-        print("here")
         item.save()
-        print("saved")
 
         status = 'success'
         message = ''
@@ -112,6 +110,48 @@ def search(request):
         'contexts': contexts,
         'lists': lists,
         'items': items,
+    }
+
+    # Return JSON response
+    return JsonResponse(response)
+
+@login_required
+def sort_things(request, type):
+    """ Toggles an item's checked state. """
+
+    key = request.POST.get('key', '')
+    id_list = [int(x) for x in request.POST.get('ids', '').split(',') if x != '']
+    print(id_list)
+
+    # Make sure we have the secret key
+    if key != settings.SECRET_KEY:
+        return JsonResponse({})
+
+    try:
+        # Get the class we need
+        types = {
+            'item': Item,
+            'list': List,
+            'context': Context,
+        }
+
+        cls = types[type]
+
+        # Get the matching objects
+        for i, id in enumerate(id_list):
+            thing = cls.objects.get(id=id)
+            thing.order = i
+            thing.save()
+
+        status = 'success'
+        message = ''
+    except Exception as e:
+        status = 'error'
+        message = e
+
+    response = {
+        'status': status,
+        'message': message,
     }
 
     # Return JSON response

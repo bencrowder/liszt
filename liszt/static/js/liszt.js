@@ -68,6 +68,90 @@ $(document).ready(function() {
 			},
 		});
 	});
+
+
+	// Sorting items in a list
+	// --------------------------------------------------
+	
+	var itemLists = $("ul.items");
+	for (var i=0; i<itemLists.length; i++) {
+		var itemList = itemLists[i];
+		var sortable = new Sortable(itemList, {
+			draggable: "li.item",
+			handle: ".handle",
+			ghostClass: "placeholder",
+			onUpdate: function(e) {
+				var item = $(e.item);
+				var order = [];
+				var items = item.parents("ul.items").find("li.item");
+
+				for (var i=0; i<items.length; i++) {
+					var item = $(items[i]);
+					order.push(parseInt(item.attr("data-item-id")));
+				}
+
+				var url = item.parents("ul.items").attr("data-sort-uri");
+
+				var data = {
+					ids: order.join(','),
+					key: config.apiKey,
+				};
+
+				$.ajax({
+					url: url,
+					method: 'POST',
+					data: data,
+					success: function(data) {
+					},
+					error: function(data) {
+						console.log("Error! :(", data);
+					},
+				});
+			},
+		});
+	}
+
+
+	// Sorting lists in a context
+	// --------------------------------------------------
+	
+	var listLists = $("ul.lists");
+	for (var i=0; i<listLists.length; i++) {
+		var listList = listLists[i];
+		var sortable = new Sortable(listList, {
+			draggable: "li.list",
+			handle: ".handle",
+			ghostClass: "placeholder",
+			onUpdate: function(e) {
+				var item = $(e.item);
+				var order = [];
+				var items = item.parents("ul.lists").find("li.list");
+
+				for (var i=0; i<items.length; i++) {
+					var item = $(items[i]);
+					order.push(parseInt(item.attr("data-object-id")));
+				}
+
+				var url = item.parents("ul.lists").attr("data-sort-uri");
+
+				var data = {
+					ids: order.join(','),
+					key: config.apiKey,
+				};
+
+				$.ajax({
+					url: url,
+					method: 'POST',
+					data: data,
+					success: function(data) {
+					},
+					error: function(data) {
+						console.log("Error! :(", data);
+					},
+				});
+			},
+		});
+	}
 });
 
 

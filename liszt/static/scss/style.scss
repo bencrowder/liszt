@@ -171,9 +171,22 @@ main#content {
 		padding: 0;
 
 		li.list {
+			display: flex;
+
 			/* Spacing */
 			& + li.list {
 				margin-top: $item-spacing;
+			}
+
+			/* Content wrapper */
+			& > div.wrapper {
+				flex: 1;
+			}
+
+			/* Handle */
+			.handle {
+				color: #bbb;
+				cursor: move;
 			}
 
 			/* List name */
@@ -188,12 +201,20 @@ main#content {
 				}
 			}
 
-			span {
+			span.subtitle {
 				color: $subtitle-color;
 				display: block;
 				font-size: .8em;
 				line-height: 1.2em;
 				margin-top: 2px;
+
+				&.handle {
+					display: initial;
+				}
+			}
+
+			&.placeholder {
+				background: #eee;
 			}
 		}
 
@@ -226,6 +247,12 @@ main#content {
 				margin-top: $item-spacing;
 			}
 
+			/* Handle */
+			.handle {
+				color: #bbb;
+				cursor: move;
+			}
+
 			/* Checkbox */
 			input[type=checkbox] {
 				font-size: 1.2em;
@@ -239,6 +266,11 @@ main#content {
 				flex: 1;
 				font-size: 1.2em;
 				line-height: 1.2em;
+			}
+
+			/* For sorting */
+			&.placeholder {
+				background: #eee;
 			}
 		}
 	}
