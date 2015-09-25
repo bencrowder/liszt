@@ -2,12 +2,12 @@
 
 {% block pageheader %}
 {% if parent_list %}
-	<a class="context" href="{% url 'context_detail' parent_list.context.slug %}">{{ parent_list.context.get_name }}</a>
-	<a class="list" href="{% url 'list_detail' parent_list.context.slug parent_list.slug %}">{{ parent_list.get_name }}</a>&thinsp;<span class="list main">{{ list.get_name }}</span>
+	<a class="context" href="{% url 'context_detail' parent_list.context.slug %}">{{ parent_list.context.get_slug }}</a>
+	<a class="list" href="{% url 'list_detail' parent_list.context.slug parent_list.slug %}">{{ parent_list.get_slug }}</a>&thinsp;<span class="list main">{{ list.get_slug }}</span>
 	<div class="hidden" id="page-data" data-type="list" data-context-slug="{{ parent_list.context.slug }}" data-list-slug="{{ list.slug }}" data-parent-list-slug="{{ parent_list.slug }}"></div>
 {% else %}
-	<a class="context" href="{% url 'context_detail' list.context.slug %}">{{ list.context.get_name }}</a>
-	<span class="list main">{{ list.get_name }}</span>
+	<a class="context" href="{% url 'context_detail' list.context.slug %}">{{ list.context.get_slug }}</a>
+	<span class="list main">{{ list.get_slug }}</span>
 	<div class="hidden" id="page-data" data-type="list" data-context-slug="{{ list.context.slug }}" data-list-slug="{{ list.slug }}"></div>
 {% endif %}
 {% endblock pageheader %}
@@ -18,7 +18,7 @@
 	<li class="item" data-item-id="{{ item.id }}" data-item-uri="{% url 'toggle_item' item.id %}">
 		<input id="item-{{ item.id }}" type="checkbox" {% if item.checked %}checked="true"{% endif %} />
 		<div class="wrapper">
-			<label for="item-{{ item.id }}">{{ item.text }}{% for tag in item.tags.all %} <a class="tag" href="{% url 'tag' tag.slug %}">{{ tag.get_name }}</a>{% endfor %}</label>
+			<label for="item-{{ item.id }}">{{ item.text }}{% for tag in item.tags.all %} <a class="tag" href="{% url 'tag' tag.slug %}">{{ tag.get_slug }}</a>{% endfor %}</label>
 			{% if item.notes %}<span class="subtitle">{{ item.get_notes|safe }}</span>{% endif %}
 		</div>
 		<span class="handle">=</span>
@@ -31,7 +31,7 @@
     {% for sublist in list.get_active_sublists %}
 	<li class="list" data-object-id="{{ sublist.id }}">
 		<div class="wrapper">
-			<a href="{% url 'list_detail' list.context.slug sublist.get_full_slug %}">{{ sublist.get_name }}</a>
+			<a href="{% url 'list_detail' list.context.slug sublist.get_full_slug %}">{{ sublist.get_slug }}</a>
 			<span class="subtitle">{{ sublist.count_items }} item{% if sublist.count_items != 1 %}s{% endif %}</span>
 		</div>
 		<span class="handle">=</span>

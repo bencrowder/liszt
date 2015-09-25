@@ -224,16 +224,16 @@ function _submitSearchTray() {
 						var l = data.lists[i];
 						html += '<li class="list">';
 						html += '<div class="wrapper">';
-						html += '<a href="' + l.url + '">' + l.name + '</a> ';
+						html += '<a href="' + l.url + '">' + l.slug + '</a> ';
 						html += '<span class="subtitle">' + l.num_items + ' item';
 						if (l.num_items != 1) html += 's';
 						if (l.num_lists > 0) {
 							html += ', ' + l.num_lists + ' list';
 							if (l.num_lists != 1) html += 's';
 						}
-						html += ', <a class="context" href="' + l.context_url + '">' + l.context_name + '</a>';
-						if (l.parent_list_name) {
-							html += '&thinsp;<a class="list" href="' + l.parent_list_url + '">' + l.parent_list_name + '</a></span>';
+						html += ', <a class="context" href="' + l.context_url + '">' + l.context_slug + '</a>';
+						if (l.parent_list_slug) {
+							html += '&thinsp;<a class="list" href="' + l.parent_list_url + '">' + l.parent_list_slug + '</a></span>';
 						}
 						html += '</span>';
 						html += '</div>';
@@ -249,7 +249,7 @@ function _submitSearchTray() {
 						var c = data.contexts[i];
 						html += '<li class="list">';
 						html += '<div class="wrapper">';
-						html += '<a href="' + c.url + '">' + c.name + '</a> ';
+						html += '<a href="' + c.url + '">' + c.slug + '</a> ';
 						html += '<span class="subtitle">' + c.num_lists + ' list';
 						if (c.num_lists != 1) html += 's';
 						html += '</span>';
@@ -275,7 +275,7 @@ function _submitSearchTray() {
 						if (item.notes) {
 							html += '<span class="subtitle">' + item.notes + '</span>';
 						}
-						html += '<span class="subtitle"><a class="context" href="' + item.context_url + '">' + item.context_name + '</a>&thinsp;<a class="list" href="' + item.list_url + '">' + item.list_name + '</a></span>';
+						html += '<span class="subtitle"><a class="context" href="' + item.context_url + '">' + item.context_slug + '</a>&thinsp;<a class="list" href="' + item.list_url + '">' + item.list_slug + '</a></span>';
 						html += '</div>';
 						html += '</li>';
 					}

@@ -8,6 +8,7 @@ from liszt.models import Item, List, Context, Tag
 @login_required
 def home(request):
     contexts = Context.objects.all()
+    print(contexts)
 
     context = {
         'title': 'Home',

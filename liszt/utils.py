@@ -1,34 +1,34 @@
 from django.conf import settings
 from liszt.models import Item, List, Context, Tag
 
-def get_or_create_tag(tag_name):
+def get_or_create_tag(tag_slug):
     tag = None
 
     # Try to get the context
     try:
-        tag = Tag.objects.get(name=tag_name)
+        tag = Tag.objects.get(slug=tag_slug)
     except Exception as e:
         # Not found, so create it
         try:
             tag = Tag()
-            tag.name = tag_name
+            tag.slug = tag_slug
             tag.save()
         except Exception as e:
             pass
 
     return tag
 
-def get_or_create_context(context_name):
+def get_or_create_context(context_slug):
     context = None
 
     # Try to get the context
     try:
-        context = Context.objects.get(name=context_name)
+        context = Context.objects.get(slug=context_slug)
     except Exception as e:
         # Not found, so create it
         try:
             context = Context()
-            context.name = context_name
+            context.slug = context_slug
             context.save()
         except Exception as e:
             print("Couldn't create context", e)
@@ -36,28 +36,28 @@ def get_or_create_context(context_name):
 
     return context
 
-def get_or_create_list(context, list_name, parent_list_name=None):
+def get_or_create_list(context, list_slug, parent_list_slug=None):
     # Get the list
     try:
-        if parent_list_name:
-            the_list = List.objects.get(name=list_name, parent_list__name=parent_list_name, context=context)
+        if parent_list_slug:
+            the_list = List.objects.get(slug=list_slug, parent_list__slug=parent_list_slug, context=context)
         else:
-            the_list = List.objects.get(name=list_name, context=context)
+            the_list = List.objects.get(slug=list_slug, context=context)
     except Exception as e:
         # Not found, so create it
         try:
             the_list = List()
-            the_list.name = list_name
+            the_list.slug = list_slug
             the_list.context = context
 
-            if parent_list_name:
+            if parent_list_slug:
                 # There's a parent list, so try to get it
                 try:
-                    parent_list = List.objects.get(name=parent_list_name)
+                    parent_list = List.objects.get(slug=parent_list_slug)
                 except Exception as e:
                     # Parent list not found, so create it
                     parent_list = List()
-                    parent_list.name = parent_list_name
+                    parent_list.slug = parent_list_slug
                     parent_list.context = context
 
                 # Hook it up as the parent_list

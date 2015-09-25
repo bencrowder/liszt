@@ -9,15 +9,15 @@ class ItemAdmin(admin.ModelAdmin):
 
 @admin.register(List)
 class ListAdmin(admin.ModelAdmin):
-    list_display = ('name', 'status', 'order', 'parent_list', 'context',)
+    list_display = ('slug', 'status', 'order', 'parent_list', 'context',)
     pass
 
 @admin.register(Context)
 class ContextAdmin(admin.ModelAdmin):
-    list_display = ('name', 'status', 'order',)
+    list_display = ('slug', 'status', 'order',)
     pass
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
-    list_display = ('name',)
+    list_display = ('slug',)
     pass

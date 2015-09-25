@@ -39,8 +39,7 @@ class List(models.Model):
         ('archived', 'Archived'),
     )
 
-    name = models.CharField(max_length=100)
-    slug = AutoSlugField(populate_from='name', unique=True, editable=True)
+    slug = models.CharField(max_length=100)
 
     order = models.IntegerField(default=0)
     status = models.CharField(max_length=20,
@@ -52,7 +51,7 @@ class List(models.Model):
     tags = models.ManyToManyField('Tag', blank=True, related_name="lists")
 
     def __str__(self):
-        return self.name
+        return self.slug
 
     def get_url(self):
         if self.parent_list:
@@ -60,8 +59,8 @@ class List(models.Model):
         else:
             return resolve_url('list_detail', self.context.slug, self.slug)
 
-    def get_name(self):
-        return ":{}".format(self.name)
+    def get_slug(self):
+        return ':{}'.format(self.slug)
 
     def get_full_slug(self):
         if self.parent_list:
@@ -70,9 +69,6 @@ class List(models.Model):
         else:
             # Normal lists
             return self.slug
-
-    def get_full_name(self):
-        return ':{}'.format(self.get_full_slug())
 
     def get_active_items(self):
         return self.items.filter(checked=False)
@@ -87,7 +83,7 @@ class List(models.Model):
         return len(self.get_active_sublists())
 
     class Meta:
-        ordering = ['order', 'name']
+        ordering = ['order', 'slug']
 
 
 class Context(models.Model):
@@ -96,8 +92,7 @@ class Context(models.Model):
         ('archived', 'Archived'),
     )
 
-    name = models.CharField(max_length=100)
-    slug = AutoSlugField(populate_from='name', unique=True, editable=True)
+    slug = models.CharField(max_length=100)
 
     order = models.IntegerField(default=0)
     status = models.CharField(max_length=20,
@@ -105,13 +100,13 @@ class Context(models.Model):
                               choices=STATUS)
 
     def __str__(self):
-        return self.name
+        return self.slug
 
     def get_url(self):
         return resolve_url('context_detail', self.slug)
 
-    def get_name(self):
-        return "/{}".format(self.name)
+    def get_slug(self):
+        return "/{}".format(self.slug)
 
     def get_active_lists(self):
         return self.lists.filter(status='active', parent_list=None)
@@ -120,21 +115,20 @@ class Context(models.Model):
         return len(self.get_active_lists())
 
     class Meta:
-        ordering = ['order', 'name']
+        ordering = ['order', 'slug']
 
 
 class Tag(models.Model):
-    name = models.CharField(max_length=100)
-    slug = AutoSlugField(populate_from='name', unique=True, editable=True)
+    slug = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.name
+        return self.slug
 
-    def get_name(self):
-        return '#{}'.format(self.name)
+    def get_slug(self):
+        return '#{}'.format(self.slug)
 
     def get_url(self):
-        return resolve_url('tag', self.name)
+        return resolve_url('tag', self.slug)
 
     def get_active_items(self):
         return self.items.filter(checked=False)
@@ -143,4 +137,4 @@ class Tag(models.Model):
         return self.lists.filter(status='active')
 
     class Meta:
-        ordering = ['name']
+        ordering = ['slug']
