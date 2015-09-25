@@ -32,10 +32,10 @@
 		<ul class="items objects">
 			{% for item in c.items %}
 			<li class="item" data-item-id="{{ item.id }}" data-item-uri="{% url 'toggle_item' item.id %}">
-				<input type="checkbox" {% if item.checked %}checked="true"{% endif %} />
+				<input id="item-{{ item.id }}" type="checkbox" {% if item.checked %}checked="true"{% endif %} />
 
 				<div class="wrapper">
-					<label>{{ item.text }}{% for t in item.tags.all %}{% if t.slug != tag.slug %} <a class="tag" href="{% url 'tag' t.slug %}">{{ t.get_name }}</a>{% endif %}{% endfor %}</label>
+					<label for="item-{{ item.id }}">{{ item.text }}{% for t in item.tags.all %}{% if t.slug != tag.slug %} <a class="tag" href="{% url 'tag' t.slug %}">{{ t.get_name }}</a>{% endif %}{% endfor %}</label>
 					{% if item.notes %}<span class="subtitle">{{ item.get_notes|safe }}</span>{% endif %}
 					<span class="subtitle"><a href="{{ item.parent_list.get_url }}" class="list">{{ item.parent_list.get_full_name }}</a></span>
 				</div>

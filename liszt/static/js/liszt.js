@@ -257,13 +257,13 @@ function _submitSearchTray() {
 					for (var i=0; i<data.items.length; i++) {
 						var item = data.items[i];
 						html += '<li class="item" data-toggle-item-uri="' + item.toggle_uri + '">';
-						html += '<input type="checkbox"';
+						html += '<input id="item-' + item.id + '" type="checkbox"';
 						if (item.checked) {
 							html += ' checked="' + item.checked + '"';
 						}
 						html += '/> ';
 						html += '<div class="wrapper">';
-						html += '<label>' + item.name + '</label>';
+						html += '<label for="item-' + item.id + '">' + item.name + '</label>';
 						if (item.notes) {
 							html += '<span class="subtitle">' + item.notes + '</span>';
 						}

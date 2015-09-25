@@ -16,9 +16,9 @@
 <ul class="items objects sortable" data-sort-uri="{% url 'sort_things' 'item' %}">
     {% for item in list.get_active_items %}
 	<li class="item" data-item-id="{{ item.id }}" data-item-uri="{% url 'toggle_item' item.id %}">
-		<input type="checkbox" {% if item.checked %}checked="true"{% endif %} />
+		<input id="item-{{ item.id }}" type="checkbox" {% if item.checked %}checked="true"{% endif %} />
 		<div class="wrapper">
-			<label>{{ item.text }}{% for tag in item.tags.all %} <a class="tag" href="{% url 'tag' tag.slug %}">{{ tag.get_name }}</a>{% endfor %}</label>
+			<label for="item-{{ item.id }}">{{ item.text }}{% for tag in item.tags.all %} <a class="tag" href="{% url 'tag' tag.slug %}">{{ tag.get_name }}</a>{% endfor %}</label>
 			{% if item.notes %}<span class="subtitle">{{ item.get_notes|safe }}</span>{% endif %}
 		</div>
 		<span class="handle">=</span>
