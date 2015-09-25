@@ -12,6 +12,7 @@ class Item(models.Model):
     order = models.IntegerField(default=0)
     parent_list = models.ForeignKey('List', related_name="items")
     checked = models.BooleanField(default=False)
+    notes = models.TextField(blank=True, null=True)
 
     tags = models.ManyToManyField('Tag', blank=True, related_name="items")
 
@@ -20,6 +21,9 @@ class Item(models.Model):
 
     def get_toggle_uri(self):
         return resolve_url("toggle_item", self.id)
+
+    def get_notes(self):
+        return self.notes.replace('\\n', '<br/>')
 
     class Meta:
         ordering = ['order']
@@ -107,7 +111,7 @@ class Context(models.Model):
         return "/{}".format(self.name)
 
     def get_active_lists(self):
-        return self.lists.filter(status='active')
+        return self.lists.filter(status='active', parent_list=None)
 
     def count_lists(self):
         return len(self.get_active_lists())

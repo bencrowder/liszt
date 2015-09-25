@@ -75,7 +75,7 @@ Parse a block (a sequence of items with/without list/context specifiers.
     response = []
 
     # Split into groups by newlines
-    for group in [x.strip() for x in block.split('\n\n')]:
+    for group in [x.strip() for x in block.split('----')]:
         group_response = {
             'list': None,
             'sublist': None,
@@ -113,12 +113,13 @@ Parse a block (a sequence of items with/without list/context specifiers.
             else:
                 # Normal item
 
-                # Get tags
-                label, tags = strip_tags(line)
+                # Get tags and notes
+                label, tags, notes = parse_item(line)
 
                 group_response['items'].append({
                     'label': label,
                     'tags': tags,
+                    'notes': notes,
                 })
 
         response.append(group_response)
@@ -161,14 +162,14 @@ to the appropriate contexts/lists.
                 b_item = Item()
                 b_item.parent_list = b_list
                 b_item.text = item['label'].strip()
+                if item['notes'] != '':
+                    b_item.notes = item['notes']
                 b_item.order = i + b_list_len # Add to the end of the list
                 b_item.save()
 
                 # Add tags
                 for tag in item['tags']:
-                    print(tag)
                     tag_obj = get_or_create_tag(tag)
-                    print(tag_obj)
                     b_item.tags.add(tag_obj)
                 b_item.save()
 
@@ -178,11 +179,17 @@ to the appropriate contexts/lists.
 
     return status, message
 
-def strip_tags(item):
-    """ Strips tags from a string. Returns tuple with tagless string and tag list. """
+def parse_item(item):
+    """ Parses a line. Returns tuple with tagless string, tag list, and notes. """
     label = []
     tags = []
+    notes = ''
 
+    # Pull out notes if there
+    if ':::' in item:
+        item, notes = [x.strip() for x in item.split(':::')]
+
+    # Now go through and get tags if any
     for token in item.split(' '):
         if token[0] == '#':
             # A tag
@@ -191,4 +198,4 @@ def strip_tags(item):
             # Not a tag
             label.append(token)
 
-    return (' '.join(label).strip(), tags)
+    return (' '.join(label).strip(), tags, notes)

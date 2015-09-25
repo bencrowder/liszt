@@ -104,7 +104,7 @@ def search(request):
     # Serialize it
     contexts = [{'id': c.id, 'name': c.get_name(), 'url': c.get_url(), 'num_lists': c.count_lists()} for c in contexts]
     lists = [{'id': l.id, 'name': l.get_name(), 'url': l.get_url(), 'num_items': l.count_items(), 'num_lists': l.count_sublists()} for l in lists]
-    items = [{'id': i.id, 'name': i.text, 'checked': i.checked, 'toggle_uri': i.get_toggle_uri(), 'context_name': i.parent_list.context.get_name() or i.parent_list.parent_list.context.get_name(), 'context_url': i.parent_list.context.get_url() or i.parent_list.parent_list.context.get_url(), 'list_name': i.parent_list.get_full_name(), 'list_url': i.parent_list.get_url()} for i in items]
+    items = [{'id': i.id, 'name': i.text, 'notes': i.get_notes(), 'checked': i.checked, 'toggle_uri': i.get_toggle_uri(), 'context_name': i.parent_list.context.get_name() or i.parent_list.parent_list.context.get_name(), 'context_url': i.parent_list.context.get_url() or i.parent_list.parent_list.context.get_url(), 'list_name': i.parent_list.get_full_name(), 'list_url': i.parent_list.get_url()} for i in items]
 
     response = {
         'contexts': contexts,

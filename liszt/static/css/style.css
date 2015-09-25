@@ -187,7 +187,8 @@ main#content {
         flex: 1; }
       main#content ul.objects li .handle {
         color: #bbb;
-        cursor: move; }
+        cursor: move;
+        margin-left: 15px; }
       main#content ul.objects li span.subtitle {
         color: #a6a6a6;
         display: block;
@@ -228,7 +229,7 @@ main#content {
     /* Label */ }
     main#content ul.items li.item input[type=checkbox] {
       font-size: 1.2em;
-      margin: 0 10px 0 0;
+      margin: 0 5px 0 0;
       width: 20px; }
     main#content ul.items li.item label {
       color: #333333;

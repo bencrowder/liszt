@@ -264,6 +264,9 @@ function _submitSearchTray() {
 						html += '/> ';
 						html += '<div class="wrapper">';
 						html += '<label>' + item.name + '</label>';
+						if (item.notes) {
+							html += '<span class="subtitle">' + item.notes + '</span>';
+						}
 						html += '<span class="subtitle"><a class="context" href="' + item.context_url + '">' + item.context_name + '</a>&thinsp;<a class="list" href="' + item.list_url + '">' + item.list_name + '</a></span>';
 						html += '</div>';
 						html += '</li>';

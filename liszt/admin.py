@@ -3,7 +3,8 @@ from .models import Item, List, Context, Tag
 
 @admin.register(Item)
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ('checked', 'text', 'order', 'parent_list',)
+    list_display = ('id', 'text', 'checked', 'order', 'parent_list',)
+    list_display_links = ('text',)
     pass
 
 @admin.register(List)

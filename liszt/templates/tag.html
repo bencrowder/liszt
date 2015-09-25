@@ -36,6 +36,7 @@
 
 				<div class="wrapper">
 					<label>{{ item.text }}{% for t in item.tags.all %}{% if t.slug != tag.slug %} <a class="tag" href="{% url 'tag' t.slug %}">{{ t.get_name }}</a>{% endif %}{% endfor %}</label>
+					{% if item.notes %}<span class="subtitle">{{ item.get_notes|safe }}</span>{% endif %}
 					<span class="subtitle"><a href="{{ item.parent_list.get_url }}" class="list">{{ item.parent_list.get_full_name }}</a></span>
 				</div>
 
