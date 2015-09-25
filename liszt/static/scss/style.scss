@@ -235,14 +235,16 @@ main#content {
 	ul.lists {
 		li.list {
 			/* List name */
-			a {
-				color: $list-color;
-				display: block;
-				font-size: 1.2em;
-				text-decoration: none;
+			.wrapper {
+				> a {
+					color: $list-color;
+					display: block;
+					font-size: 1.2em;
+					text-decoration: none;
 
-				&:hover {
-					color: darken($list-color, 15%);
+					&:hover {
+						color: darken($list-color, 15%);
+					}
 				}
 			}
 		}
@@ -294,10 +296,12 @@ main#content {
 	/* Search results */
 	.results {
 		h2 {
-			color: #888;
+			border-bottom: solid 1px #ddd;
+			color: #ccc;
 			font-size: 1em;
 			font-weight: 400;
 			margin: 0 0 1em 0;
+			padding-bottom: 1px;
 		}
 	}
 }

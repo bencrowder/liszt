@@ -72,7 +72,7 @@ $(document).ready(function() {
 
 	// Sorting items in a list
 	// --------------------------------------------------
-	
+
 	var itemLists = $("ul.items.sortable");
 	for (var i=0; i<itemLists.length; i++) {
 		var itemList = itemLists[i];
@@ -114,7 +114,7 @@ $(document).ready(function() {
 
 	// Sorting lists in a context
 	// --------------------------------------------------
-	
+
 	var listLists = $("ul.lists");
 	for (var i=0; i<listLists.length; i++) {
 		var listList = listLists[i];
@@ -225,9 +225,15 @@ function _submitSearchTray() {
 						html += '<li class="list">';
 						html += '<div class="wrapper">';
 						html += '<a href="' + l.url + '">' + l.name + '</a> ';
-						html += '<span class="subtitle">' + l.num_items + ' items';
+						html += '<span class="subtitle">' + l.num_items + ' item';
+						if (l.num_items != 1) html += 's';
 						if (l.num_lists > 0) {
-							html += ', ' + l.num_lists + ' lists';
+							html += ', ' + l.num_lists + ' list';
+							if (l.num_lists != 1) html += 's';
+						}
+						html += ', <a class="context" href="' + l.context_url + '">' + l.context_name + '</a>';
+						if (l.parent_list_name) {
+							html += '&thinsp;<a class="list" href="' + l.parent_list_url + '">' + l.parent_list_name + '</a></span>';
 						}
 						html += '</span>';
 						html += '</div>';
@@ -244,7 +250,9 @@ function _submitSearchTray() {
 						html += '<li class="list">';
 						html += '<div class="wrapper">';
 						html += '<a href="' + c.url + '">' + c.name + '</a> ';
-						html += '<span class="subtitle">' + c.num_lists + ' lists</span>';
+						html += '<span class="subtitle">' + c.num_lists + ' list';
+						if (c.num_lists != 1) html += 's';
+						html += '</span>';
 						html += '</div>';
 						html += '</li>';
 					}

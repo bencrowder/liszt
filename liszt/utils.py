@@ -31,6 +31,7 @@ def get_or_create_context(context_name):
             context.name = context_name
             context.save()
         except Exception as e:
+            print("Couldn't create context", e)
             pass
 
     return context
@@ -39,9 +40,9 @@ def get_or_create_list(context, list_name, parent_list_name=None):
     # Get the list
     try:
         if parent_list_name:
-            the_list = List.objects.get(name=list_name, parent_list__name=parent_list_name)
+            the_list = List.objects.get(name=list_name, parent_list__name=parent_list_name, context=context)
         else:
-            the_list = List.objects.get(name=list_name)
+            the_list = List.objects.get(name=list_name, context=context)
     except Exception as e:
         # Not found, so create it
         try:
@@ -64,6 +65,7 @@ def get_or_create_list(context, list_name, parent_list_name=None):
 
             the_list.save()
         except Exception as e:
+            print("Couldn't create list", e)
             pass
 
     return the_list

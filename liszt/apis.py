@@ -102,9 +102,12 @@ def search(request):
     items = Item.objects.filter(text__icontains=query, checked=False)[:5]
 
     # Serialize it
-    contexts = [{'id': c.id, 'name': c.get_name(), 'url': c.get_url(), 'num_lists': c.count_lists()} for c in contexts]
-    lists = [{'id': l.id, 'name': l.get_name(), 'url': l.get_url(), 'num_items': l.count_items(), 'num_lists': l.count_sublists()} for l in lists]
-    items = [{'id': i.id, 'name': i.text, 'notes': i.get_notes(), 'checked': i.checked, 'toggle_uri': i.get_toggle_uri(), 'context_name': i.parent_list.context.get_name() or i.parent_list.parent_list.context.get_name(), 'context_url': i.parent_list.context.get_url() or i.parent_list.parent_list.context.get_url(), 'list_name': i.parent_list.get_full_name(), 'list_url': i.parent_list.get_url()} for i in items]
+    try:
+        contexts = [{'id': c.id, 'name': c.get_name(), 'url': c.get_url(), 'num_lists': c.count_lists()} for c in contexts]
+        lists = [{'id': l.id, 'name': l.get_name(), 'url': l.get_url(), 'num_items': l.count_items(), 'num_lists': l.count_sublists(), 'context_name': l.context.get_name() or l.parent_list.context.get_name(), 'context_url': l.context.get_url() or l.parent_list.context.get_url(), 'parent_list_name': l.parent_list.get_name() if l.parent_list else None, 'parent_list_url': l.parent_list.get_url() if l.parent_list else None} for l in lists]
+        items = [{'id': i.id, 'name': i.text, 'notes': i.get_notes(), 'checked': i.checked, 'toggle_uri': i.get_toggle_uri(), 'context_name': i.parent_list.context.get_name() or i.parent_list.parent_list.context.get_name(), 'context_url': i.parent_list.context.get_url() or i.parent_list.parent_list.context.get_url(), 'list_name': i.parent_list.get_full_name(), 'list_url': i.parent_list.get_url()} for i in items]
+    except Exception as e:
+        print(e)
 
     response = {
         'contexts': contexts,

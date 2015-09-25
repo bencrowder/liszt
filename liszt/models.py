@@ -23,7 +23,10 @@ class Item(models.Model):
         return resolve_url("toggle_item", self.id)
 
     def get_notes(self):
-        return self.notes.replace('\\n', '<br/>')
+        if self.notes:
+            return self.notes.replace('\\n', '<br/>')
+        else:
+            return ''
 
     class Meta:
         ordering = ['order']

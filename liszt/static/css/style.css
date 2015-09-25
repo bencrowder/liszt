@@ -213,12 +213,12 @@ main#content {
     /* Context-specific stuff */ }
     main#content ul.lists li.list {
       /* List name */ }
-      main#content ul.lists li.list a {
+      main#content ul.lists li.list .wrapper > a {
         color: #0f97d2;
         display: block;
         font-size: 1.2em;
         text-decoration: none; }
-        main#content ul.lists li.list a:hover {
+        main#content ul.lists li.list .wrapper > a:hover {
           color: #0a648a; }
     main#content ul.lists.contexts li.list a {
       color: #409e24; }
@@ -243,9 +243,11 @@ main#content {
         main#content ul.items li.item label .tag:hover {
           color: #8a210a; }
   main#content .results h2 {
-    color: #888;
+    border-bottom: solid 1px #ddd;
+    color: #ccc;
     font-size: 1em;
     font-weight: 400;
-    margin: 0 0 1em 0; }
+    margin: 0 0 1em 0;
+    padding-bottom: 1px; }
 
 /*# sourceMappingURL=style.css.map */
