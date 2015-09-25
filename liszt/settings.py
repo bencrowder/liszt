@@ -98,9 +98,13 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/login/'
+LOGOUT_URL = '/logout/'
 
-
-from local_settings import *  # noqa
+try:
+    from local_settings import *  # noqa
+except ImportError:
+    pass
 
 if DEBUG:
     INSTALLED_APPS.append('debug_toolbar.apps.DebugToolbarConfig')
