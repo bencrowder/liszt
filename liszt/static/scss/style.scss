@@ -164,17 +164,17 @@ body > header {
 main#content {
 	padding: 20px;
 
-	/* Lists */
-	ul.lists {
+	ul.objects {
 		list-style: none;
 		margin: 0 0 $group-spacing 0;
 		padding: 0;
 
-		li.list {
+		li {
+			align-items: baseline;
 			display: flex;
 
 			/* Spacing */
-			& + li.list {
+			& + li {
 				margin-top: $item-spacing;
 			}
 
@@ -189,6 +189,50 @@ main#content {
 				cursor: move;
 			}
 
+			/* Subtitle */
+			span.subtitle {
+				color: $subtitle-color;
+				display: block;
+				font-size: .8em;
+				line-height: 1.2em;
+				margin-top: 2px;
+
+				a {
+					text-decoration: none;
+
+					&.context {
+						color: $context-color;
+
+						&:hover {
+							color: darken($context-color, 15%);
+						}
+					}
+
+					&.list {
+						color: $list-color;
+
+						&:hover {
+							color: darken($list-color, 15%);
+						}
+					}
+				}
+			}
+
+			/* Placeholder for sorting */
+			&.placeholder {
+				background: #eee;
+			}
+		}
+
+		/* When used as heading (contexts on tag page) */
+		&.heading {
+			margin-bottom: .75em;
+		}
+	}
+
+	/* Lists */
+	ul.lists {
+		li.list {
 			/* List name */
 			a {
 				color: $list-color;
@@ -199,22 +243,6 @@ main#content {
 				&:hover {
 					color: darken($list-color, 15%);
 				}
-			}
-
-			span.subtitle {
-				color: $subtitle-color;
-				display: block;
-				font-size: .8em;
-				line-height: 1.2em;
-				margin-top: 2px;
-
-				&.handle {
-					display: initial;
-				}
-			}
-
-			&.placeholder {
-				background: #eee;
 			}
 		}
 
@@ -234,25 +262,7 @@ main#content {
 
 	/* Items */
 	ul.items {
-		list-style: none;
-		margin: 0 0 $group-spacing 0;
-		padding: 0;
-
 		li.item {
-			align-items: baseline;
-			display: flex;
-
-			/* Spacing */
-			& + li.item {
-				margin-top: $item-spacing;
-			}
-
-			/* Handle */
-			.handle {
-				color: #bbb;
-				cursor: move;
-			}
-
 			/* Checkbox */
 			input[type=checkbox] {
 				font-size: 1.2em;
@@ -276,11 +286,6 @@ main#content {
 						color: darken($tag-color, 15%);
 					}
 				}
-			}
-
-			/* For sorting */
-			&.placeholder {
-				background: #eee;
 			}
 		}
 	}

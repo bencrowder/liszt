@@ -64,6 +64,9 @@ class List(models.Model):
             # Normal lists
             return self.slug
 
+    def get_full_name(self):
+        return ':{}'.format(self.get_full_slug())
+
     def get_active_items(self):
         return self.items.filter(checked=False)
 

@@ -168,24 +168,50 @@ main#content {
   /* Lists */
   /* Items */
   /* Search results */ }
-  main#content ul.lists {
+  main#content ul.objects {
     list-style: none;
     margin: 0 0 25px 0;
     padding: 0;
-    /* Context-specific stuff */ }
-    main#content ul.lists li.list {
+    /* When used as heading (contexts on tag page) */ }
+    main#content ul.objects li {
+      align-items: baseline;
       display: flex;
       /* Spacing */
       /* Content wrapper */
       /* Handle */
-      /* List name */ }
-      main#content ul.lists li.list + li.list {
+      /* Subtitle */
+      /* Placeholder for sorting */ }
+      main#content ul.objects li + li {
         margin-top: 10px; }
-      main#content ul.lists li.list > div.wrapper {
+      main#content ul.objects li > div.wrapper {
         flex: 1; }
-      main#content ul.lists li.list .handle {
+      main#content ul.objects li .handle {
         color: #bbb;
         cursor: move; }
+      main#content ul.objects li span.subtitle {
+        color: #a6a6a6;
+        display: block;
+        font-size: .8em;
+        line-height: 1.2em;
+        margin-top: 2px; }
+        main#content ul.objects li span.subtitle a {
+          text-decoration: none; }
+          main#content ul.objects li span.subtitle a.context {
+            color: #409e24; }
+            main#content ul.objects li span.subtitle a.context:hover {
+              color: #276016; }
+          main#content ul.objects li span.subtitle a.list {
+            color: #0f97d2; }
+            main#content ul.objects li span.subtitle a.list:hover {
+              color: #0a648a; }
+      main#content ul.objects li.placeholder {
+        background: #eee; }
+    main#content ul.objects.heading {
+      margin-bottom: .75em; }
+  main#content ul.lists {
+    /* Context-specific stuff */ }
+    main#content ul.lists li.list {
+      /* List name */ }
       main#content ul.lists li.list a {
         color: #0f97d2;
         display: block;
@@ -193,54 +219,28 @@ main#content {
         text-decoration: none; }
         main#content ul.lists li.list a:hover {
           color: #0a648a; }
-      main#content ul.lists li.list span.subtitle {
-        color: #a6a6a6;
-        display: block;
-        font-size: .8em;
-        line-height: 1.2em;
-        margin-top: 2px; }
-        main#content ul.lists li.list span.subtitle.handle {
-          display: initial; }
-      main#content ul.lists li.list.placeholder {
-        background: #eee; }
     main#content ul.lists.contexts li.list a {
       color: #409e24; }
       main#content ul.lists.contexts li.list a:hover {
         color: #276016; }
-  main#content ul.items {
-    list-style: none;
-    margin: 0 0 25px 0;
-    padding: 0; }
-    main#content ul.items li.item {
-      align-items: baseline;
-      display: flex;
-      /* Spacing */
-      /* Handle */
-      /* Checkbox */
-      /* Label */
-      /* For sorting */ }
-      main#content ul.items li.item + li.item {
-        margin-top: 10px; }
-      main#content ul.items li.item .handle {
-        color: #bbb;
-        cursor: move; }
-      main#content ul.items li.item input[type=checkbox] {
-        font-size: 1.2em;
-        margin: 0 10px 0 0;
-        width: 20px; }
-      main#content ul.items li.item label {
-        color: #333333;
-        flex: 1;
-        font-size: 1.2em;
-        line-height: 1.2em; }
-        main#content ul.items li.item label .tag {
-          color: #d2320f;
-          font-size: .8em;
-          text-decoration: none; }
-          main#content ul.items li.item label .tag:hover {
-            color: #8a210a; }
-      main#content ul.items li.item.placeholder {
-        background: #eee; }
+  main#content ul.items li.item {
+    /* Checkbox */
+    /* Label */ }
+    main#content ul.items li.item input[type=checkbox] {
+      font-size: 1.2em;
+      margin: 0 10px 0 0;
+      width: 20px; }
+    main#content ul.items li.item label {
+      color: #333333;
+      flex: 1;
+      font-size: 1.2em;
+      line-height: 1.2em; }
+      main#content ul.items li.item label .tag {
+        color: #d2320f;
+        font-size: .8em;
+        text-decoration: none; }
+        main#content ul.items li.item label .tag:hover {
+          color: #8a210a; }
   main#content .results h2 {
     color: #888;
     font-size: 1em;

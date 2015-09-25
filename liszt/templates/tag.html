@@ -5,29 +5,44 @@
 {% endblock pageheader %}
 
 {% block content %}
-	{% if tag.get_active_items|length > 0 %}
-	<ul class="items">
-		{% for item in tag.get_active_items %}
-		<li class="item" data-item-id="{{ item.id }}" data-item-uri="{% url 'toggle_item' item.id %}">
-			<input type="checkbox" {% if item.checked %}checked="true"{% endif %} />
-			<label>{{ item.text }}{% for tag in item.tags.all %} <a class="tag" href="{% url 'tag' tag.slug %}">{{ tag.get_name }}</a>{% endfor %}</label>
-			<span class="handle">=</span>
-		</li>
-		{% endfor %}
-	</ul>
-	{% endif %}
+	{% for c in contexts %}
+		<ul class="contexts lists objects heading" data-sort-uri="{% url 'sort_things' 'context' %}">
+			<li class="list" data-object-id="{{ c.context.id }}">
+				<div class="wrapper">
+					<a href="{% url 'context_detail' c.context.slug %}">{{ c.context.get_name }}</a>
+				</div>
+			</li>
+		</ul>
 
-	{% if tag.get_active_lists|length > 0 %}
-	<ul class="lists">
-		{% for list in tag.get_active_lists %}
-		<li class="list" data-object-id="{{ list.id }}">
-			<div class="wrapper">
-				<a href="{% url 'list_detail' list.context.slug list.slug %}">{{ list.get_name }}</a>
-				<span class="subtitle">{{ list.count_items }} item{% if list.count_items != 1 %}s{% endif %}{% if list.count_sublists %}, {{ list.count_sublists }} list{% if list.count_sublists != 1 %}s{% endif %}{% endif %}</span>
-			</div>
-			<span class="handle">=</span>
-		</li>
-		{% endfor %}
-	</ul>
-	{% endif %}
+		{% if c.lists|length > 0 %}
+		<ul class="lists objects">
+			{% for list in c.lists %}
+			<li class="list" data-object-id="{{ list.id }}">
+				<div class="wrapper">
+					<a href="{% url 'list_detail' list.context.slug list.slug %}">{{ list.get_name }}</a>
+					<span class="subtitle">{{ list.count_items }} item{% if list.count_items != 1 %}s{% endif %}{% if list.count_sublists %}, {{ list.count_sublists }} list{% if list.count_sublists != 1 %}s{% endif %}{% endif %}</span>
+				</div>
+				<span class="handle">=</span>
+			</li>
+			{% endfor %}
+		</ul>
+		{% endif %}
+
+		{% if c.items|length > 0 %}
+		<ul class="items objects">
+			{% for item in c.items %}
+			<li class="item" data-item-id="{{ item.id }}" data-item-uri="{% url 'toggle_item' item.id %}">
+				<input type="checkbox" {% if item.checked %}checked="true"{% endif %} />
+
+				<div class="wrapper">
+					<label>{{ item.text }}{% for t in item.tags.all %}{% if t.slug != tag.slug %} <a class="tag" href="{% url 'tag' t.slug %}">{{ t.get_name }}</a>{% endif %}{% endfor %}</label>
+					<span class="subtitle"><a href="{{ item.parent_list.get_url }}" class="list">{{ item.parent_list.get_full_name }}</a></span>
+				</div>
+
+				<span class="handle">=</span>
+			</li>
+			{% endfor %}
+		</ul>
+		{% endif %}
+	{% endfor %}
 {% endblock content %}

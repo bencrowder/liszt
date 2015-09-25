@@ -26,9 +26,47 @@ def tag(request, tag):
     # Get the tag
     tag = Tag.objects.get(slug=tag)
 
+    items = tag.get_active_items()
+    lists = tag.get_active_lists()
+    contexts = {}
+
+    def get_context(the_list):
+        # Get the context and initialize it
+        this_context = the_list.context or the_list.parent_list.context
+
+        if this_context.slug not in contexts:
+            # Modify the parent function's contexts variable
+            contexts[this_context.slug] = {
+                'context': this_context,
+                'lists': [],
+                'items': [],
+            }
+
+        return this_context
+
+    # Go through the lists first
+    for l in lists:
+        # Get the context and initialize it
+        this_context = get_context(l)
+
+        # And append the list
+        contexts[this_context.slug]['lists'].append(l)
+
+    # Now go through the items
+    for i in items:
+        # Get the context and initialize it
+        this_context = get_context(i.parent_list)
+
+        # And append the list
+        contexts[this_context.slug]['items'].append(i)
+
+    # Sort contexts by context order
+    sorted_contexts = [contexts[k] for k in sorted(contexts, key=lambda k: contexts[k]['context'].order)]
+
     context = {
         'title': '#{} — Tag'.format(tag),
         'tag': tag,
+        'contexts': sorted_contexts,
         'pagetype': 'tag',
         'key': settings.SECRET_KEY,
     }

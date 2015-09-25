@@ -73,7 +73,7 @@ $(document).ready(function() {
 	// Sorting items in a list
 	// --------------------------------------------------
 	
-	var itemLists = $("ul.items");
+	var itemLists = $("ul.items.sortable");
 	for (var i=0; i<itemLists.length; i++) {
 		var itemList = itemLists[i];
 		var sortable = new Sortable(itemList, {
@@ -217,29 +217,35 @@ function _submitSearchTray() {
 				var totalResults = data.contexts.length + data.lists.length + data.items.length;
 				html += '<h2>' + totalResults + ' result' + (totalResults != 1 ? 's' : '') + '</h2>';
 
-				// Contexts
-				if (data.contexts.length > 0) {
-					html += '<ul class="contexts lists">';
-					for (var i=0; i<data.contexts.length; i++) {
-						var c = data.contexts[i];
+				// Lists
+				if (data.lists.length > 0) {
+					html += '<ul class="lists objects">';
+					for (var i=0; i<data.lists.length; i++) {
+						var l = data.lists[i];
 						html += '<li class="list">';
-						html += '<a href="' + c.url + '">' + c.name + '</a> <span>' + c.num_lists + ' lists</span>';
+						html += '<div class="wrapper">';
+						html += '<a href="' + l.url + '">' + l.name + '</a> ';
+						html += '<span class="subtitle">' + l.num_items + ' items';
+						if (l.num_lists > 0) {
+							html += ', ' + l.num_lists + ' lists';
+						}
+						html += '</span>';
+						html += '</div>';
 						html += '</li>';
 					}
 					html += '</ul>';
 				}
 
-				// Lists
-				if (data.lists.length > 0) {
-					html += '<ul class="lists">';
-					for (var i=0; i<data.lists.length; i++) {
-						var l = data.lists[i];
+				// Contexts
+				if (data.contexts.length > 0) {
+					html += '<ul class="contexts lists objects">';
+					for (var i=0; i<data.contexts.length; i++) {
+						var c = data.contexts[i];
 						html += '<li class="list">';
-						html += '<a href="' + l.url + '">' + l.name + '</a> <span>' + l.num_items + ' items';
-						if (l.num_lists > 0) {
-							html += ', ' + l.num_lists + ' lists';
-						}
-						html += '</span>';
+						html += '<div class="wrapper">';
+						html += '<a href="' + c.url + '">' + c.name + '</a> ';
+						html += '<span class="subtitle">' + c.num_lists + ' lists</span>';
+						html += '</div>';
 						html += '</li>';
 					}
 					html += '</ul>';
@@ -247,7 +253,7 @@ function _submitSearchTray() {
 
 				// Items
 				if (data.items.length > 0) {
-					html += '<ul class="items">';
+					html += '<ul class="items objects">';
 					for (var i=0; i<data.items.length; i++) {
 						var item = data.items[i];
 						html += '<li class="item" data-toggle-item-uri="' + item.toggle_uri + '">';
@@ -256,7 +262,10 @@ function _submitSearchTray() {
 							html += ' checked="' + item.checked + '"';
 						}
 						html += '/> ';
+						html += '<div class="wrapper">';
 						html += '<label>' + item.name + '</label>';
+						html += '<span class="subtitle"><a class="context" href="' + item.context_url + '">' + item.context_name + '</a>&thinsp;<a class="list" href="' + item.list_url + '">' + item.list_name + '</a></span>';
+						html += '</div>';
 						html += '</li>';
 					}
 					html += '</ul>';

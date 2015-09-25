@@ -6,7 +6,7 @@
 {% endblock pageheader %}
 
 {% block content %}
-<ul class="lists" data-sort-uri="{% url 'sort_things' 'list' %}">
+<ul class="lists objects sortable" data-sort-uri="{% url 'sort_things' 'list' %}">
     {% for list in ctext.get_active_lists %}
 	<li class="list" data-object-id="{{ list.id }}">
 		<div class="wrapper">

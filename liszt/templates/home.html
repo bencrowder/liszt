@@ -3,7 +3,7 @@
 {% block pageheader %}Home{% endblock pageheader %}
 
 {% block content %}
-<ul class="contexts lists" data-sort-uri="{% url 'sort_things' 'context' %}">
+<ul class="contexts lists objects sortable" data-sort-uri="{% url 'sort_things' 'context' %}">
     {% for c in contexts %}
 	<li class="list" data-object-id="{{ c.id }}">
 		<div class="wrapper">

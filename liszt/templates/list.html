@@ -13,18 +13,20 @@
 {% endblock pageheader %}
 
 {% block content %}
-<ul class="items" data-sort-uri="{% url 'sort_things' 'item' %}">
+<ul class="items objects sortable" data-sort-uri="{% url 'sort_things' 'item' %}">
     {% for item in list.get_active_items %}
 	<li class="item" data-item-id="{{ item.id }}" data-item-uri="{% url 'toggle_item' item.id %}">
 		<input type="checkbox" {% if item.checked %}checked="true"{% endif %} />
-		<label>{{ item.text }}{% for tag in item.tags.all %} <a class="tag" href="{% url 'tag' tag.slug %}">{{ tag.get_name }}</a>{% endfor %}</label>
+		<div class="wrapper">
+			<label>{{ item.text }}{% for tag in item.tags.all %} <a class="tag" href="{% url 'tag' tag.slug %}">{{ tag.get_name }}</a>{% endfor %}</label>
+		</div>
 		<span class="handle">=</span>
 	</li>
     {% endfor %}
 </ul>
 
 {% if list.get_active_sublists|length > 0 %}
-<ul class="sublists lists" data-sort-uri="{% url 'sort_things' 'list' %}">
+<ul class="sublists lists objects sortable" data-sort-uri="{% url 'sort_things' 'list' %}">
     {% for sublist in list.get_active_sublists %}
 	<li class="list" data-object-id="{{ sublist.id }}">
 		<div class="wrapper">
