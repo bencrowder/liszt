@@ -45,10 +45,16 @@
 			</div>
 
 			<h2><a href="{% url 'home' %}">Liszt</a></h2>
-
-			<h1>{% block pageheader %}{% endblock pageheader %}</h1>
 		</div>
 	</header>
+
+	{% block pageheaderwrapper %}
+	<section id="page-header">
+		<div class="container">
+			<h1>{% block pageheader %}{% endblock pageheader %}</h1>
+		</div>
+	</section>
+	{% endblock pageheaderwrapper %}
 
 	<section id="search-tray" class="tray" data-uri="{% url 'search' %}">
 		<div class="container">

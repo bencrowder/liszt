@@ -2,6 +2,8 @@
 /* -------------------------------------------------- */
 /* Base */
 /* -------------------------------------------------- */
+/* hsl(319, 82%, 47%); /* hsl(11, 87%, 44%); */
+/* hsl(198, 87%, 44%); */
 * {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -56,10 +58,9 @@ p {
   font-weight: normal;
   font-style: normal; }
 body > header {
-  background: #eee;
-  padding: 20px;
-  /* Liszt */
-  /* Page title */ }
+  background: #2e2e2e;
+  padding: 10px 20px;
+  /* Liszt */ }
   body > header .controls {
     float: right; }
     body > header .controls a {
@@ -68,7 +69,7 @@ body > header {
       text-decoration: none;
       /* Spacing */ }
       body > header .controls a:hover {
-        color: #737373; }
+        color: #bfbfbf; }
       body > header .controls a + a {
         margin-left: 10px; }
   body > header h2 {
@@ -84,43 +85,47 @@ body > header {
       display: inline-block;
       text-decoration: none; }
       body > header h2 a:hover {
-        color: #444; }
-  body > header h1 {
+        color: #aeaeae; }
+
+section#page-header {
+  background: #eee;
+  padding: 15px 20px 15px;
+  /* Page title */ }
+  section#page-header h1 {
     color: #222;
     font-size: 1em;
     font-weight: normal;
-    line-height: 1.1em;
-    margin: 8px 0 0; }
-    body > header h1 a {
+    margin: 0;
+    line-height: 1.1em; }
+    section#page-header h1 a {
       font-size: 1.3em;
       text-decoration: none; }
-      body > header h1 a:hover {
+      section#page-header h1 a:hover {
         color: #444; }
-    body > header h1 .main {
+      section#page-header h1 a.context {
+        color: #d03535; }
+        section#page-header h1 a.context:hover {
+          color: #952323; }
+      section#page-header h1 a.list {
+        color: #0f63d2; }
+        section#page-header h1 a.list:hover {
+          color: #0a418a; }
+      section#page-header h1 a.tag {
+        color: #409e24; }
+        section#page-header h1 a.tag:hover {
+          color: #276016; }
+    section#page-header h1 .main {
       display: block;
       font-size: 1.6em !important;
-      line-height: 1em;
-      margin-top: 5px; }
-    body > header h1 a + .main {
+      line-height: 1em; }
+    section#page-header h1 a + .main {
       margin-top: 7px; }
-    body > header h1 .context {
-      color: #d2320f; }
-      body > header h1 .context a {
-        color: #d2320f; }
-        body > header h1 .context a:hover {
-          color: #8a210a; }
-    body > header h1 .list {
-      color: #0f97d2; }
-      body > header h1 .list a {
-        color: #0f97d2; }
-        body > header h1 .list a:hover {
-          color: #0a648a; }
-    body > header h1 .tag {
+    section#page-header h1 span.context {
+      color: #d03535; }
+    section#page-header h1 span.list {
+      color: #0f63d2; }
+    section#page-header h1 span.tag {
       color: #409e24; }
-      body > header h1 .tag a {
-        color: #409e24; }
-        body > header h1 .tag a:hover {
-          color: #276016; }
 
 .container {
   margin: 0px auto;
@@ -148,7 +153,7 @@ body > header {
 
 /* Add tray */
 #add-tray {
-  border-bottom: solid 5px #0f97d2; }
+  border-bottom: solid 5px #0f63d2; }
   #add-tray textarea {
     border: none;
     font-size: 1.3em;
@@ -159,12 +164,12 @@ body > header {
     #add-tray textarea:focus {
       outline: none; }
   #add-tray a#save-button {
-    color: #0f97d2;
+    color: #0f63d2;
     display: block;
     padding: 3px 0 8px;
     text-decoration: none; }
     #add-tray a#save-button:hover {
-      color: #0a648a; }
+      color: #0a418a; }
 
 /* Content */
 /* -------------------------------------------------- */
@@ -205,13 +210,13 @@ main#content {
         main#content ul.objects li span.subtitle a {
           text-decoration: none; }
           main#content ul.objects li span.subtitle a.context {
-            color: #d2320f; }
+            color: #d03535; }
             main#content ul.objects li span.subtitle a.context:hover {
-              color: #8a210a; }
+              color: #952323; }
           main#content ul.objects li span.subtitle a.list {
-            color: #0f97d2; }
+            color: #0f63d2; }
             main#content ul.objects li span.subtitle a.list:hover {
-              color: #0a648a; }
+              color: #0a418a; }
       main#content ul.objects li.placeholder {
         background: #eee; }
     main#content ul.objects.heading {
@@ -221,17 +226,17 @@ main#content {
     main#content ul.lists li.list {
       /* List name */ }
       main#content ul.lists li.list .wrapper > a {
-        color: #0f97d2;
+        color: #0f63d2;
         display: block;
         font-size: 1.4em;
         line-height: 1.1em;
         text-decoration: none; }
         main#content ul.lists li.list .wrapper > a:hover {
-          color: #0a648a; }
+          color: #0a418a; }
     main#content ul.lists.contexts li.list a {
-      color: #d2320f; }
+      color: #d03535; }
       main#content ul.lists.contexts li.list a:hover {
-        color: #8a210a; }
+        color: #952323; }
   main#content ul.items li.item {
     /* Checkbox */
     /* Label */ }
@@ -244,8 +249,6 @@ main#content {
       width: 20px;
       height: 20px;
       -webkit-appearance: none; }
-      main#content ul.items li.item input[type=checkbox]:hover {
-        background: #ccc; }
       main#content ul.items li.item input[type=checkbox]:focus {
         outline: none; }
       main#content ul.items li.item input[type=checkbox]:checked {

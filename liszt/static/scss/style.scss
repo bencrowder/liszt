@@ -6,19 +6,19 @@
 
 @mixin header-color($color) {
 	color: $color;
+}
 
-	a {
-		color: $color;
+@mixin header-link-color($color) {
+	color: $color;
 
-		&:hover {
-			color: darken($color, 15%);
-		}
+	&:hover {
+		color: darken($color, 15%);
 	}
 }
 
 body > header {
-	background: #eee;
-	padding: 20px;
+	background: hsl(0, 0%, 18%);
+	padding: 10px 20px;
 
 	.controls {
 		float: right;
@@ -29,7 +29,7 @@ body > header {
 			text-decoration: none;
 
 			&:hover {
-				color: darken($header-controls-color, 15%);
+				color: lighten($header-controls-color, 15%);
 			}
 
 			/* Spacing */
@@ -55,18 +55,23 @@ body > header {
 			text-decoration: none;
 
 			&:hover {
-				color: #444;
+				color: lighten(#888, 15%);
 			}
 		}
 	}
+}
+
+section#page-header {
+	background: #eee;
+	padding: 15px 20px 15px;
 
 	/* Page title */
 	h1 {
 		color: #222;
 		font-size: 1em;
 		font-weight: normal;
+		margin: 0;
 		line-height: 1.1em;
-		margin: 8px 0 0;
 
 		a {
 			font-size: 1.3em;
@@ -75,28 +80,39 @@ body > header {
 			&:hover {
 				color: #444;
 			}
+
+			&.context {
+				@include header-link-color($context-color);
+			}
+
+			&.list {
+				@include header-link-color($list-color);
+			}
+
+			&.tag {
+				@include header-link-color($tag-color);
+			}
 		}
 
 		.main {
 			display: block;
 			font-size: 1.6em !important;
 			line-height: 1em;
-			margin-top: 5px;
 		}
 
 		a + .main {
 			margin-top: 7px;
 		}
 
-		.context {
+		span.context {
 			@include header-color($context-color);
 		}
 
-		.list {
+		span.list {
 			@include header-color($list-color);
 		}
 
-		.tag {
+		span.tag {
 			@include header-color($tag-color);
 		}
 	}
@@ -284,10 +300,6 @@ main#content {
 				width: 20px;
 				height: 20px;
 				-webkit-appearance: none;
-
-				&:hover {
-					background: #ccc;
-				}
 
 				&:focus {
 					outline: none;

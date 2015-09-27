@@ -59,7 +59,7 @@ class List(models.Model):
         else:
             return resolve_url('list_detail', self.context.slug, self.slug)
 
-    def get_slug(self):
+    def get_display_slug(self):
         return ':{}'.format(self.slug)
 
     def get_full_slug(self):
@@ -69,6 +69,9 @@ class List(models.Model):
         else:
             # Normal lists
             return self.slug
+
+    def get_full_display_slug(self):
+        return ':{}'.format(self.get_full_slug())
 
     def get_active_items(self):
         return self.items.filter(checked=False)
@@ -105,7 +108,7 @@ class Context(models.Model):
     def get_url(self):
         return resolve_url('context_detail', self.slug)
 
-    def get_slug(self):
+    def get_display_slug(self):
         return "/{}".format(self.slug)
 
     def get_active_lists(self):
@@ -124,7 +127,7 @@ class Tag(models.Model):
     def __str__(self):
         return self.slug
 
-    def get_slug(self):
+    def get_display_slug(self):
         return '#{}'.format(self.slug)
 
     def get_url(self):

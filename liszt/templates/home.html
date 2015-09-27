@@ -1,11 +1,13 @@
 {% extends '_base.html' %}
 
+{% block pageheaderwrapper %}{% endblock pageheaderwrapper %}
+
 {% block content %}
 <ul class="contexts lists objects sortable" data-sort-uri="{% url 'sort_things' 'context' %}">
     {% for c in contexts %}
 	<li class="list" data-object-id="{{ c.id }}">
 		<div class="wrapper">
-			<a href="{% url 'context_detail' c.slug %}">{{ c.get_slug }}</a>
+			<a href="{% url 'context_detail' c.slug %}">{{ c.get_display_slug }}</a>
 			<span class="subtitle">{{ c.count_lists }} list{% if c.count_lists != 1 %}s{% endif %}
 		</div>
 		<span class="handle">=</span>
