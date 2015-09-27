@@ -55,7 +55,17 @@ def get_or_create_list(context, list_slug, parent_list_slug=None):
     # Get the list
     try:
         if parent_list_slug:
-            the_list = List.objects.get(slug=list_slug, parent_list__slug=parent_list_slug, context=context)
+            try:
+                parent_list = List.objects.get(slug=parent_list_slug, context=context)
+                the_list = List.objects.get(slug=list_slug, parent_list__slug=parent_list_slug, context=context)
+            except Exception as e:
+                # New sublist
+                the_list = List()
+                the_list.slug = list_slug
+                the_list.order = 50000 # put at end
+                the_list.parent_list = parent_list
+                the_list.context = context
+                the_list.save()
         else:
             the_list = List.objects.get(slug=list_slug, context=context)
     except Exception as e:

@@ -199,6 +199,7 @@ def update_item(request, item_id):
                 new_list = new_list[1:]
 
             the_list, the_sublist = parse_list_string(new_list)
+            print(the_list, the_sublist)
 
             if the_sublist is not None:
                 lst = get_or_create_list(ctx, the_sublist, the_list)
