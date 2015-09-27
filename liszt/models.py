@@ -12,6 +12,7 @@ class Item(models.Model):
     order = models.IntegerField(default=0)
     parent_list = models.ForeignKey('List', related_name="items")
     checked = models.BooleanField(default=False)
+    starred = models.BooleanField(default=False)
     notes = models.TextField(blank=True, null=True)
 
     tags = models.ManyToManyField('Tag', blank=True, related_name="items")
@@ -73,6 +74,9 @@ class Item(models.Model):
         
         html += '\t\t</div>\n'
         html += '\t</div>\n'
+
+        if item.starred:
+            html += '\t<span class="star">&#x2605;</span>\n'
         
         if sortable:
             html += '\t<span class="handle">=</span>\n'
