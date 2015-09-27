@@ -152,6 +152,34 @@ $(document).ready(function() {
 			},
 		});
 	}
+
+
+	// Item editing
+	// --------------------------------------------------
+	
+	$("#content").on("doubletap", "li.item .wrapper label", function() {
+		var controls = $(this).siblings(".edit-controls");
+
+		$(this).fadeOut(75, function() {
+			controls.fadeIn(75, function () {
+				autosize(controls.find("textarea"));
+				controls.find("textarea").focus();
+			});
+		});
+
+		return false;
+	});
+
+	$("#content").on("tap", "li.item .wrapper .edit-controls .cancel", function() {
+		var controls = $(this).parents(".edit-controls");
+		var label = controls.siblings("label");
+
+		controls.fadeOut(75, function() {
+			label.fadeIn(75);
+		});
+
+		return false;
+	});
 });
 
 
@@ -271,7 +299,7 @@ function _submitSearchTray() {
 						}
 						html += '/> ';
 						html += '<div class="wrapper">';
-						html += '<label for="item-' + item.id + '">' + item.name + '</label>';
+						html += '<label>' + item.name + '</label>';
 						if (item.notes) {
 							html += '<span class="subtitle">' + item.notes + '</span>';
 						}

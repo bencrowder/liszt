@@ -1,6 +1,20 @@
 from django.conf import settings
 from liszt.models import Item, List, Context, Tag
 
+def parse_list_string(list_string):
+    # Slice off initial : if it's there
+    if list_string[0] == ':':
+        list_string = list_string[1:]
+
+    # Now see if there's a sublist
+    if ':' in list_string:
+        the_list, the_sublist = list_string.split(':')
+    else:
+        the_list = list_string
+        the_sublist = None
+
+    return the_list, the_sublist
+
 def get_or_create_tag(tag_slug):
     tag = None
 
@@ -62,6 +76,7 @@ def get_or_create_list(context, list_slug, parent_list_slug=None):
                     parent_list.slug = parent_list_slug
                     parent_list.order = 50000 # put at end
                     parent_list.context = context
+                    parent_list.save()
 
                 # Hook it up as the parent_list
                 the_list.parent_list = parent_list
@@ -99,22 +114,12 @@ Parse a block (a sequence of items with/without list/context specifiers.
                     # Context
                     group_response['context'] = lists[0]
 
-                    # List, now check for sublist
-                    if len(lists) > 2:
-                        # Yes, sublist
-                        group_response['list'], group_response['sublist'] = lists[1], lists[2]
-                    else:
-                        group_response['list'] = lists[1]
+                    group_response['list'], group_response['sublist'] = parse_list_string(':'.join(lists[1:]))
                 else:
                     # No list, just add the context
                     group_response['context'] = line[1:]
             elif line[0] == ':':
-                # List, now check for sublist
-                if ':' in line[1:]:
-                    # Yes, sublist
-                    group_response['list'], group_response['sublist'] = line[1:].split(':')
-                else:
-                    group_response['list'] = line[1:]
+                group_response['list'], group_response['sublist'] = parse_list_string(line)
             else:
                 # Normal item
 

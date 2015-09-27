@@ -7,7 +7,8 @@ from django.core import serializers
 
 from liszt.models import Item, List, Context
 
-from liszt.utils import process_payload, get_or_create_context, get_or_create_list
+from liszt.utils import process_payload, get_or_create_context, get_or_create_list, \
+                        parse_list_string
 
 @login_required
 def add_items(request):
@@ -160,3 +161,58 @@ def sort_things(request, type):
     # Return JSON response
     return JsonResponse(response)
 
+@login_required
+def update_item(request, item_id):
+    """ Toggles an item's checked state. """
+
+    key = request.GET.get('key', '')
+
+    new_text = request.POST.get('text', '').strip()
+    new_context = request.POST.get('context', '').strip()
+    new_list = request.POST.get('list', '').strip()
+    new_tags = request.POST.get('tags', '').strip()
+
+    # Make sure we have the secret key
+    if key != settings.SECRET_KEY:
+        return JsonResponse({})
+
+    try:
+        item = Item.objects.get(id=item_id)
+
+        # Update the text if it's changed
+        if new_text != '' and item.text != new_text:
+            item.text = new_text
+
+        # Get or create the context
+        if new_context != '':
+            ctx = get_or_create_context(new_context)
+
+        # Get or create the list
+        if new_list != '':
+            the_list, the_sublist = parse_list_string(new_list)
+
+            if the_sublist is not None:
+                lst = get_or_create_list(ctx, the_sublist, the_list)
+            else:
+                lst = get_or_create_list(ctx, the_list)
+
+            # Assign
+            item.parent_list = lst
+
+        # Tags
+
+        item.save()
+
+        status = 'success'
+        message = ''
+    except Exception as e:
+        status = 'error'
+        message = e
+
+    response = {
+        'status': status,
+        'message': message,
+    }
+
+    # Return JSON response
+    return JsonResponse(response)

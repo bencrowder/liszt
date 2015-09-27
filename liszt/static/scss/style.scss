@@ -27,7 +27,7 @@ body > header {
 		h2 {
 			color: #888;
 			flex: 1;
-			font-size: 1em;
+			font-size: 1.2em;
 			font-weight: normal;
 			letter-spacing: 0.05em;
 			line-height: 1.2em;
@@ -50,6 +50,7 @@ body > header {
 			a {
 				color: $header-controls-color;
 				cursor: pointer;
+				font-size: 1.2em;
 				text-decoration: none;
 
 				&:hover {
@@ -138,7 +139,7 @@ section#page-header {
 
 /* Search tray */
 #search-tray {
-	background: hsl(213, 7%, 20%);
+	background: hsl(210, 40%, 44%);
 	color: #fff;
 
 	input[type=text] {
@@ -173,13 +174,13 @@ section#page-header {
 	}
 
 	a#save-button {
-		color: $list-color;
+		color: $button-color;
 		display: block;
 		padding: 3px 0 8px;
 		text-decoration: none;
 
 		&:hover {
-			color: darken($list-color, 15%);
+			color: lighten($button-color, 15%);
 		}
 	}
 }
@@ -205,6 +206,105 @@ main#content {
 			& > div.wrapper {
 				flex: 1;
 				word-wrap: break-word;
+
+				.edit-controls {
+					display: none;
+
+					textarea {
+						border: none;
+						font-size: 1.3em;
+						line-height: 1.2em;
+						margin-bottom: 5px;
+						padding: 0;
+						resize: none;
+						width: 100%;
+
+						&:focus {
+							outline: none;
+						}
+					}
+
+					.group {
+						align-items: center;
+						display: flex;
+						font-size: .8em;
+
+						label {
+							font-style: italic;
+							margin-right: 10px;
+							max-width: 60px;
+						}
+
+						input[type=text] {
+							border: solid 1px #ccc;
+							border-radius: 2px;
+							flex: 1;
+							font-size: 1.5em;
+							line-height: 1.1em;
+							padding: 2px 5px;
+
+							&:focus {
+								outline: none;
+							}
+						}
+
+						& + .group {
+							margin-top: 10px;
+						}
+
+						&.context {
+							input {
+								color: $context-color;
+							}
+						}
+
+						&.list {
+							input {
+								color: $list-color;
+							}
+						}
+
+						&.tag {
+							input {
+								color: $tag-color;
+							}
+						}
+					}
+				}
+
+				.buttons {
+					display: flex;
+					margin-top: 10px;
+
+					.button {
+						background: #eee;
+						border: none;
+						border-radius: 3px;
+						color: $button-color;
+						flex: 1;
+						font-size: 1.1em;
+						padding: 3px 0 5px;
+						text-align: center;
+						text-decoration: none;
+
+						&:hover {
+							color: lighten($button-color, 15%);
+						}
+
+						&.cancel {
+							color: #999;
+
+							&:hover {
+								color: lighten(#999, 15%);
+							}
+						}
+
+						/* Spacing */
+						& + .button {
+							margin-left: 5px;
+						}
+					}
+				}
 			}
 
 			/* Handle */
@@ -323,7 +423,8 @@ main#content {
 			/* Label */
 			label {
 				color: $item-color;
-				cursor: pointer;
+				cursor: text;
+				display: block;
 				flex: 1;
 				font-size: 1.3em;
 				line-height: 1.2em;

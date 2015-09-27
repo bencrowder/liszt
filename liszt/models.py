@@ -55,7 +55,7 @@ class List(models.Model):
 
     def get_url(self):
         if self.parent_list:
-            return resolve_url('list_detail', self.parent_list.context.slug, self.slug)
+            return resolve_url('list_detail', self.parent_list.context.slug, self.get_full_slug())
         else:
             return resolve_url('list_detail', self.context.slug, self.slug)
 
