@@ -179,8 +179,9 @@ to the appropriate contexts/lists.
 
                 # Add tags
                 for tag in item['tags']:
-                    tag_obj = get_or_create_tag(tag)
-                    b_item.tags.add(tag_obj)
+                    if tag != '':
+                        tag_obj = get_or_create_tag(tag)
+                        b_item.tags.add(tag_obj)
                 b_item.save()
 
         except Exception as e:

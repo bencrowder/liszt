@@ -22,11 +22,62 @@ class Item(models.Model):
     def get_toggle_uri(self):
         return resolve_url("toggle_item", self.id)
 
+    def get_tags(self):
+        """ Returns tags in form "#tag1 #tag2" """
+
+        return ' '.join([t.get_display_slug() for t in self.tags.all()])
+
+    def get_context(self):
+        return self.parent_list.context or self.parent_list.parent_list.context
+
     def get_notes(self):
         if self.notes:
             return self.notes.replace('\\n', '<br/>')
         else:
             return ''
+
+    def get_html(self, sortable=True):
+        html = '<li class="item" data-item-id="{}" data-item-uri="{}">\n'.format(self.id, resolve_url('toggle_item', self.id))
+        html += '\t<input id="item-{}" type="checkbox" {} />\n'.format(self.id, 'checked="true"' if self.checked else '')
+        html += '\t<div class="wrapper">\n'
+        html += '\t\t<label>{} {}</label>\n'.format(self.text, ' '.join([t.get_html() for t in self.tags.all()]))
+
+        if self.notes:
+            html += '\t\t<span class="subtitle">{}</span>\n'.format(self.get_notes())
+
+        html += '\t\t<div class="edit-controls" data-update-uri="{}">\n'.format(resolve_url('update_item', self.id))
+        html += '\t\t\t<textarea>{}</textarea>\n'.format(self.text)
+
+        html += '\t\t\t<div class="group list">\n'
+        html += '\t\t\t\t<label>List</label>\n'
+        html += '\t\t\t\t<input name="list" type="text" value="{}" />\n'.format(self.parent_list.get_full_display_slug())
+        html += '\t\t\t</div>\n'
+
+        html += '\t\t\t<div class="group tag">\n'
+        html += '\t\t\t\t<label>Tags</label>\n'
+        html += '\t\t\t\t<input name="tags" type="text" value="{}" />\n'.format(self.get_tags())
+        html += '\t\t\t</div>\n'
+
+        html += '\t\t\t<div class="group context">\n'
+        html += '\t\t\t\t<label>Context</label>\n'
+        html += '\t\t\t\t<input name="context" type="text" value="{}" />\n'.format(self.get_context().get_display_slug())
+        html += '\t\t\t</div>\n'
+
+        html += '\t\t\t<div class="buttons">\n'
+        html += '\t\t\t\t<a class="save button" href="">Save</a>\n'
+        html += '\t\t\t\t<a class="cancel button" href="">Cancel</a>\n'
+        html += '\t\t\t</div>\n'
+        
+        html += '\t\t</div>\n'
+        html += '\t</div>\n'
+        
+        if sortable:
+            html += '\t<span class="handle">=</span>\n'
+
+        html += '</li>'
+
+        return html
+
 
     class Meta:
         ordering = ['order']
@@ -58,6 +109,9 @@ class List(models.Model):
             return resolve_url('list_detail', self.parent_list.context.slug, self.get_full_slug())
         else:
             return resolve_url('list_detail', self.context.slug, self.slug)
+
+    def get_context(self):
+        return self.context or self.parent_list.context
 
     def get_display_slug(self):
         return ':{}'.format(self.slug)
@@ -132,6 +186,10 @@ class Tag(models.Model):
 
     def get_url(self):
         return resolve_url('tag', self.slug)
+
+    def get_html(self):
+        html = '<a class="tag" href="{}">{}</a>'.format(resolve_url('tag', self.slug), self.get_display_slug())
+        return html
 
     def get_active_items(self):
         return self.items.filter(checked=False)

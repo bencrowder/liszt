@@ -29,37 +29,7 @@
 
 <ul class="items objects sortable" data-sort-uri="{% url 'sort_things' 'item' %}">
     {% for item in list.get_active_items %}
-	<li class="item" data-item-id="{{ item.id }}" data-item-uri="{% url 'toggle_item' item.id %}">
-		<input id="item-{{ item.id }}" type="checkbox" {% if item.checked %}checked="true"{% endif %} />
-		<div class="wrapper">
-			<label>{{ item.text }}{% for tag in item.tags.all %} <a class="tag" href="{% url 'tag' tag.slug %}">{{ tag.get_display_slug }}</a>{% endfor %}</label>
-
-			{% if item.notes %}<span class="subtitle">{{ item.get_notes|safe }}</span>{% endif %}
-
-			<div class="edit-controls">
-				<textarea>{{ item.text }}</textarea>
-
-				<div class="group list">
-					<label>List</label>
-					<input type="text" value="{{ item.parent_list.get_full_display_slug }}" />
-				</div>
-				<div class="group tag">
-					<label>Tags</label>
-					<input type="text" value="{{ item.tags.all|join:", " }}" />
-				</div>
-				<div class="group context">
-					<label>Context</label>
-					<input type="text" value="{{ item.parent_list.context.get_display_slug }}" />
-				</div>
-
-				<div class="buttons">
-					<a class="save button" href="">Save</a>
-					<a class="cancel button" href="">Cancel</a>
-				</div>
-			</div>
-		</div>
-		<span class="handle">=</span>
-	</li>
+	{{ item.get_html|safe }}
     {% endfor %}
 </ul>
 {% endblock content %}

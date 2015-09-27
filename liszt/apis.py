@@ -7,8 +7,7 @@ from django.core import serializers
 
 from liszt.models import Item, List, Context
 
-from liszt.utils import process_payload, get_or_create_context, get_or_create_list, \
-                        parse_list_string
+from liszt.utils import *
 
 @login_required
 def add_items(request):
@@ -105,8 +104,8 @@ def search(request):
     # Serialize it
     try:
         contexts = [{'id': c.id, 'slug': c.get_display_slug(), 'url': c.get_url(), 'num_lists': c.count_lists()} for c in contexts]
-        lists = [{'id': l.id, 'slug': l.get_display_slug(), 'url': l.get_url(), 'num_items': l.count_items(), 'num_lists': l.count_sublists(), 'context_slug': l.context.get_display_slug() or l.parent_list.context.get_display_slug(), 'context_url': l.context.get_url() or l.parent_list.context.get_url(), 'parent_list_slug': l.parent_list.get_display_slug() if l.parent_list else None, 'parent_list_url': l.parent_list.get_url() if l.parent_list else None} for l in lists]
-        items = [{'id': i.id, 'name': i.text, 'notes': i.get_notes(), 'checked': i.checked, 'toggle_uri': i.get_toggle_uri(), 'context_slug': i.parent_list.context.get_display_slug() or i.parent_list.parent_list.context.get_display_slug(), 'context_url': i.parent_list.context.get_url() or i.parent_list.parent_list.context.get_url(), 'list_slug': i.parent_list.get_full_display_slug(), 'list_url': i.parent_list.get_url()} for i in items]
+        lists = [{'id': l.id, 'slug': l.get_display_slug(), 'url': l.get_url(), 'num_items': l.count_items(), 'num_lists': l.count_sublists(), 'context_slug': l.get_context().get_display_slug(), 'context_url': l.get_context().get_url(), 'parent_list_slug': l.parent_list.get_display_slug() if l.parent_list else None, 'parent_list_url': l.parent_list.get_url() if l.parent_list else None} for l in lists]
+        items = [{'id': i.id, 'html': i.get_html(sortable=False), 'name': i.text, 'notes': i.get_notes(), 'checked': i.checked, 'toggle_uri': i.get_toggle_uri(), 'context_slug': i.get_context().get_display_slug(), 'context_url': i.get_context().get_url(), 'list_slug': i.parent_list.get_full_display_slug(), 'list_url': i.parent_list.get_url()} for i in items]
     except Exception as e:
         print(e)
 
@@ -165,8 +164,7 @@ def sort_things(request, type):
 def update_item(request, item_id):
     """ Toggles an item's checked state. """
 
-    key = request.GET.get('key', '')
-
+    key = request.POST.get('key', '')
     new_text = request.POST.get('text', '').strip()
     new_context = request.POST.get('context', '').strip()
     new_list = request.POST.get('list', '').strip()
@@ -185,10 +183,21 @@ def update_item(request, item_id):
 
         # Get or create the context
         if new_context != '':
+            # Strip off initial /
+            if new_context[0] == '/':
+                new_context = new_context[1:]
+
             ctx = get_or_create_context(new_context)
+        else:
+            # Get it from the item
+            ctx = item.get_context()
 
         # Get or create the list
         if new_list != '':
+            # Strip off initial :
+            if new_list[0] == ':':
+                new_list = new_list[1:]
+
             the_list, the_sublist = parse_list_string(new_list)
 
             if the_sublist is not None:
@@ -199,8 +208,21 @@ def update_item(request, item_id):
             # Assign
             item.parent_list = lst
 
-        # Tags
+        # Tags, first clear them out
+        item.tags.clear()
 
+        # Now add them
+        new_tags = [x.strip() for x in new_tags.split(' ')]
+        for tag in new_tags:
+            if tag != '':
+                # Strip off initial #
+                if tag[0] == '#':
+                    tag = tag[1:]
+
+                tag_obj = get_or_create_tag(tag)
+                item.tags.add(tag_obj)
+
+        # Save it
         item.save()
 
         status = 'success'

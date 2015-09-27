@@ -49,7 +49,7 @@ $(document).ready(function() {
 	// Item toggles
 	// --------------------------------------------------
 
-	$("#content").on("click", "ul.items li.item input", function() {
+	$("#content").on("click", "ul.items li.item input[type=checkbox]", function() {
 		var url = $(this).parents("li.item").attr("data-item-uri");
 
 		var data = {
@@ -159,8 +159,9 @@ $(document).ready(function() {
 	
 	$("#content").on("doubletap", "li.item .wrapper label", function() {
 		var controls = $(this).siblings(".edit-controls");
+		var labels = $(this).parents(".wrapper:first").find("label, .subtitle");
 
-		$(this).fadeOut(75, function() {
+		labels.fadeOut(75, function() {
 			controls.fadeIn(75, function () {
 				autosize(controls.find("textarea"));
 				controls.find("textarea").focus();
@@ -170,12 +171,52 @@ $(document).ready(function() {
 		return false;
 	});
 
-	$("#content").on("tap", "li.item .wrapper .edit-controls .cancel", function() {
-		var controls = $(this).parents(".edit-controls");
-		var label = controls.siblings("label");
+	function _hideEditControls(item) {
+		var controls = item.parents(".edit-controls");
+		var labels = controls.siblings("label, .subtitle");
 
 		controls.fadeOut(75, function() {
-			label.fadeIn(75);
+			labels.fadeIn(75);
+		});
+	}
+
+	$("#content").on("tap", "li.item .wrapper .edit-controls .cancel", function() {
+		_hideEditControls($(this));
+
+		return false;
+	});
+
+	/* Save */
+	$("#content").on("tap", "li.item .wrapper .edit-controls .save", function() {
+		var controls = $(this).parents(".edit-controls");
+		var label = controls.siblings("label");
+		var item = $(this);
+
+		var newText = controls.find("textarea").val().trim();
+	
+		var data = {
+			'key': config.apiKey,
+			'text': newText,
+			'list': controls.find("input[name=list]").val().trim(),
+			'tags': controls.find("input[name=tags]").val().trim(),
+			'context': controls.find("input[name=context]").val().trim(),
+		};
+
+		var url = controls.attr("data-update-uri");
+
+		$.ajax({
+			url: url,
+			method: 'POST',
+			data: data,
+			success: function(data) {
+				// Update the label
+				label.html(newText);
+
+				_hideEditControls(item);
+			},
+			error: function(data) {
+				console.log("error :(", data);
+			},
 		});
 
 		return false;
@@ -291,21 +332,7 @@ function _submitSearchTray() {
 				if (data.items.length > 0) {
 					html += '<ul class="items objects">';
 					for (var i=0; i<data.items.length; i++) {
-						var item = data.items[i];
-						html += '<li class="item" data-toggle-item-uri="' + item.toggle_uri + '">';
-						html += '<input id="item-' + item.id + '" type="checkbox"';
-						if (item.checked) {
-							html += ' checked="' + item.checked + '"';
-						}
-						html += '/> ';
-						html += '<div class="wrapper">';
-						html += '<label>' + item.name + '</label>';
-						if (item.notes) {
-							html += '<span class="subtitle">' + item.notes + '</span>';
-						}
-						html += '<span class="subtitle"><a class="context" href="' + item.context_url + '">' + item.context_slug + '</a>&thinsp;<a class="list" href="' + item.list_url + '">' + item.list_slug + '</a></span>';
-						html += '</div>';
-						html += '</li>';
+						html += data.items[i].html;
 					}
 					html += '</ul>';
 				}
