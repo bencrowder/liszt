@@ -77,7 +77,7 @@ Parse a block (a sequence of items with/without list/context specifiers.
     response = []
 
     # Split into groups by newlines
-    for group in [x.strip() for x in block.split('----')]:
+    for group in [x.strip() for x in block.split('\n\n')]:
         group_response = {
             'list': None,
             'sublist': None,
