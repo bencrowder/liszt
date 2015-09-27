@@ -69,7 +69,7 @@ body > header {
 		margin: 8px 0 0;
 
 		a {
-			font-size: 1.4em;
+			font-size: 1.3em;
 			text-decoration: none;
 
 			&:hover {
@@ -82,6 +82,10 @@ body > header {
 			font-size: 1.6em !important;
 			line-height: 1em;
 			margin-top: 5px;
+		}
+
+		a + .main {
+			margin-top: 7px;
 		}
 
 		.context {
@@ -180,6 +184,7 @@ main#content {
 			/* Content wrapper */
 			& > div.wrapper {
 				flex: 1;
+				word-wrap: break-word;
 			}
 
 			/* Handle */
@@ -241,7 +246,7 @@ main#content {
 				> a {
 					color: $list-color;
 					display: block;
-					font-size: 1.5em;
+					font-size: 1.4em;
 					line-height: 1.1em;
 					text-decoration: none;
 
@@ -271,7 +276,7 @@ main#content {
 		li.item {
 			/* Checkbox */
 			input[type=checkbox] {
-				border: solid 1px #bbb;
+				border: solid 1px #ccc;
 				border-radius: 2px;
 				cursor: pointer;
 				font-size: 1.2em;
@@ -281,8 +286,7 @@ main#content {
 				-webkit-appearance: none;
 
 				&:hover {
-					background: hsl(204, 58%, 54%);
-					border-color: hsl(204, 58%, 54%);
+					background: #ccc;
 				}
 
 				&:focus {
