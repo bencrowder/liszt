@@ -124,7 +124,6 @@ def sort_things(request, type):
 
     key = request.POST.get('key', '')
     id_list = [int(x) for x in request.POST.get('ids', '').split(',') if x != '']
-    print(id_list)
 
     # Make sure we have the secret key
     if key != settings.SECRET_KEY:
@@ -199,7 +198,6 @@ def update_item(request, item_id):
                 new_list = new_list[1:]
 
             the_list, the_sublist = parse_list_string(new_list)
-            print(the_list, the_sublist)
 
             if the_sublist is not None:
                 lst = get_or_create_list(ctx, the_sublist, the_list)
