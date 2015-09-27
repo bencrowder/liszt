@@ -75,7 +75,7 @@ class Item(models.Model):
         html += '\t\t</div>\n'
         html += '\t</div>\n'
 
-        if item.starred:
+        if self.starred:
             html += '\t<span class="star">&#x2605;</span>\n'
         
         if sortable:
