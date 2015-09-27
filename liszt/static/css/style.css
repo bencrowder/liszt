@@ -59,33 +59,35 @@ p {
   font-style: normal; }
 body > header {
   background: #2e2e2e;
-  padding: 10px 20px;
-  /* Liszt */ }
-  body > header .controls {
-    float: right; }
-    body > header .controls a {
+  padding: 10px 20px; }
+  body > header > .container {
+    display: flex;
+    /* Liszt */
+    /* Search/add */ }
+    body > header > .container h2 {
+      color: #888;
+      flex: 1;
+      font-size: 1em;
+      font-weight: normal;
+      letter-spacing: 0.05em;
+      line-height: 1.2em;
+      margin: 0;
+      text-transform: uppercase; }
+      body > header > .container h2 a {
+        color: #888;
+        display: inline-block;
+        text-decoration: none; }
+        body > header > .container h2 a:hover {
+          color: #aeaeae; }
+    body > header > .container .controls a {
       color: #999999;
       cursor: pointer;
       text-decoration: none;
       /* Spacing */ }
-      body > header .controls a:hover {
+      body > header > .container .controls a:hover {
         color: #bfbfbf; }
-      body > header .controls a + a {
+      body > header > .container .controls a + a {
         margin-left: 10px; }
-  body > header h2 {
-    color: #888;
-    font-size: 1em;
-    font-weight: normal;
-    letter-spacing: 0.05em;
-    line-height: 1.2em;
-    margin: 0;
-    text-transform: uppercase; }
-    body > header h2 a {
-      color: #888;
-      display: inline-block;
-      text-decoration: none; }
-      body > header h2 a:hover {
-        color: #aeaeae; }
 
 section#page-header {
   background: #eee;
@@ -245,7 +247,7 @@ main#content {
       border-radius: 2px;
       cursor: pointer;
       font-size: 1.2em;
-      margin: 1px 10px 0 0;
+      margin: 2px 11px 0 0;
       width: 20px;
       height: 20px;
       -webkit-appearance: none; }
@@ -261,7 +263,7 @@ main#content {
       color: #333333;
       cursor: pointer;
       flex: 1;
-      font-size: 1.2em;
+      font-size: 1.3em;
       line-height: 1.2em; }
       main#content ul.items li.item label .tag {
         color: #409e24;
