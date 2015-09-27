@@ -173,7 +173,7 @@ $(document).ready(function() {
 
 	function _hideEditControls(item) {
 		var controls = item.parents(".edit-controls");
-		var labels = controls.siblings("> label, > .subtitle");
+		var labels = controls.siblings("label, .subtitle");
 
 		controls.fadeOut(75, function() {
 			labels.fadeIn(75);
