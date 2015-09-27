@@ -42,8 +42,9 @@ body > header {
 	/* Liszt */
 	h2 {
 		color: #888;
-		font-size: .8em;
+		font-size: 1em;
 		font-weight: normal;
+		letter-spacing: 0.05em;
 		line-height: 1.2em;
 		margin: 0;
 		text-transform: uppercase;
@@ -65,9 +66,10 @@ body > header {
 		font-size: 1em;
 		font-weight: normal;
 		line-height: 1.1em;
-		margin: 5px 0 0;
+		margin: 8px 0 0;
 
 		a {
+			font-size: 1.4em;
 			text-decoration: none;
 
 			&:hover {
@@ -77,8 +79,9 @@ body > header {
 
 		.main {
 			display: block;
-			font-size: 1.3em;
-			margin-top: 8px;
+			font-size: 1.6em !important;
+			line-height: 1em;
+			margin-top: 5px;
 		}
 
 		.context {
@@ -134,7 +137,7 @@ body > header {
 
 	textarea {
 		border: none;
-		font-size: 1.2em;
+		font-size: 1.3em;
 		line-height: 1.2em;
 		padding: 15px 0 10px;
 		resize: none;
@@ -170,13 +173,9 @@ main#content {
 		padding: 0;
 
 		li {
-			align-items: baseline;
+			align-items: flex-start;
 			display: flex;
-
-			/* Spacing */
-			& + li {
-				margin-top: $item-spacing;
-			}
+			padding: 8px 0;
 
 			/* Content wrapper */
 			& > div.wrapper {
@@ -187,6 +186,7 @@ main#content {
 			.handle {
 				color: #bbb;
 				cursor: move;
+				font-size: 1.5em;
 				margin-left: 15px;
 			}
 
@@ -194,9 +194,11 @@ main#content {
 			span.subtitle {
 				color: $subtitle-color;
 				display: block;
-				font-size: .8em;
+				font-size: 1em;
+				font-style: italic;
 				line-height: 1.2em;
-				margin-top: 2px;
+				margin-top: 3px;
+				word-wrap: break-word;
 
 				a {
 					text-decoration: none;
@@ -239,7 +241,8 @@ main#content {
 				> a {
 					color: $list-color;
 					display: block;
-					font-size: 1.2em;
+					font-size: 1.5em;
+					line-height: 1.1em;
 					text-decoration: none;
 
 					&:hover {
@@ -268,14 +271,39 @@ main#content {
 		li.item {
 			/* Checkbox */
 			input[type=checkbox] {
+				border: solid 1px #bbb;
+				border-radius: 2px;
+				cursor: pointer;
 				font-size: 1.2em;
-				margin: 0 5px 0 0;
+				margin: 1px 10px 0 0;
 				width: 20px;
+				height: 20px;
+				-webkit-appearance: none;
+
+				&:hover {
+					background: hsl(204, 58%, 54%);
+					border-color: hsl(204, 58%, 54%);
+				}
+
+				&:focus {
+					outline: none;
+				}
+
+				&:checked {
+					background: #444;
+					border-color: #444;
+
+					&:hover {
+						background: hsl(204, 58%, 34%);
+						border-color: hsl(204, 58%, 34%);
+					}
+				}
 			}
 
 			/* Label */
 			label {
 				color: $item-color;
+				cursor: pointer;
 				flex: 1;
 				font-size: 1.2em;
 				line-height: 1.2em;

@@ -1,7 +1,5 @@
 {% extends '_base.html' %}
 
-{% block pageheader %}<span class="main">Home</span>{% endblock pageheader %}
-
 {% block content %}
 <ul class="contexts lists objects sortable" data-sort-uri="{% url 'sort_things' 'context' %}">
     {% for c in contexts %}
