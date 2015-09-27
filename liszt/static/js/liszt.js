@@ -49,7 +49,7 @@ $(document).ready(function() {
 	// Item toggles
 	// --------------------------------------------------
 
-	$("#content").on("click", "ul.items li.item input[type=checkbox]", function() {
+	$("#content").on("tap", "ul.items li.item input[type=checkbox]", function() {
 		var url = $(this).parents("li.item").attr("data-item-uri");
 
 		var data = {
