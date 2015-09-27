@@ -159,7 +159,7 @@ $(document).ready(function() {
 	
 	$("#content").on("doubletap", "li.item .wrapper label", function() {
 		var controls = $(this).siblings(".edit-controls");
-		var labels = $(this).parents(".wrapper:first").find("label, .subtitle");
+		var labels = $(this).parents(".wrapper:first").find("> label, > .subtitle");
 
 		labels.fadeOut(75, function() {
 			controls.fadeIn(75, function () {
@@ -173,7 +173,7 @@ $(document).ready(function() {
 
 	function _hideEditControls(item) {
 		var controls = item.parents(".edit-controls");
-		var labels = controls.siblings("label, .subtitle");
+		var labels = controls.siblings("> label, > .subtitle");
 
 		controls.fadeOut(75, function() {
 			labels.fadeIn(75);
