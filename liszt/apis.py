@@ -105,7 +105,7 @@ def search(request):
     try:
         contexts = [{'id': c.id, 'slug': c.get_display_slug(), 'url': c.get_url(), 'num_lists': c.count_lists()} for c in contexts]
         lists = [{'id': l.id, 'slug': l.get_display_slug(), 'url': l.get_url(), 'num_items': l.count_items(), 'num_lists': l.count_sublists(), 'context_slug': l.get_context().get_display_slug(), 'context_url': l.get_context().get_url(), 'parent_list_slug': l.parent_list.get_display_slug() if l.parent_list else None, 'parent_list_url': l.parent_list.get_url() if l.parent_list else None} for l in lists]
-        items = [{'id': i.id, 'html': i.get_html(sortable=False), 'name': i.text, 'notes': i.get_notes(), 'checked': i.checked, 'toggle_uri': i.get_toggle_uri(), 'context_slug': i.get_context().get_display_slug(), 'context_url': i.get_context().get_url(), 'list_slug': i.parent_list.get_full_display_slug(), 'list_url': i.parent_list.get_url()} for i in items]
+        items = [{'id': i.id, 'html': i.get_html(sortable=False, show_parents=True), 'name': i.text, 'notes': i.get_notes(), 'checked': i.checked, 'toggle_uri': i.get_toggle_uri(), 'context_slug': i.get_context().get_display_slug(), 'context_url': i.get_context().get_url(), 'list_slug': i.parent_list.get_full_display_slug(), 'list_url': i.parent_list.get_url()} for i in items]
     except Exception as e:
         print(e)
 

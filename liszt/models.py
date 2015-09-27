@@ -36,7 +36,7 @@ class Item(models.Model):
         else:
             return ''
 
-    def get_html(self, sortable=True):
+    def get_html(self, sortable=True, show_parents=False):
         html = '<li class="item" data-item-id="{}" data-item-uri="{}">\n'.format(self.id, resolve_url('toggle_item', self.id))
         html += '\t<input id="item-{}" type="checkbox" {} />\n'.format(self.id, 'checked="true"' if self.checked else '')
         html += '\t<div class="wrapper">\n'
@@ -44,6 +44,9 @@ class Item(models.Model):
 
         if self.notes:
             html += '\t\t<span class="subtitle">{}</span>\n'.format(self.get_notes())
+
+        if show_parents:
+            html += '<span class="subtitle"><a class="context" href="{}">{}</a>&thinsp;<a class="list" href="{}">{}</a></span>'.format(self.get_context().get_url(), self.get_context().get_display_slug(), self.parent_list.get_url(), self.parent_list.get_full_display_slug())
 
         html += '\t\t<div class="edit-controls" data-update-uri="{}">\n'.format(resolve_url('update_item', self.id))
         html += '\t\t\t<textarea>{}</textarea>\n'.format(self.text)
