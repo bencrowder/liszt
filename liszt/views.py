@@ -162,7 +162,7 @@ def starred(request):
         this_context = get_context(i.parent_list)
 
         # And append the list
-        contexts[this_context.slug]['items'].append(i.get_html(show_list=True))
+        contexts[this_context.slug]['items'].append(i.get_html(show_list=True, sortable=False))
 
     # Sort contexts by context order
     sorted_contexts = [contexts[k] for k in sorted(contexts, key=lambda k: contexts[k]['context'].order)]
