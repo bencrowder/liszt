@@ -14,4 +14,9 @@
 	</li>
     {% endfor %}
 </ul>
+
+<div class="links">
+	<a class="starred" href="{% url 'starred' %}">&#x2605; starred</a>
+	{% for tag in tags %}{{ tag|safe }}{% endfor %}
+</div>
 {% endblock content %}

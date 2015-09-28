@@ -38,7 +38,7 @@ class Item(models.Model):
             return ''
 
     def get_html(self, sortable=True, show_parents=False):
-        html = '<li class="item" data-item-id="{}" data-item-uri="{}">\n'.format(self.id, resolve_url('toggle_item', self.id))
+        html = '<li class="item" data-item-id="{}" data-item-uri="{}" data-star-item-uri="{}">\n'.format(self.id, resolve_url('toggle_item', self.id), resolve_url('toggle_starred_item', self.id))
         html += '\t<input id="item-{}" type="checkbox" {} />\n'.format(self.id, 'checked="true"' if self.checked else '')
         html += '\t<div class="wrapper">\n'
         html += '\t\t<label>{} {}</label>\n'.format(self.text, ' '.join([t.get_html() for t in self.tags.all()]))
@@ -75,8 +75,7 @@ class Item(models.Model):
         html += '\t\t</div>\n'
         html += '\t</div>\n'
 
-        if self.starred:
-            html += '\t<span class="star">&#x2605;</span>\n'
+        html += '\t<span class="star{}">&#x2605;</span>\n'.format(' hide' if not self.starred else '')
         
         if sortable:
             html += '\t<span class="handle">=</span>\n'
@@ -195,7 +194,10 @@ class Tag(models.Model):
         return resolve_url('tag', self.slug)
 
     def get_html(self):
-        html = '<a class="tag" href="{}">{}</a>'.format(resolve_url('tag', self.slug), self.get_display_slug())
+        if self.slug != '':
+            html = '<a class="tag" href="{}">{}</a>'.format(resolve_url('tag', self.slug), self.get_display_slug())
+        else:
+            html = ''
         return html
 
     def get_active_items(self):

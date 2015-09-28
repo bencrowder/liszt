@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^api/add-items/$', 'liszt.apis.add_items', name='add_items'),
     url(r'^api/search/$', 'liszt.apis.search', name='search'),
     url(r'^api/toggle-item/(?P<item_id>[^\/]+)/$', 'liszt.apis.toggle_item', name='toggle_item'),
+    url(r'^api/toggle-starred-item/(?P<item_id>[^\/]+)/$', 'liszt.apis.toggle_starred_item', name='toggle_starred_item'),
     url(r'^api/update-item/(?P<item_id>[^\/]+)/$', 'liszt.apis.update_item', name='update_item'),
     url(r'^api/sort-things/(?P<type>[^\/]+)/$', 'liszt.apis.sort_things', name='sort_things'),
 
@@ -15,6 +16,7 @@ urlpatterns = [
     url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$', auth_views.logout, name='logout'),
     url(r'^tag/(?P<tag>[^\/]+)/$', 'liszt.views.tag', name='tag'),
+    url(r'^starred/$', 'liszt.views.starred', name='starred'),
     url(r'^(?P<context_slug>[^\/]+)/(?P<list_slug>[^\/]+)/$', 'liszt.views.list_detail', name='list_detail'),
     url(r'^(?P<context_slug>[^\/]+)/$', 'liszt.views.context_detail', name='context_detail'),
 ]

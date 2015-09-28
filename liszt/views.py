@@ -9,9 +9,12 @@ from liszt.models import Item, List, Context, Tag
 def home(request):
     contexts = Context.objects.all()
 
+    tags = [x.get_html() for x in Tag.objects.all()]
+
     context = {
         'title': 'Home',
         'contexts': contexts,
+        'tags': tags,
         'pagetype': 'home',
         'key': settings.SECRET_KEY,
     }
@@ -21,6 +24,54 @@ def home(request):
                               RequestContext(request),
                               )
 
+@login_required
+def list_detail(request, context_slug, list_slug):
+    # Split out sublist if it's there
+    if ':' in list_slug:
+        parent_list_slug, list_slug = list_slug.split(':')
+    else:
+        parent_list_slug = None
+
+    # Get the parent list (if it's a sublist)
+    if parent_list_slug:
+        parent_list = List.objects.get(slug=parent_list_slug, context__slug=context_slug)
+        the_list = List.objects.get(slug=list_slug, parent_list__slug=parent_list_slug)
+    else:
+        # Normal list
+        parent_list = None
+        the_list = List.objects.get(slug=list_slug, context__slug=context_slug)
+
+    context = {
+        'title': ':{}'.format(list_slug),
+        'pagetype': 'list',
+        'list': the_list,
+        'key': settings.SECRET_KEY,
+    }
+
+    if parent_list:
+        context['parent_list'] = parent_list
+
+    return render_to_response('list.html',
+                              context,
+                              RequestContext(request),
+                              )
+
+@login_required
+def context_detail(request, context_slug):
+    # Get the context
+    the_context = Context.objects.get(slug=context_slug)
+
+    context = {
+        'title': '/{}'.format(context_slug),
+        'pagetype': 'context',
+        'ctext': the_context,
+        'key': settings.SECRET_KEY,
+    }
+
+    return render_to_response('context.html',
+                              context,
+                              RequestContext(request),
+                              )
 @login_required
 def tag(request, tag):
     # Get the tag
@@ -77,50 +128,54 @@ def tag(request, tag):
                               )
 
 @login_required
-def list_detail(request, context_slug, list_slug):
-    # Split out sublist if it's there
-    if ':' in list_slug:
-        parent_list_slug, list_slug = list_slug.split(':')
-    else:
-        parent_list_slug = None
+def starred(request):
+    # Get the tag
+    items = Item.objects.filter(starred=True, checked=False)
+    #lists = tag.get_active_lists()
+    contexts = {}
 
-    # Get the parent list (if it's a sublist)
-    if parent_list_slug:
-        parent_list = List.objects.get(slug=parent_list_slug, context__slug=context_slug)
-        the_list = List.objects.get(slug=list_slug, parent_list__slug=parent_list_slug)
-    else:
-        # Normal list
-        parent_list = None
-        the_list = List.objects.get(slug=list_slug, context__slug=context_slug)
+    def get_context(the_list):
+        # Get the context and initialize it
+        this_context = the_list.context or the_list.parent_list.context
+
+        if this_context.slug not in contexts:
+            # Modify the parent function's contexts variable
+            contexts[this_context.slug] = {
+                'context': this_context,
+                'lists': [],
+                'items': [],
+            }
+
+        return this_context
+
+    # Go through the lists first
+    #for l in lists:
+    #    # Get the context and initialize it
+    #    this_context = get_context(l)
+
+    #    # And append the list
+    #    contexts[this_context.slug]['lists'].append(l)
+
+    # Now go through the items
+    for i in items:
+        # Get the context and initialize it
+        this_context = get_context(i.parent_list)
+
+        # And append the list
+        contexts[this_context.slug]['items'].append(i)
+
+    # Sort contexts by context order
+    sorted_contexts = [contexts[k] for k in sorted(contexts, key=lambda k: contexts[k]['context'].order)]
 
     context = {
-        'title': ':{}'.format(list_slug),
-        'pagetype': 'list',
-        'list': the_list,
+        'title': 'Starred'.format(tag),
+        'contexts': sorted_contexts,
+        'pagetype': 'starred',
         'key': settings.SECRET_KEY,
     }
 
-    if parent_list:
-        context['parent_list'] = parent_list
-
-    return render_to_response('list.html',
+    return render_to_response('tag.html',
                               context,
                               RequestContext(request),
                               )
 
-@login_required
-def context_detail(request, context_slug):
-    # Get the context
-    the_context = Context.objects.get(slug=context_slug)
-
-    context = {
-        'title': '/{}'.format(context_slug),
-        'pagetype': 'context',
-        'ctext': the_context,
-        'key': settings.SECRET_KEY,
-    }
-
-    return render_to_response('context.html',
-                              context,
-                              RequestContext(request),
-                              )

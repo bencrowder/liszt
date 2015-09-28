@@ -1,7 +1,11 @@
 {% extends '_base.html' %}
 
 {% block pageheader %}
+{% if tag %}
 <span class="tag main">{{ tag.get_display_slug }}</span>
+{% else %}
+<span class="tag main">&#x2605; starred</span>
+{% endif %}
 {% endblock pageheader %}
 
 {% block content %}

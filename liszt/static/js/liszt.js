@@ -49,6 +49,7 @@ $(document).ready(function() {
 	// Item toggles
 	// --------------------------------------------------
 
+	// Checkbox
 	$("#content").on("tap", "ul.items li.item input[type=checkbox]", function() {
 		var url = $(this).parents("li.item").attr("data-item-uri");
 
@@ -61,6 +62,29 @@ $(document).ready(function() {
 			method: 'GET',
 			data: data,
 			success: function(data) {
+			},
+			error: function(data) {
+				console.log("error :(", data);
+				return false;
+			},
+		});
+	});
+
+	// Starring
+	$("#content").on("press", "li.item .wrapper > label", function() {
+		var url = $(this).parents("li.item").attr("data-star-item-uri");
+		var star = $(this).parents(".wrapper:first").siblings(".star");
+
+		var data = {
+			'key': config.apiKey,
+		};
+
+		$.ajax({
+			url: url,
+			method: 'GET',
+			data: data,
+			success: function(data) {
+				star.toggleClass("hide");
 			},
 			error: function(data) {
 				console.log("error :(", data);
@@ -157,7 +181,7 @@ $(document).ready(function() {
 	// Item editing
 	// --------------------------------------------------
 	
-	$("#content").on("doubletap", "li.item .wrapper label", function() {
+	$("#content").on("doubletap", "li.item .wrapper > label", function() {
 		var controls = $(this).siblings(".edit-controls");
 		var labels = $(this).parents(".wrapper:first").find("> label, > .subtitle");
 

@@ -178,9 +178,18 @@ section#page-header {
 /* -------------------------------------------------- */
 main#content {
   padding: 20px;
+  /* Home page */
   /* Lists */
   /* Items */
   /* Search results */ }
+  main#content .links {
+    font-size: 1.2em; }
+    main#content .links a {
+      color: #409e24;
+      margin-right: 10px;
+      text-decoration: none; }
+      main#content .links a:hover {
+        color: #276016; }
   main#content ul.objects {
     list-style: none;
     margin: 0 0 25px 0;
@@ -191,6 +200,7 @@ main#content {
       display: flex;
       padding: 8px 0;
       /* Content wrapper */
+      /* Star */
       /* Handle */
       /* Subtitle */
       /* Placeholder for sorting */ }
@@ -257,6 +267,11 @@ main#content {
                 color: #bfbfbf; }
             main#content ul.objects li > div.wrapper .buttons .button + .button {
               margin-left: 5px; }
+      main#content ul.objects li .star {
+        color: #eba3c9;
+        font-size: 1.2em; }
+        main#content ul.objects li .star.hide {
+          display: none; }
       main#content ul.objects li .handle {
         color: #bbb;
         cursor: move;

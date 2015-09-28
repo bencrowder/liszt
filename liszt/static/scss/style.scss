@@ -192,6 +192,21 @@ section#page-header {
 main#content {
 	padding: 20px;
 
+	/* Home page */
+	.links {
+		font-size: 1.2em;
+
+		a {
+			color: $tag-color;
+			margin-right: 10px;
+			text-decoration: none;
+
+			&:hover {
+				color: darken($tag-color, 15%);
+			}
+		}
+	}
+
 	ul.objects {
 		list-style: none;
 		margin: 0 0 $group-spacing 0;
@@ -305,6 +320,16 @@ main#content {
 							margin-left: 5px;
 						}
 					}
+				}
+			}
+
+			/* Star */
+			.star {
+				color: hsl(328, 64%, 78%);
+				font-size: 1.2em;
+
+				&.hide {
+					display: none;
 				}
 			}
 
