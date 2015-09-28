@@ -29,6 +29,7 @@
 
 <ul class="items objects sortable" data-sort-uri="{% url 'sort_things' 'item' %}">
     {% for item in list.get_active_items %}
+	{{ item.order }}
 	{{ item.get_html|safe }}
     {% endfor %}
 </ul>

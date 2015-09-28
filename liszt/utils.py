@@ -162,7 +162,7 @@ to the appropriate contexts/lists.
             b_context = default_context
             b_list = default_list
             b_items = block['items']
-            
+
             # Set the context if it's there, otherwise use default
             if block['context'] is not None:
                 b_context = get_or_create_context(block['context'])
@@ -176,7 +176,14 @@ to the appropriate contexts/lists.
 
             # Get the number of items in b_list to use for ordering
             b_list_len = b_list.count_items()
-            
+
+            # Reorder existing items so the new ones show up in order
+            b_num_items = len(b_items)
+            list_items = b_list.get_active_items()
+            for i in list_items:
+                i.order += b_num_items
+                i.save()
+
             # Add items to the specified context/list
             for i, item in enumerate(b_items):
                 b_item = Item()
@@ -184,7 +191,7 @@ to the appropriate contexts/lists.
                 b_item.text = item['label'].strip()
                 if item['notes'] != '':
                     b_item.notes = item['notes']
-                b_item.order = i + b_list_len # Add to the end of the list
+                b_item.order = i
                 b_item.save()
 
                 # Add tags
