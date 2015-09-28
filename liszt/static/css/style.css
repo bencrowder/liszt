@@ -269,7 +269,8 @@ main#content {
               margin-left: 5px; }
       main#content ul.objects li .star {
         color: #eba3c9;
-        font-size: 1.2em; }
+        font-size: 1.2em;
+        margin-left: 10px; }
         main#content ul.objects li .star.hide {
           display: none; }
       main#content ul.objects li .handle {
@@ -337,11 +338,12 @@ main#content {
           border-color: #246189; }
     main#content ul.items li.item label {
       color: #333333;
-      cursor: text;
+      cursor: pointer;
       display: block;
       flex: 1;
       font-size: 1.2em;
-      line-height: 1.2em; }
+      line-height: 1.2em;
+      -webkit-user-select: none; }
       main#content ul.items li.item label .tag {
         color: #409e24;
         font-size: .8em;

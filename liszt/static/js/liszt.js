@@ -45,6 +45,13 @@ $(document).ready(function() {
 		return false;
 	});
 
+	// Starred
+	Mousetrap.bind('g s', function() {
+		window.location.href = config.url + "starred/";
+
+		return false;
+	});
+
 
 	// Item toggles
 	// --------------------------------------------------

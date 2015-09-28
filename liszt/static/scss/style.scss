@@ -327,6 +327,7 @@ main#content {
 			.star {
 				color: hsl(328, 64%, 78%);
 				font-size: 1.2em;
+				margin-left: 10px;
 
 				&.hide {
 					display: none;
@@ -449,11 +450,12 @@ main#content {
 			/* Label */
 			label {
 				color: $item-color;
-				cursor: text;
+				cursor: pointer;
 				display: block;
 				flex: 1;
 				font-size: 1.2em;
 				line-height: 1.2em;
+				-webkit-user-select: none;
 
 				.tag {
 					color: $tag-color;
