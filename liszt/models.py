@@ -37,7 +37,7 @@ class Item(models.Model):
         else:
             return ''
 
-    def get_html(self, sortable=True, show_parents=False):
+    def get_html(self, sortable=True, show_context=False, show_list=False):
         html = '<li class="item" data-item-id="{}" data-item-uri="{}" data-star-item-uri="{}">\n'.format(self.id, resolve_url('toggle_item', self.id), resolve_url('toggle_starred_item', self.id))
         html += '\t<input id="item-{}" type="checkbox" {} />\n'.format(self.id, 'checked="true"' if self.checked else '')
         html += '\t<div class="wrapper">\n'
@@ -46,8 +46,15 @@ class Item(models.Model):
         if self.notes:
             html += '\t\t<span class="subtitle">{}</span>\n'.format(self.get_notes())
 
-        if show_parents:
-            html += '<span class="subtitle"><a class="context" href="{}">{}</a>&thinsp;<a class="list" href="{}">{}</a></span>'.format(self.get_context().get_url(), self.get_context().get_display_slug(), self.parent_list.get_url(), self.parent_list.get_full_display_slug())
+        if show_context or show_list:
+            html += '<span class="subtitle">'
+            if show_context:
+                html += '<a class="context" href="{}">{}</a>'.format(self.get_context().get_url(), self.get_context())
+            if show_context and show_list:
+                html += '&thinsp;'
+            if show_list:
+                html += '<a class="list" href="{}">{}</a></span>'.format(self.parent_list.get_url(), self.parent_list.get_full_display_slug())
+            html += '</span>'
 
         html += '\t\t<div class="edit-controls" data-update-uri="{}">\n'.format(resolve_url('update_item', self.id))
         html += '\t\t\t<textarea>{}</textarea>\n'.format(self.text)

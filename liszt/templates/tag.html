@@ -33,8 +33,8 @@
 
 		{% if c.items|length > 0 %}
 		<ul class="items objects">
-			{% for item in c.items %}
-			{{ item.get_html|safe }}
+			{% for itemhtml in c.items %}
+			{{ itemhtml|safe }}
 			{% endfor %}
 		</ul>
 		{% endif %}
