@@ -325,6 +325,7 @@ main#content {
 
 			/* Star */
 			.star {
+				-webkit-user-select: none;
 				color: hsl(328, 64%, 78%);
 				font-size: 1.2em;
 				margin-left: 10px;
@@ -336,6 +337,7 @@ main#content {
 
 			/* Handle */
 			.handle {
+				-webkit-user-select: none;
 				color: #bbb;
 				cursor: move;
 				font-size: 1.5em;
@@ -423,6 +425,8 @@ main#content {
 		li.item {
 			/* Checkbox */
 			input[type=checkbox] {
+				-webkit-user-select: none;
+				-webkit-appearance: none;
 				border: solid 1px #ccc;
 				border-radius: 2px;
 				cursor: pointer;
@@ -430,7 +434,6 @@ main#content {
 				margin: 2px 11px 0 0;
 				width: 20px;
 				height: 20px;
-				-webkit-appearance: none;
 
 				&:focus {
 					outline: none;
