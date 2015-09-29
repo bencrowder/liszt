@@ -130,7 +130,7 @@ def tag(request, tag):
 @login_required
 def starred(request):
     # Get the tag
-    items = Item.objects.filter(starred=True, checked=False)
+    items = Item.objects.filter(starred=True, checked=False).order_by('parent_list__order', 'parent_list__parent_list__order', 'order')
     #lists = tag.get_active_lists()
     contexts = {}
 
