@@ -206,7 +206,7 @@ def update_item(request, item_id):
         item = Item.objects.get(id=item_id)
 
         # Update the text if it's changed
-        new_text, item_tags, item_notes = parse_item(new_text)
+        new_text, item_tags, item_notes, item_starred = parse_item(new_text)
         if new_text != '' and item.text != new_text:
             item.text = new_text
 
@@ -215,6 +215,9 @@ def update_item(request, item_id):
             item.notes = item_notes
         else:
             item.notes = None
+
+        # Update the starring
+        item.starred = item_starred
 
         # Get or create the context
         if new_context != '':

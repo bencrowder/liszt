@@ -134,12 +134,13 @@ Parse a block (a sequence of items with/without list/context specifiers.
                 # Normal item
 
                 # Get tags and notes
-                label, tags, notes = parse_item(line)
+                label, tags, notes, starred = parse_item(line)
 
                 group_response['items'].append({
                     'label': label,
                     'tags': tags,
                     'notes': notes,
+                    'starred': starred,
                 })
 
         response.append(group_response)
@@ -191,6 +192,8 @@ to the appropriate contexts/lists.
                 b_item.text = item['label'].strip()
                 if item['notes'] != '':
                     b_item.notes = item['notes']
+                if item['starred']:
+                    b_item.starred = True
                 b_item.order = i
                 b_item.save()
 
@@ -212,6 +215,15 @@ def parse_item(item):
     label = []
     tags = []
     notes = ''
+    starred = False
+
+    # Check for starring at beginning or end
+    if item[0:2] == '* ':
+        starred = True
+        item = item[2:]
+    if item[-2:] == ' *':
+        starred = True
+        item = item[:-2]
 
     # Pull out notes if there
     if ':::' in item:
@@ -226,4 +238,4 @@ def parse_item(item):
             # Not a tag
             label.append(token)
 
-    return (' '.join(label).strip(), tags, notes)
+    return (' '.join(label).strip(), tags, notes, starred)
