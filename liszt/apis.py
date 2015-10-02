@@ -129,6 +129,7 @@ def search(request):
     contexts = []
     lists = []
     items = []
+    ctext = None
 
     # Selector
     if query[0] in ['/', ':']:
