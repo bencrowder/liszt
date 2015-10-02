@@ -126,9 +126,44 @@ def search(request):
 
     query = request.GET.get('q', '').strip()
 
-    contexts = Context.objects.filter(slug__icontains=query, status='active')[:5]
-    lists = List.objects.filter(slug__icontains=query, status='active')[:5]
-    items = Item.objects.filter(text__icontains=query, checked=False)[:5]
+    contexts = []
+    lists = []
+    items = []
+
+    # Selector
+    if query[0] in ['/', ':']:
+        the_context, the_list, the_sublist = parse_selector(query)
+
+        if the_context:
+            # Yes context
+            if the_list:
+                # List specified, so get exact context
+                ctext = Context.objects.get(slug=the_context, status='active')
+            else:
+                # Get list of contexts that match
+                contexts = Context.objects.filter(slug__istartswith=the_context, status='active')[:5]
+
+        if the_list:
+            # List specified
+            if ctext:
+                # Context specified
+                lists = List.objects.filter(slug__istartswith=the_list, context=ctext, status='active')[:5]
+            else:
+                # Context not specified
+                lists = List.objects.filter(slug__istartswith=the_list, status='active')[:5]
+
+        if the_sublist:
+            # Sublist specified
+            if ctext:
+                # Context specified
+                lists = List.objects.filter(slug__istartswith=the_sublist, parent_list__slug=the_list, context=ctext, status='active')[:5]
+            else:
+                # Context not specified
+                lists = List.objects.filter(slug__istartswith=the_sublist, parent_list__slug=the_list, status='active')[:5]
+    else:
+        contexts = Context.objects.filter(slug__icontains=query, status='active')[:5]
+        lists = List.objects.filter(slug__icontains=query, status='active')[:5]
+        items = Item.objects.filter(text__icontains=query, checked=False)[:5]
 
     # Serialize it
     try:

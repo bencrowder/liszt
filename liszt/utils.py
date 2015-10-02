@@ -15,6 +15,26 @@ def parse_list_string(list_string):
 
     return the_list, the_sublist
 
+def parse_selector(selector):
+    context = None
+    the_list = None
+    the_sublist = None
+    items = selector.split(':')
+    
+    # Context
+    if items[0] != '':
+        # Initial context, strip off /
+        context = items[0][1:]
+
+    # List
+    if len(items) > 1:
+        the_list = items[1]
+
+        if len(items) > 2:
+            the_sublist = items[2]
+
+    return context, the_list, the_sublist
+
 def get_or_create_tag(tag_slug):
     tag = None
 
