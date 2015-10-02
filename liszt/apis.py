@@ -206,8 +206,15 @@ def update_item(request, item_id):
         item = Item.objects.get(id=item_id)
 
         # Update the text if it's changed
+        new_text, item_tags, item_notes = parse_item(new_text)
         if new_text != '' and item.text != new_text:
             item.text = new_text
+
+        # Update the notes
+        if item_notes:
+            item.notes = item_notes
+        else:
+            item.notes = None
 
         # Get or create the context
         if new_context != '':

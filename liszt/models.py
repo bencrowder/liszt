@@ -37,6 +37,13 @@ class Item(models.Model):
         else:
             return ''
 
+    def get_text_with_notes(self):
+        response = self.text
+        if self.notes and self.notes != '':
+            response += ' ::: {}'.format(self.notes)
+
+        return response
+
     def get_html(self, sortable=True, show_context=False, show_list=False):
         html = '<li class="item" data-item-id="{}" data-item-uri="{}" data-star-item-uri="{}">\n'.format(self.id, resolve_url('toggle_item', self.id), resolve_url('toggle_starred_item', self.id))
         html += '\t<input id="item-{}" type="checkbox" {} />\n'.format(self.id, 'checked="true"' if self.checked else '')
@@ -57,7 +64,7 @@ class Item(models.Model):
             html += '</span>'
 
         html += '\t\t<div class="edit-controls" data-update-uri="{}">\n'.format(resolve_url('update_item', self.id))
-        html += '\t\t\t<textarea>{}</textarea>\n'.format(self.text)
+        html += '\t\t\t<textarea>{}</textarea>\n'.format(self.get_text_with_notes())
 
         html += '\t\t\t<div class="group list">\n'
         html += '\t\t\t\t<label>List</label>\n'
