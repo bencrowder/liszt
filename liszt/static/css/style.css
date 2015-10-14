@@ -79,7 +79,7 @@ body > header {
           color: #f2f2f2; }
 
 section#page-header {
-  background: #eee;
+  background: #f7f7f7;
   padding: 15px 20px 15px;
   /* Page title */ }
   section#page-header h1 {
@@ -102,9 +102,9 @@ section#page-header {
         section#page-header h1 a.list:hover {
           color: #0a418a; }
       section#page-header h1 a.tag {
-        color: #409e24; }
+        color: #3b9b59; }
         section#page-header h1 a.tag:hover {
-          color: #276016; }
+          color: #266439; }
     section#page-header h1 .main {
       display: block;
       font-size: 1.6em !important;
@@ -116,7 +116,7 @@ section#page-header {
     section#page-header h1 span.list {
       color: #0f63d2; }
     section#page-header h1 span.tag {
-      color: #409e24; }
+      color: #3b9b59; }
 
 .container {
   margin: 0px auto;
@@ -174,11 +174,11 @@ main#content {
   main#content .links {
     font-size: 1.2em; }
     main#content .links a {
-      color: #409e24;
+      color: #3b9b59;
       margin-right: 10px;
       text-decoration: none; }
       main#content .links a:hover {
-        color: #276016; }
+        color: #266439; }
   main#content ul.objects {
     list-style: none;
     margin: 0 0 25px 0;
@@ -233,7 +233,7 @@ main#content {
             main#content ul.objects li > div.wrapper .edit-controls .group.list input {
               color: #0f63d2; }
             main#content ul.objects li > div.wrapper .edit-controls .group.tag input {
-              color: #409e24; }
+              color: #3b9b59; }
         main#content ul.objects li > div.wrapper .buttons {
           display: flex;
           margin-top: 10px; }
@@ -337,11 +337,11 @@ main#content {
       line-height: 1.2em;
       -webkit-user-select: none; }
       main#content ul.items li.item label .tag {
-        color: #409e24;
+        color: #3b9b59;
         font-size: .8em;
         text-decoration: none; }
         main#content ul.items li.item label .tag:hover {
-          color: #276016; }
+          color: #266439; }
   main#content .results h2 {
     border-bottom: solid 1px #ddd;
     color: #ccc;
