@@ -94,9 +94,9 @@ section#page-header {
       section#page-header h1 a:hover {
         color: #444; }
       section#page-header h1 a.context {
-        color: #de9173; }
+        color: #de7398; }
         section#page-header h1 a.context:hover {
-          color: #d9815e; }
+          color: #d95e89; }
       section#page-header h1 a.list {
         color: #3bbbf1; }
         section#page-header h1 a.list:hover {
@@ -112,7 +112,7 @@ section#page-header {
     section#page-header h1 a + .main {
       margin-top: 7px; }
     section#page-header h1 span.context {
-      color: #de9173; }
+      color: #de7398; }
     section#page-header h1 span.list {
       color: #3bbbf1; }
     section#page-header h1 span.tag {
@@ -229,7 +229,7 @@ main#content {
             main#content ul.objects li > div.wrapper .edit-controls .group + .group {
               margin-top: 10px; }
             main#content ul.objects li > div.wrapper .edit-controls .group.context input {
-              color: #d06035; }
+              color: #d0356b; }
             main#content ul.objects li > div.wrapper .edit-controls .group.list input {
               color: #0f97d2; }
             main#content ul.objects li > div.wrapper .edit-controls .group.tag input {
@@ -280,9 +280,9 @@ main#content {
         main#content ul.objects li span.subtitle a {
           text-decoration: none; }
           main#content ul.objects li span.subtitle a.context {
-            color: #d06035; }
+            color: #d0356b; }
             main#content ul.objects li span.subtitle a.context:hover {
-              color: #954323; }
+              color: #95234b; }
           main#content ul.objects li span.subtitle a.list {
             color: #0f97d2; }
             main#content ul.objects li span.subtitle a.list:hover {
@@ -304,9 +304,9 @@ main#content {
         main#content ul.lists li.list .wrapper > a:hover {
           color: #0a648a; }
     main#content ul.lists.contexts li.list a {
-      color: #d06035; }
+      color: #d0356b; }
       main#content ul.lists.contexts li.list a:hover {
-        color: #954323; }
+        color: #95234b; }
   main#content ul.items li.item {
     /* Checkbox */
     /* Label */ }
