@@ -40,7 +40,10 @@
 <body>
 	<header>
 		<div class="container">
-			<h2><a href="{% url 'home' %}">Liszt</a></h2>
+			<div class="controls left">
+				<a href="{% url 'home' %}">Home</a>
+				<a class="starred" href="{% url 'starred' %}">&#x2605;</a>
+			</div>
 
 			<div class="controls">
 				<a href="" class="search-button">Search</a>

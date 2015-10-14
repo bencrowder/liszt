@@ -194,6 +194,10 @@ to the appropriate contexts/lists.
                     b_list = get_or_create_list(b_context, block['sublist'], block['list'])
                 else:
                     b_list = get_or_create_list(b_context, block['list'])
+            else:
+                if block['context'] != None:
+                    # Use inbox as default
+                    b_list = get_or_create_list(b_context, 'inbox')
 
             # Get the number of items in b_list to use for ordering
             b_list_len = b_list.count_items()

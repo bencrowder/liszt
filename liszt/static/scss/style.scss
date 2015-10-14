@@ -18,48 +18,30 @@
 
 body > header {
 	background: hsl(0, 0%, 18%);
-	padding: 10px 20px;
+	padding: 0 20px;
 
 	& > .container {
 		display: flex;
-
-		/* Liszt */
-		h2 {
-			color: #888;
-			flex: 1;
-			font-size: 1.1em;
-			font-weight: normal;
-			letter-spacing: 0.05em;
-			line-height: 1.2em;
-			margin: 0;
-			text-transform: uppercase;
-
-			a {
-				color: #888;
-				display: inline-block;
-				text-decoration: none;
-
-				&:hover {
-					color: lighten(#888, 15%);
-				}
-			}
-		}
 		
-		/* Search/add */
 		.controls {
+			margin-right: -10px;
+
+			&.left {
+				flex: 1;
+				margin-left: -10px;
+				margin-right: 0;
+			}
+
 			a {
 				color: $header-controls-color;
 				cursor: pointer;
+				display: inline-block;
 				font-size: 1.1em;
+				padding: 13px 10px 14px;
 				text-decoration: none;
 
 				&:hover {
 					color: lighten($header-controls-color, 15%);
-				}
-
-				/* Spacing */
-				& + a {
-					margin-left: 10px;
 				}
 			}
 		}

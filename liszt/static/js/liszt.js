@@ -64,11 +64,14 @@ $(document).ready(function() {
 			'key': config.apiKey,
 		};
 
+		var item = $(this);
+
 		$.ajax({
 			url: url,
 			method: 'GET',
 			data: data,
 			success: function(data) {
+				item.prop("checked", !item.prop("checked"));
 			},
 			error: function(data) {
 				console.log("error :(", data);

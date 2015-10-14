@@ -59,36 +59,24 @@ p {
   font-style: normal; }
 body > header {
   background: #2e2e2e;
-  padding: 10px 20px; }
+  padding: 0 20px; }
   body > header > .container {
-    display: flex;
-    /* Liszt */
-    /* Search/add */ }
-    body > header > .container h2 {
-      color: #888;
-      flex: 1;
-      font-size: 1.1em;
-      font-weight: normal;
-      letter-spacing: 0.05em;
-      line-height: 1.2em;
-      margin: 0;
-      text-transform: uppercase; }
-      body > header > .container h2 a {
-        color: #888;
+    display: flex; }
+    body > header > .container .controls {
+      margin-right: -10px; }
+      body > header > .container .controls.left {
+        flex: 1;
+        margin-left: -10px;
+        margin-right: 0; }
+      body > header > .container .controls a {
+        color: #cccccc;
+        cursor: pointer;
         display: inline-block;
+        font-size: 1.1em;
+        padding: 13px 10px 14px;
         text-decoration: none; }
-        body > header > .container h2 a:hover {
-          color: #aeaeae; }
-    body > header > .container .controls a {
-      color: #999999;
-      cursor: pointer;
-      font-size: 1.1em;
-      text-decoration: none;
-      /* Spacing */ }
-      body > header > .container .controls a:hover {
-        color: #bfbfbf; }
-      body > header > .container .controls a + a {
-        margin-left: 10px; }
+        body > header > .container .controls a:hover {
+          color: #f2f2f2; }
 
 section#page-header {
   background: #eee;
