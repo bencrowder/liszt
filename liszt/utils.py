@@ -63,7 +63,7 @@ def get_or_create_context(context_slug):
         try:
             context = Context()
             context.slug = context_slug
-            context.order = 50000 # put at end
+            context.order = 0 # put at beginning
             context.save()
         except Exception as e:
             print("Couldn't create context", e)
@@ -82,7 +82,7 @@ def get_or_create_list(context, list_slug, parent_list_slug=None):
                 # New sublist
                 the_list = List()
                 the_list.slug = list_slug
-                the_list.order = 50000 # put at end
+                the_list.order = 0 # put at beginning
                 the_list.parent_list = parent_list
                 the_list.context = context
                 the_list.save()
@@ -93,7 +93,7 @@ def get_or_create_list(context, list_slug, parent_list_slug=None):
         try:
             the_list = List()
             the_list.slug = list_slug
-            the_list.order = 50000 # put at end
+            the_list.order = 0 # put at beginning
             the_list.context = context
 
             if parent_list_slug:
@@ -104,7 +104,7 @@ def get_or_create_list(context, list_slug, parent_list_slug=None):
                     # Parent list not found, so create it
                     parent_list = List()
                     parent_list.slug = parent_list_slug
-                    parent_list.order = 50000 # put at end
+                    parent_list.order = 0 # put at beginning
                     parent_list.context = context
                     parent_list.save()
 
