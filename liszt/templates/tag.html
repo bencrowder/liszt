@@ -2,7 +2,7 @@
 
 {% block pageheader %}
 {% if tag %}
-<span class="tag main">{{ tag.get_display_slug }}</span>
+<span class="tag main">{{ tag.get_display_slug|safe }}</span>
 {% else %}
 <span class="tag main">&#x2605; starred</span>
 {% endif %}
@@ -13,7 +13,7 @@
 		<ul class="contexts lists objects heading" data-sort-uri="{% url 'sort_things' 'context' %}">
 			<li class="list" data-object-id="{{ c.context.id }}">
 				<div class="wrapper">
-					<a href="{% url 'context_detail' c.context.slug %}">{{ c.context.get_display_slug }}</a>
+					<a href="{% url 'context_detail' c.context.slug %}">{{ c.context.get_display_slug|safe }}</a>
 				</div>
 			</li>
 		</ul>

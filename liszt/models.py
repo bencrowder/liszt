@@ -26,7 +26,7 @@ class Item(models.Model):
     def get_tags(self):
         """ Returns tags in form "#tag1 #tag2" """
 
-        return ' '.join([t.get_display_slug() for t in self.tags.all()])
+        return ' '.join(['#{}'.format(t.slug) for t in self.tags.all()])
 
     def get_context(self):
         return self.parent_list.context or self.parent_list.parent_list.context
@@ -134,7 +134,7 @@ class List(models.Model):
         return self.context or self.parent_list.context
 
     def get_display_slug(self):
-        return ':{}'.format(self.slug)
+        return '<span class="selector">:</span>{}'.format(self.slug)
 
     def get_full_slug(self):
         if self.parent_list:
@@ -145,7 +145,7 @@ class List(models.Model):
             return self.slug
 
     def get_full_display_slug(self):
-        return ':{}'.format(self.get_full_slug())
+        return '<span class="selector">:</span>{}'.format(self.get_full_slug())
 
     def get_active_items(self):
         return self.items.filter(checked=False)
@@ -183,7 +183,7 @@ class Context(models.Model):
         return resolve_url('context_detail', self.slug)
 
     def get_display_slug(self):
-        return "/{}".format(self.slug)
+        return '<span class="selector">/</span>{}'.format(self.slug)
 
     def get_active_lists(self):
         return self.lists.filter(status='active', parent_list=None)
@@ -202,7 +202,7 @@ class Tag(models.Model):
         return self.slug
 
     def get_display_slug(self):
-        return '#{}'.format(self.slug)
+        return '<span class="selector">#</span>{}'.format(self.slug)
 
     def get_url(self):
         return resolve_url('tag', self.slug)

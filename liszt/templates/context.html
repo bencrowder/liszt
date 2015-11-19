@@ -1,7 +1,7 @@
 {% extends '_base.html' %}
 
 {% block pageheader %}
-<span class="context main">{{ ctext.get_display_slug }}</span>
+<span class="context main">{{ ctext.get_display_slug|safe }}</span>
 <div class="hidden" id="page-data" data-type="context" data-context-slug="{{ ctext.slug }}"></div>
 {% endblock pageheader %}
 
@@ -10,7 +10,7 @@
     {% for list in ctext.get_active_lists %}
 	<li class="list" data-object-id="{{ list.id }}">
 		<div class="wrapper">
-			<a href="{% url 'list_detail' list.context.slug list.slug %}">{{ list.get_display_slug }}</a>
+			<a href="{% url 'list_detail' list.context.slug list.slug %}">{{ list.get_display_slug|safe }}</a>
 			<span class="subtitle">{{ list.count_items }} item{% if list.count_items != 1 %}s{% endif %}{% if list.count_sublists %}, {{ list.count_sublists }} list{% if list.count_sublists != 1 %}s{% endif %}{% endif %}</span>
 		</div>
 		<span class="handle">=</span>

@@ -6,11 +6,21 @@
 @import "_login.scss";
 
 @mixin header-color($color) {
-	color: lighten($color, 15%);
+	color: #fff;
+
+	span.selector {
+		color: desaturate($color, 30);
+		margin-right: 1px;
+	}
 }
 
 @mixin header-link-color($color) {
-	color: lighten($color, 15%);
+	color: #fff;
+
+	span.selector {
+		color: desaturate($color, 30);
+		margin-right: 1px;
+	}
 
 	&:hover {
 		color: lighten($color, 10%);
@@ -18,7 +28,7 @@
 }
 
 body > header {
-	background: hsl(0, 0%, 18%);
+	background: hsl(216, 13%, 21%);
 	padding: 0 20px;
 
 	& > .container {
@@ -37,12 +47,31 @@ body > header {
 				color: $header-controls-color;
 				cursor: pointer;
 				display: inline-block;
-				font-size: 1.1em;
+				font-size: 1.5em;
 				padding: 13px 10px 14px;
 				text-decoration: none;
 
 				&:hover {
-					color: lighten($header-controls-color, 15%);
+					color: lighten($header-controls-color, 25%);
+				}
+
+				&.home {
+					line-height: 11px;
+					vertical-align: top;
+				}
+
+				svg {
+					cursor: pointer;
+					height: .8em;
+					width: .8em;
+
+					path {
+						fill: $header-controls-color;
+					}
+
+					&:hover path {
+						fill: lighten($header-controls-color, 25%);
+					}
 				}
 			}
 		}
@@ -50,8 +79,9 @@ body > header {
 }
 
 section#page-header {
-	background: hsl(0, 0%, 23%);
-	padding: 15px 20px 15px;
+	background: hsl(219, 13%, 21%);
+	border-bottom: solid 5px hsl(96, 41%, 61%);
+	padding: 6px 20px 15px;
 
 	/* Page title */
 	h1 {
@@ -141,7 +171,7 @@ section#page-header {
 
 /* Add tray */
 #add-tray {
-	border-bottom: solid 5px $list-color;
+	border-bottom: solid 5px hsl(205, 43%, 66%);
 
 	textarea {
 		border: none;
