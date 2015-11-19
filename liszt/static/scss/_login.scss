@@ -1,0 +1,41 @@
+/* Login page */
+
+form.login {
+	margin-top: 1em;
+	padding-bottom: 1em;
+}
+
+form.login .group label {
+	color: #888;
+	display: block;
+	margin-bottom: .2em;
+}
+
+form.login .group section {
+	margin-bottom: 1em;
+}
+
+form.login .group section input[type=text] {
+	font-size: 1.3em;
+	padding: 3px 5px;
+}
+
+form.login .group section input[type=password] {
+	font-size: 1.3em;
+	padding: 3px 5px;
+}
+
+form.login input.button {
+	background: hsl(200, 48%, 59%);
+	border: none;
+	border-radius: 5px;
+	color: #fff;
+	cursor: pointer;
+	font-size: 1em;
+	padding: 4px 10px 6px;
+	-webkit-appearance: none;
+}
+
+form.login input.button:hover {
+	background: #444;
+}

@@ -4,6 +4,9 @@
 
 {% block header_title %}<span>Login</span>{% endblock header_title %}
 
+{% block siteheader %}{% endblock siteheader %}
+{% block pageheaderwrapper %}{% endblock pageheaderwrapper %}
+
 {% block content %}
 <div class="container login">
 	{% if form.errors %}
@@ -12,10 +15,23 @@
 
 	<form method='post' action="{% url 'django.contrib.auth.views.login' %}" class="login">
 		{% csrf_token %}
-		{{ form.as_p }}
 
-		<input type="submit" class="button" value="Log in" />
+		<input type="hidden" name="next" value="{{ next }}" />
+		<div class="group">
+			<label>{{ form.username.label_tag }}</label>
+			<section>
+				{{ form.username }}
+			</section>
+		</div>
 
+		<div class="group">
+			<label>{{ form.password.label_tag }}</label>
+			<section>
+				{{ form.password }}
+			</section>
+		</div>
+		
+		<input type="submit" value="Log in" class="button" />
 		<input type="hidden" name="next" value="{{ next }}" />
 	</form>
 </div>
