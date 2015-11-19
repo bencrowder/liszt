@@ -4,7 +4,7 @@
 {% if tag %}
 <span class="tag main">{{ tag.get_display_slug|safe }}</span>
 {% else %}
-<span class="tag main">&#x2605; starred</span>
+<span class="tag main"><span class="selector">&#x2605;</span> starred</span>
 {% endif %}
 {% endblock pageheader %}
 
