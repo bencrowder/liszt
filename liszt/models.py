@@ -68,7 +68,7 @@ class Item(models.Model):
 
         html += '\t\t\t<div class="group list">\n'
         html += '\t\t\t\t<label>List</label>\n'
-        html += '\t\t\t\t<input name="list" type="text" value="{}" />\n'.format(self.parent_list.get_full_display_slug())
+        html += '\t\t\t\t<input name="list" type="text" value="{}" />\n'.format(self.parent_list.get_full_display_slug(html=False))
         html += '\t\t\t</div>\n'
 
         html += '\t\t\t<div class="group tag">\n'
@@ -78,7 +78,7 @@ class Item(models.Model):
 
         html += '\t\t\t<div class="group context">\n'
         html += '\t\t\t\t<label>Context</label>\n'
-        html += '\t\t\t\t<input name="context" type="text" value="{}" />\n'.format(self.get_context().get_display_slug())
+        html += '\t\t\t\t<input name="context" type="text" value="{}" />\n'.format(self.get_context().get_display_slug(html=False))
         html += '\t\t\t</div>\n'
 
         html += '\t\t\t<div class="buttons">\n'
@@ -133,19 +133,28 @@ class List(models.Model):
     def get_context(self):
         return self.context or self.parent_list.context
 
-    def get_display_slug(self):
-        return '<span class="selector">:</span>{}'.format(self.slug)
+    def get_display_slug(self, html=True):
+        if html:
+            return '<span class="selector">:</span>{}'.format(self.slug)
+        else:
+            return ':{}'.format(self.slug)
 
-    def get_full_slug(self):
+    def get_full_slug(self, html=True):
         if self.parent_list:
             # For sublists
-            return '{}:{}'.format(self.parent_list.slug, self.slug)
+            if html:
+                return '{}<span class="selector">:</span>{}'.format(self.parent_list.slug, self.slug)
+            else:
+                return '{}:{}'.format(self.parent_list.slug, self.slug)
         else:
             # Normal lists
             return self.slug
 
-    def get_full_display_slug(self):
-        return '<span class="selector">:</span>{}'.format(self.get_full_slug())
+    def get_full_display_slug(self, html=True):
+        if html:
+            return '<span class="selector">:</span>{}'.format(self.get_full_slug())
+        else:
+            return ':{}'.format(self.get_full_slug(html=False))
 
     def get_active_items(self):
         return self.items.filter(checked=False)
@@ -182,8 +191,11 @@ class Context(models.Model):
     def get_url(self):
         return resolve_url('context_detail', self.slug)
 
-    def get_display_slug(self):
-        return '<span class="selector">/</span>{}'.format(self.slug)
+    def get_display_slug(self, html=True):
+        if html:
+            return '<span class="selector">/</span>{}'.format(self.slug)
+        else:
+            return '/{}'.format(self.slug)
 
     def get_active_lists(self):
         return self.lists.filter(status='active', parent_list=None)
