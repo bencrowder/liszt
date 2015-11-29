@@ -126,7 +126,7 @@ class List(models.Model):
 
     def get_url(self):
         if self.parent_list:
-            return resolve_url('list_detail', self.parent_list.context.slug, self.get_full_slug())
+            return resolve_url('list_detail', self.parent_list.context.slug, self.get_full_slug(html=False))
         else:
             return resolve_url('list_detail', self.context.slug, self.slug)
 
@@ -150,6 +150,8 @@ class List(models.Model):
             # Normal lists
             return self.slug
 
+    def get_full_text_slug(self):
+        return self.get_full_slug(html=False)
     def get_full_display_slug(self, html=True):
         if html:
             return '<span class="selector">:</span>{}'.format(self.get_full_slug())

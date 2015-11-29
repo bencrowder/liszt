@@ -18,7 +18,7 @@
     {% for sublist in list.get_active_sublists %}
 	<li class="list" data-object-id="{{ sublist.id }}">
 		<div class="wrapper">
-			<a href="{% url 'list_detail' list.context.slug sublist.get_full_slug %}">{{ sublist.get_display_slug|safe }}</a>
+			<a href="{% url 'list_detail' list.context.slug sublist.get_full_text_slug %}">{{ sublist.get_display_slug|safe }}</a>
 			<span class="subtitle">{{ sublist.count_items }} item{% if sublist.count_items != 1 %}s{% endif %}</span>
 		</div>
 		<span class="handle">=</span>
