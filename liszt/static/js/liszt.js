@@ -104,6 +104,11 @@ $(document).ready(function() {
 		return false;
 	});
 
+	// Overview
+	Mousetrap.bind('g o', function() {
+		window.location.href = $("nav[role=menu] .overview-link").attr("href");
+	});
+
 
 	// Item toggles
 	// --------------------------------------------------
