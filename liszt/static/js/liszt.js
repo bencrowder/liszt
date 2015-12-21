@@ -224,14 +224,24 @@ $(document).ready(function() {
 		return false;
 	});
 
+	var fields = document.querySelectorAll('.edit-controls textarea');
+	for (var i=0; i<fields.length; i++) {
+		Mousetrap(fields[i]).bind('esc', function(e) {
+			_hideEditControls($(e.target))
+		});
+
+		Mousetrap(fields[i]).bind(['mod+enter', 'shift+enter', 'enter'], function(e) {
+			_saveItem($(e.target))
+		});
+	}
+
 	// Save
-	$("#content").on("tap", "li.item .wrapper .edit-controls .save", function() {
-		var controls = $(this).parents(".edit-controls");
+	function _saveItem(item) {
+		var controls = item.parents(".edit-controls");
 
 		var url = controls.attr("data-update-uri");
 
 		var label = controls.siblings("label");
-		var item = $(this);
 
 		var newText = controls.find("textarea.item-text").val().trim();
 		var metadata = controls.find("textarea.item-metadata").val().trim();
@@ -262,6 +272,12 @@ $(document).ready(function() {
 				console.log("error :(", data);
 			},
 		});
+
+		return false;
+	}
+
+	$("#content").on("tap", "li.item .wrapper .edit-controls .save", function() {
+		_saveItem($(this));
 
 		return false;
 	});
