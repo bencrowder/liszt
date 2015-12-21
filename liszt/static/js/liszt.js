@@ -97,6 +97,13 @@ $(document).ready(function() {
 		return false;
 	});
 
+	$("a#toggle-dark-mode").on("click", function() {
+		$("body").toggleClass("dark");
+		_toggleMenu();
+
+		return false;
+	});
+
 
 	// Item toggles
 	// --------------------------------------------------
