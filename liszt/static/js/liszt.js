@@ -1,10 +1,37 @@
 $(document).ready(function() {
-	// Autosize for add tray
-	autosize($("#add-tray textarea"));
+	// Menu code
+	// --------------------------------------------------
+
+	function _toggleMenu() {
+		$("body").toggleClass("active-nav");
+	}
+
+	function _showMenu() {
+		$("body").addClass("active-nav");
+	}
+
+	function _hideMenu() {
+		$("body").removeClass("active-nav");
+	}
+
+	$("a.menu").on("click touchstart", function() {
+		_toggleMenu();
+		return false;
+	});
+
+	$(".mask").on("click touchstart", function(e) {
+		_hideMenu();
+		return false;
+	});
+
+	Mousetrap.bind('g m', _toggleMenu);
 
 
 	// Add tray
 	// --------------------------------------------------
+
+	// Autosize for add tray
+	autosize($("#add-tray textarea"));
 
 	$("#add-tray a#save-button").on("click", _submitAddTray);
 

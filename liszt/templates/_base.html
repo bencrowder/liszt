@@ -38,49 +38,72 @@
 </head>
 
 <body data-parent-uri="{{ parent_uri }}">
-	{% block siteheader %}
-	<header>
-		<div class="container">
-			<div class="controls left">
-				<a class="home" href="{% url 'home' %}">…</a>
-				<a class="starred" href="{% url 'starred' %}">&#x2605;</a>
+	<div class="wrapper">
+		{% block menu %}
+		{% if request.user.username %}
+		<nav role="menu">
+			<div class="group">
+				<a href="{% url 'home' %}">Home</a>
 			</div>
 
-			<div class="controls">
-				<a href="" class="search-button"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32" viewBox="0 0 32 32"><path d="M31.008 27.231l-7.58-6.447c-0.784-0.705-1.622-1.029-2.299-0.998 1.789-2.096 2.87-4.815 2.87-7.787 0-6.627-5.373-12-12-12s-12 5.373-12 12 5.373 12 12 12c2.972 0 5.691-1.081 7.787-2.87-0.031 0.677 0.293 1.515 0.998 2.299l6.447 7.58c1.104 1.226 2.907 1.33 4.007 0.23s0.997-2.903-0.23-4.007zM12 20c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z" fill="#fff"></path></svg></a>
-				<a href="" class="add-button">+</a>
+			<div class="group">
+				<a href="{% url 'starred' %}">&#x2605;</a>
 			</div>
-		</div>
-	</header>
-	{% endblock siteheader %}
 
-	{% block pageheaderwrapper %}
-	<section id="page-header">
-		<div class="container">
-			<h1>{% block pageheader %}{% endblock pageheader %}</h1>
-		</div>
-	</section>
-	{% endblock pageheaderwrapper %}
+			<div class="group system">
+				<a href="{% url 'logout' %}">Logout</a>
+			</div>
+		</nav>
+		{% endif %}
+		{% endblock menu %}
 
-	<section id="search-tray" class="tray" data-uri="{% url 'search' %}">
-		<div class="container">
-			<input type="text" />
-		</div>
-	</section>
+		<section id="page">
+			<div class="mask"></div>
 
-	<section id="add-tray" class="tray" data-uri="{% url 'add_items' %}">
-		<div class="container">
-			<textarea></textarea>
+			{% block siteheader %}
+			<header role="banner">
+				<div class="container">
+					<div class="controls left">
+						<a class="menu" href="">&hellip;</a>
+					</div>
 
-			<a id="save-button" class="button" href="">Save</a>
-		</div>
-	</section>
+					<div class="controls">
+						<a href="" class="search-button"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="32" height="32" viewBox="0 0 32 32"><path d="M31.008 27.231l-7.58-6.447c-0.784-0.705-1.622-1.029-2.299-0.998 1.789-2.096 2.87-4.815 2.87-7.787 0-6.627-5.373-12-12-12s-12 5.373-12 12 5.373 12 12 12c2.972 0 5.691-1.081 7.787-2.87-0.031 0.677 0.293 1.515 0.998 2.299l6.447 7.58c1.104 1.226 2.907 1.33 4.007 0.23s0.997-2.903-0.23-4.007zM12 20c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z" fill="#fff"></path></svg></a>
+						<a href="" class="add-button">+</a>
+					</div>
+				</div>
+			</header>
+			{% endblock siteheader %}
 
-	<main id="content">
-		<div class="container">
-			<div class="results"></div>
-			<div class="wrapper">{% block content %}{% endblock content %}</div>
-		</div>
-	</main>
+			{% block pageheaderwrapper %}
+			<section id="page-header">
+				<div class="container">
+					<h1>{% block pageheader %}{% endblock pageheader %}</h1>
+				</div>
+			</section>
+			{% endblock pageheaderwrapper %}
+
+			<section id="search-tray" class="tray" data-uri="{% url 'search' %}">
+				<div class="container">
+					<input type="text" />
+				</div>
+			</section>
+
+			<section id="add-tray" class="tray" data-uri="{% url 'add_items' %}">
+				<div class="container">
+					<textarea></textarea>
+
+					<a id="save-button" class="button" href="">Save</a>
+				</div>
+			</section>
+
+			<main id="content">
+				<div class="container">
+					<div class="results"></div>
+					<div class="wrapper">{% block content %}{% endblock content %}</div>
+				</div>
+			</main>
+		</section>
+	</div>
 </body>
 </html>

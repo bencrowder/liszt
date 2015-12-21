@@ -1,0 +1,35 @@
+/* Dark */
+/* -------------------------------------------------- */
+
+body.dark {
+	background: hsl(219, 10%, 13%);
+
+	main#content {
+		ul.objects {
+			li {
+				.handle {
+					color: hsl(219, 9%, 35%);
+				}
+
+				span.subtitle {
+					color: hsl(219, 9%, 37%);
+				}
+			}
+		}
+
+		ul.items li.item {
+			input[type=checkbox] {
+				border-color: #666;
+			}
+
+			label {
+				color: hsl(0, 0%, 81%);
+			}
+		}
+
+		.results h2 {
+			color: hsl(219, 9%, 35%);
+			border-bottom-color: hsl(219, 9%, 35%);
+		}
+	}
+}
