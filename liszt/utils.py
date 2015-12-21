@@ -268,4 +268,4 @@ def parse_item(item):
     return (' '.join(label).strip(), tags, notes, starred, id)
 
 def get_all_contexts():
-    return Context.objects.filter(status=Context.STATUS.active)
+    return Context.objects.filter(status=Context.STATUS.active).order_by('slug')
