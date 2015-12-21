@@ -357,6 +357,23 @@ function _submitSearchTray() {
 				var totalResults = data.contexts.length + data.lists.length + data.items.length;
 				html += '<h2>' + totalResults + ' result' + (totalResults != 1 ? 's' : '') + '</h2>';
 
+				// Contexts
+				if (data.contexts.length > 0) {
+					html += '<ul class="contexts lists objects">';
+					for (var i=0; i<data.contexts.length; i++) {
+						var c = data.contexts[i];
+						html += '<li class="list">';
+						html += '<div class="wrapper">';
+						html += '<a href="' + c.url + '">' + c.slug + '</a> ';
+						html += '<span class="subtitle">' + c.num_lists + ' list';
+						if (c.num_lists != 1) html += 's';
+						html += '</span>';
+						html += '</div>';
+						html += '</li>';
+					}
+					html += '</ul>';
+				}
+
 				// Lists
 				if (data.lists.length > 0) {
 					html += '<ul class="lists objects">';
@@ -375,23 +392,6 @@ function _submitSearchTray() {
 						if (l.parent_list_slug) {
 							html += '&thinsp;<a class="list" href="' + l.parent_list_url + '">' + l.parent_list_slug + '</a></span>';
 						}
-						html += '</span>';
-						html += '</div>';
-						html += '</li>';
-					}
-					html += '</ul>';
-				}
-
-				// Contexts
-				if (data.contexts.length > 0) {
-					html += '<ul class="contexts lists objects">';
-					for (var i=0; i<data.contexts.length; i++) {
-						var c = data.contexts[i];
-						html += '<li class="list">';
-						html += '<div class="wrapper">';
-						html += '<a href="' + c.url + '">' + c.slug + '</a> ';
-						html += '<span class="subtitle">' + c.num_lists + ' list';
-						if (c.num_lists != 1) html += 's';
 						html += '</span>';
 						html += '</div>';
 						html += '</li>';
