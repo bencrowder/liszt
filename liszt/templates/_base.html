@@ -43,15 +43,18 @@
 		{% if request.user.username %}
 		<nav role="menu">
 			<div class="group">
-				<a href="{% url 'home' %}">Home</a>
-			</div>
-
-			<div class="group">
+				<a href="{% url 'home' %}">home</a>
 				<a href="{% url 'starred' %}">&#x2605;</a>
 			</div>
 
+			<div class="group">	
+			{% for c in all_contexts %}
+				<a href="{% url 'context_detail' c.slug %}">{{ c.get_display_slug|safe }}</a>
+			{% endfor %}
+			</div>
+
 			<div class="group system">
-				<a href="{% url 'logout' %}">Logout</a>
+				<a href="{% url 'logout' %}">logout</a>
 			</div>
 		</nav>
 		{% endif %}

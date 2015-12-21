@@ -266,3 +266,6 @@ def parse_item(item):
             label.append(token)
 
     return (' '.join(label).strip(), tags, notes, starred, id)
+
+def get_all_contexts():
+    return Context.objects.filter(status=Context.STATUS.active)

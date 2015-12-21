@@ -4,16 +4,17 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 
 from liszt.models import Item, List, Context, Tag
+from liszt.utils import get_all_contexts
 
 @login_required
 def home(request):
-    contexts = Context.objects.all()
+    all_contexts = get_all_contexts()
 
     tags = [x.get_html() for x in Tag.objects.all()]
 
     context = {
         'title': 'Home',
-        'contexts': contexts,
+        'all_contexts': all_contexts,
         'tags': tags,
         'pagetype': 'home',
         'key': settings.SECRET_KEY,
@@ -36,7 +37,7 @@ def list_detail(request, context_slug, list_slug):
     if parent_list_slug:
         parent_list = List.objects.get(slug=parent_list_slug, context__slug=context_slug)
         the_list = List.objects.get(slug=list_slug, parent_list__slug=parent_list_slug)
-        
+
         parent_uri = resolve_url('list_detail', context_slug, parent_list.slug)
     else:
         # Normal list
@@ -45,8 +46,11 @@ def list_detail(request, context_slug, list_slug):
 
         parent_uri = resolve_url('context_detail', context_slug)
 
+    all_contexts = get_all_contexts()
+
     context = {
         'title': ':{}'.format(list_slug),
+        'all_contexts': all_contexts,
         'pagetype': 'list',
         'list': the_list,
         'key': settings.SECRET_KEY,
@@ -66,10 +70,13 @@ def context_detail(request, context_slug):
     # Get the context
     the_context = Context.objects.get(slug=context_slug)
 
+    all_contexts = get_all_contexts()
+
     context = {
         'title': '/{}'.format(context_slug),
         'pagetype': 'context',
         'ctext': the_context,
+        'all_contexts': all_contexts,
         'key': settings.SECRET_KEY,
         'parent_uri': resolve_url('home'),
     }
@@ -86,6 +93,7 @@ def tag(request, tag):
     items = tag.get_active_items()
     lists = tag.get_active_lists()
     contexts = {}
+    all_contexts = get_all_contexts()
 
     def get_context(the_list):
         # Get the context and initialize it
@@ -123,7 +131,7 @@ def tag(request, tag):
     context = {
         'title': '#{} — Tag'.format(tag),
         'tag': tag,
-        'contexts': sorted_contexts,
+        'all_contexts': sorted_contexts,
         'pagetype': 'tag',
         'key': settings.SECRET_KEY,
         'parent_uri': resolve_url('home'),
@@ -140,6 +148,7 @@ def starred(request):
     items = Item.objects.filter(starred=True, checked=False).order_by('parent_list__order', 'parent_list__parent_list__order', 'order')
     #lists = tag.get_active_lists()
     contexts = {}
+    all_contexts = get_all_contexts()
 
     def get_context(the_list):
         # Get the context and initialize it
@@ -177,6 +186,7 @@ def starred(request):
     context = {
         'title': 'Starred'.format(tag),
         'contexts': sorted_contexts,
+        'all_contexts': all_contexts,
         'pagetype': 'starred',
         'key': settings.SECRET_KEY,
         'parent_uri': resolve_url('home'),
