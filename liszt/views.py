@@ -9,11 +9,13 @@ from liszt.utils import get_all_contexts
 @login_required
 def home(request):
     all_contexts = get_all_contexts()
+    contexts = Context.objects.all()
 
     tags = [x.get_html() for x in Tag.objects.all()]
 
     context = {
         'title': 'Home',
+        'contexts': contexts,
         'all_contexts': all_contexts,
         'tags': tags,
         'pagetype': 'home',
