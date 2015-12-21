@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.shortcuts import get_object_or_404, render_to_response, redirect
+from django.shortcuts import get_object_or_404, render_to_response, redirect, resolve_url
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 
@@ -36,16 +36,21 @@ def list_detail(request, context_slug, list_slug):
     if parent_list_slug:
         parent_list = List.objects.get(slug=parent_list_slug, context__slug=context_slug)
         the_list = List.objects.get(slug=list_slug, parent_list__slug=parent_list_slug)
+        
+        parent_uri = resolve_url('list_detail', context_slug, parent_list.slug)
     else:
         # Normal list
         parent_list = None
         the_list = List.objects.get(slug=list_slug, context__slug=context_slug)
+
+        parent_uri = resolve_url('context_detail', context_slug)
 
     context = {
         'title': ':{}'.format(list_slug),
         'pagetype': 'list',
         'list': the_list,
         'key': settings.SECRET_KEY,
+        'parent_uri': parent_uri,
     }
 
     if parent_list:
@@ -66,6 +71,7 @@ def context_detail(request, context_slug):
         'pagetype': 'context',
         'ctext': the_context,
         'key': settings.SECRET_KEY,
+        'parent_uri': resolve_url('home'),
     }
 
     return render_to_response('context.html',
@@ -120,6 +126,7 @@ def tag(request, tag):
         'contexts': sorted_contexts,
         'pagetype': 'tag',
         'key': settings.SECRET_KEY,
+        'parent_uri': resolve_url('home'),
     }
 
     return render_to_response('tag.html',
@@ -172,6 +179,7 @@ def starred(request):
         'contexts': sorted_contexts,
         'pagetype': 'starred',
         'key': settings.SECRET_KEY,
+        'parent_uri': resolve_url('home'),
     }
 
     return render_to_response('tag.html',

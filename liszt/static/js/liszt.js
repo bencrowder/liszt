@@ -52,6 +52,17 @@ $(document).ready(function() {
 		return false;
 	});
 
+	// Up a level
+	Mousetrap.bind('g u', function() {
+		parentUri = $("body").data("parent-uri");
+
+		if (parentUri != '') {
+			window.location.href = parentUri;
+		}
+
+		return false;
+	});
+
 
 	// Item toggles
 	// --------------------------------------------------
