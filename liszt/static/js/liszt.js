@@ -194,7 +194,7 @@ $(document).ready(function() {
 
 	// Item editing
 	// --------------------------------------------------
-	
+
 	$("#content").on("doubletap", "li.item .wrapper > label", function() {
 		var controls = $(this).siblings(".edit-controls");
 		var labels = $(this).parents(".wrapper:first").find("> label, > .subtitle");
@@ -202,7 +202,7 @@ $(document).ready(function() {
 		labels.fadeOut(75, function() {
 			controls.fadeIn(75, function () {
 				autosize(controls.find("textarea"));
-				controls.find("textarea").focus();
+				controls.find("textarea.item-text").focus();
 			});
 		});
 
@@ -224,23 +224,29 @@ $(document).ready(function() {
 		return false;
 	});
 
-	/* Save */
+	// Save
 	$("#content").on("tap", "li.item .wrapper .edit-controls .save", function() {
 		var controls = $(this).parents(".edit-controls");
+
+		var url = controls.attr("data-update-uri");
+
 		var label = controls.siblings("label");
 		var item = $(this);
 
-		var newText = controls.find("textarea").val().trim();
-	
+		var newText = controls.find("textarea.item-text").val().trim();
+		var metadata = controls.find("textarea.item-metadata").val().trim();
+
+		var selector = metadata.split("\n")[0];
+		var tags = metadata.split("\n")[1].slice(6).trim();
+		var itemId = metadata.split("\n")[2].slice(4).trim();
+
 		var data = {
 			'key': config.apiKey,
 			'text': newText,
-			'list': controls.find("input[name=list]").val().trim(),
-			'tags': controls.find("input[name=tags]").val().trim(),
-			'context': controls.find("input[name=context]").val().trim(),
+			'selector': selector,
+			'tags': tags,
+			'id': itemId,
 		};
-
-		var url = controls.attr("data-update-uri");
 
 		$.ajax({
 			url: url,

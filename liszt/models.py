@@ -64,33 +64,19 @@ class Item(models.Model):
             html += '</span>'
 
         html += '\t\t<div class="edit-controls" data-update-uri="{}">\n'.format(resolve_url('update_item', self.id))
-        html += '\t\t\t<textarea>{}</textarea>\n'.format(self.get_text_with_notes())
-
-        html += '\t\t\t<div class="group list">\n'
-        html += '\t\t\t\t<label>List</label>\n'
-        html += '\t\t\t\t<input name="list" type="text" value="{}" />\n'.format(self.parent_list.get_full_display_slug(html=False))
-        html += '\t\t\t</div>\n'
-
-        html += '\t\t\t<div class="group tag">\n'
-        html += '\t\t\t\t<label>Tags</label>\n'
-        html += '\t\t\t\t<input name="tags" type="text" value="{}" />\n'.format(self.get_tags())
-        html += '\t\t\t</div>\n'
-
-        html += '\t\t\t<div class="group context">\n'
-        html += '\t\t\t\t<label>Context</label>\n'
-        html += '\t\t\t\t<input name="context" type="text" value="{}" />\n'.format(self.get_context().get_display_slug(html=False))
-        html += '\t\t\t</div>\n'
+        html += '\t\t\t<textarea class="item-text">{}</textarea>\n'.format(self.get_text_with_notes())
+        html += '\t\t\t<textarea class="item-metadata">{}{}\n:tags {}\n:id {}</textarea>\n'.format(self.get_context().get_display_slug(html=False), self.parent_list.get_full_display_slug(html=False), self.get_tags(), self.id)
 
         html += '\t\t\t<div class="buttons">\n'
         html += '\t\t\t\t<a class="save button" href="">Save</a>\n'
         html += '\t\t\t\t<a class="cancel button" href="">Cancel</a>\n'
         html += '\t\t\t</div>\n'
-        
+
         html += '\t\t</div>\n'
         html += '\t</div>\n'
 
         html += '\t<span class="star{}">&#x2605;</span>\n'.format(' hide' if not self.starred else '')
-        
+
         if sortable:
             html += '\t<span class="handle">=</span>\n'
 

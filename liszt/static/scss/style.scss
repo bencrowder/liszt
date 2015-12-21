@@ -33,7 +33,7 @@ body > header {
 
 	& > .container {
 		display: flex;
-		
+
 		.controls {
 			margin-right: -10px;
 
@@ -244,13 +244,19 @@ main#content {
 						font-size: 1.2em;
 						line-height: 1.2em;
 						margin: 0;
-						margin-bottom: 5px;
 						padding: 0;
 						resize: none;
 						width: 100%;
 
 						&:focus {
 							outline: none;
+						}
+
+						&.item-metadata {
+							background: hsl(201, 91%, 91%);
+							font-size: 1.1em;
+							margin-bottom: 5px;
+							padding: 7px 9px;
 						}
 					}
 

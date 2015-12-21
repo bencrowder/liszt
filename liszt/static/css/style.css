@@ -267,12 +267,16 @@ main#content {
             font-size: 1.2em;
             line-height: 1.2em;
             margin: 0;
-            margin-bottom: 5px;
             padding: 0;
             resize: none;
             width: 100%; }
             main#content ul.objects li > div.wrapper .edit-controls textarea:focus {
               outline: none; }
+            main#content ul.objects li > div.wrapper .edit-controls textarea.item-metadata {
+              background: #d3eefd;
+              font-size: 1.1em;
+              margin-bottom: 5px;
+              padding: 7px 9px; }
           main#content ul.objects li > div.wrapper .edit-controls .group {
             align-items: center;
             display: flex;

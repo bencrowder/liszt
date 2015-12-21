@@ -226,13 +226,18 @@ def sort_things(request, type):
 
 @login_required
 def update_item(request, item_id):
-    """ Toggles an item's checked state. """
+    """ Updates an item. """
 
     key = request.POST.get('key', '')
     new_text = request.POST.get('text', '').strip()
-    new_context = request.POST.get('context', '').strip()
-    new_list = request.POST.get('list', '').strip()
+
+    new_selector = request.POST.get('selector', '').strip()
     new_tags = request.POST.get('tags', '').strip()
+    new_id = request.POST.get('id', '').strip()
+
+    new_context, new_list, new_sublist = parse_selector(new_selector)
+    if new_sublist:
+        new_list = '{}{}'.format(new_list, new_sublist)
 
     # Make sure we have the secret key
     if key != settings.SECRET_KEY:
@@ -242,7 +247,7 @@ def update_item(request, item_id):
         item = Item.objects.get(id=item_id)
 
         # Update the text if it's changed
-        new_text, item_tags, item_notes, item_starred = parse_item(new_text)
+        new_text, item_tags, item_notes, item_starred, edit_item_id = parse_item(new_text)
         if new_text != '' and item.text != new_text:
             item.text = new_text
 

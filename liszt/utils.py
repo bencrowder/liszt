@@ -20,7 +20,7 @@ def parse_selector(selector):
     the_list = None
     the_sublist = None
     items = selector.split(':')
-    
+
     # Context
     if items[0] != '':
         # Initial context, strip off /
@@ -154,7 +154,7 @@ Parse a block (a sequence of items with/without list/context specifiers.
                 # Normal item
 
                 # Get tags and notes
-                label, tags, notes, starred = parse_item(line)
+                label, tags, notes, starred, item_id = parse_item(line)
 
                 group_response['items'].append({
                     'label': label,
@@ -239,6 +239,7 @@ def parse_item(item):
     label = []
     tags = []
     notes = ''
+    id = None
     starred = False
 
     # Check for starring at beginning or end
@@ -258,8 +259,10 @@ def parse_item(item):
         if token[0] == '#':
             # A tag
             tags.append(token[1:])
+        elif token[0:3] == ":id":
+            id = int(token[3:])
         else:
             # Not a tag
             label.append(token)
 
-    return (' '.join(label).strip(), tags, notes, starred)
+    return (' '.join(label).strip(), tags, notes, starred, id)
