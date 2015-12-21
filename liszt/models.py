@@ -56,7 +56,7 @@ class Item(models.Model):
         if show_context or show_list:
             html += '<span class="subtitle">'
             if show_context:
-                html += '<a class="context" href="{}">{}</a>'.format(self.get_context().get_url(), self.get_context())
+                html += '<a class="context" href="{}">{}</a>'.format(self.get_context().get_url(), self.get_context().get_display_slug())
             if show_context and show_list:
                 html += '&thinsp;'
             if show_list:

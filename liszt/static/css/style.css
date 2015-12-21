@@ -418,4 +418,20 @@ main#content {
     margin: 0 0 1em 0;
     padding-bottom: 1px; }
 
+/* Dark */
+/* -------------------------------------------------- */
+body.dark {
+  background: #1e2024; }
+  body.dark main#content ul.objects li .handle {
+    color: #515761; }
+  body.dark main#content ul.objects li span.subtitle {
+    color: #565c67; }
+  body.dark main#content ul.items li.item input[type=checkbox] {
+    border-color: #666; }
+  body.dark main#content ul.items li.item label {
+    color: #cfcfcf; }
+  body.dark main#content .results h2 {
+    color: #515761;
+    border-bottom-color: #515761; }
+
 /*# sourceMappingURL=style.css.map */

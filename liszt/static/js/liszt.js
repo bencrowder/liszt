@@ -63,6 +63,13 @@ $(document).ready(function() {
 		return false;
 	});
 
+	// Dark mode
+	Mousetrap.bind('g d', function() {
+		$("body").toggleClass("dark");
+
+		return false;
+	});
+
 
 	// Item toggles
 	// --------------------------------------------------
