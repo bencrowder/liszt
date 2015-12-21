@@ -17,6 +17,7 @@ urlpatterns = [
     url(r'^logout/$', auth_views.logout, name='logout'),
     url(r'^tag/(?P<tag>[^\/]+)/$', 'liszt.views.tag', name='tag'),
     url(r'^starred/$', 'liszt.views.starred', name='starred'),
+    url(r'^overview/$', 'liszt.views.overview', name='overview'),
     url(r'^(?P<context_slug>[^\/]+)/(?P<list_slug>[^\/]+)/$', 'liszt.views.list_detail', name='list_detail'),
     url(r'^(?P<context_slug>[^\/]+)/$', 'liszt.views.context_detail', name='context_detail'),
 ]

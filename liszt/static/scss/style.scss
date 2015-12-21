@@ -637,4 +637,62 @@ main#content {
 	}
 }
 
+
+/* Overview */
+/* -------------------------------------------------- */
+
+.wrapper ul.entries {
+	font-size: 1.2em;
+	line-height: 1.3em;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+
+	li {
+		a {
+			text-decoration: none;
+		}
+
+		span {
+			color: #bbb;
+			font-size: .8em;
+			line-height: 1.1em;
+			margin-left: 1px;
+		}
+
+		&.context:first-child {
+			margin-top: 1em;
+		}
+
+		&.indent-1 {
+			margin-left: 20px;
+		}
+
+		&.indent-2 {
+			margin-left: 40px;
+		}
+
+		&.context {
+			@include header-color($context-color);
+
+			a {
+				color: $context-color;
+			}
+
+			font-size: 1.1em;
+			margin-top: 2em;
+		}
+
+		&.list {
+			@include header-color($list-color);
+
+			a {
+				color: $list-color;
+			}
+
+			margin-top: 5px;
+		}
+	}
+}
+
 @import "_dark.scss";

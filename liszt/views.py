@@ -144,9 +144,7 @@ def tag(request, tag):
 
 @login_required
 def starred(request):
-    # Get the tag
     items = Item.objects.filter(starred=True, checked=False).order_by('parent_list__order', 'parent_list__parent_list__order', 'order')
-    #lists = tag.get_active_lists()
     contexts = {}
     all_contexts = get_all_contexts()
 
@@ -184,7 +182,7 @@ def starred(request):
     sorted_contexts = [contexts[k] for k in sorted(contexts, key=lambda k: contexts[k]['context'].order)]
 
     context = {
-        'title': 'Starred'.format(tag),
+        'title': 'Starred',
         'contexts': sorted_contexts,
         'all_contexts': all_contexts,
         'pagetype': 'starred',
@@ -193,6 +191,53 @@ def starred(request):
     }
 
     return render_to_response('tag.html',
+                              context,
+                              RequestContext(request),
+                              )
+
+@login_required
+def overview(request):
+    all_contexts = get_all_contexts()
+    entries = []
+
+    contexts = Context.objects.filter(status=Context.STATUS.active).order_by('order')
+
+    for c in contexts:
+        entries.append({
+            'url': resolve_url('context_detail', c.slug),
+            'label': c.get_display_slug(),
+            'indent': 0,
+            'type': 'context',
+        })
+
+        for l in c.get_active_lists():
+            entries.append({
+                'url': resolve_url('list_detail', c.slug, l.slug),
+                'label': l.get_full_display_slug(),
+                'indent': 1,
+                'type': 'list',
+                'num_items': l.count_items(),
+            })
+
+            for s in l.get_active_sublists():
+                entries.append({
+                    'url': resolve_url('list_detail', c.slug, '{}:{}'.format(l.slug, s.slug)),
+                    'label': s.get_display_slug(),
+                    'indent': 2,
+                    'type': 'list sublist',
+                    'num_items': s.count_items(),
+                })
+
+    context = {
+        'title': 'Overview',
+        'entries': entries,
+        'all_contexts': all_contexts,
+        'pagetype': 'overview',
+        'key': settings.SECRET_KEY,
+        'parent_uri': resolve_url('home'),
+    }
+
+    return render_to_response('overview.html',
                               context,
                               RequestContext(request),
                               )

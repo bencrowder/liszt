@@ -1,0 +1,13 @@
+{% extends '_base.html' %}
+
+{% block pageheader %}
+<span class="tag main">Overview</span>
+{% endblock pageheader %}
+
+{% block content %}
+	<ul class="entries">
+	{% for e in entries %}
+		<li class="{{ e.type }} indent-{{ e.indent }}"><a href="{{ e.url }}">{{ e.label|safe }}</a>{% if e.num_items %} <span>{{ e.num_items }} items{% endif %}</span></li>
+	{% endfor %}
+	</ul>
+{% endblock content %}
