@@ -289,6 +289,8 @@ $(document).ready(function() {
 
 		Mousetrap(fields[i]).bind(['mod+enter', 'shift+enter', 'enter'], function(e) {
 			_saveItem($(e.target))
+
+			return false;
 		});
 	}
 
