@@ -44,7 +44,7 @@ def list_detail(request, context_slug, list_slug):
     else:
         # Normal list
         parent_list = None
-        the_list = List.objects.get(slug=list_slug, context__slug=context_slug)
+        the_list = List.objects.get(slug=list_slug, context__slug=context_slug, parent_list=None)
 
         parent_uri = resolve_url('context_detail', context_slug)
 
