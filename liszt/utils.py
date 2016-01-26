@@ -76,7 +76,7 @@ def get_or_create_list(context, list_slug, parent_list_slug=None):
     try:
         if parent_list_slug:
             try:
-                parent_list = List.objects.get(slug=parent_list_slug, context=context)
+                parent_list = List.objects.get(slug=parent_list_slug, context=context, parent_list=None)
                 the_list = List.objects.get(slug=list_slug, parent_list__slug=parent_list_slug, context=context)
             except Exception as e:
                 # New sublist
@@ -87,7 +87,7 @@ def get_or_create_list(context, list_slug, parent_list_slug=None):
                 the_list.context = context
                 the_list.save()
         else:
-            the_list = List.objects.get(slug=list_slug, context=context)
+            the_list = List.objects.get(slug=list_slug, context=context, parent_list=None)
     except Exception as e:
         # Not found, so create it
         try:
@@ -99,7 +99,7 @@ def get_or_create_list(context, list_slug, parent_list_slug=None):
             if parent_list_slug:
                 # There's a parent list, so try to get it
                 try:
-                    parent_list = List.objects.get(slug=parent_list_slug)
+                    parent_list = List.objects.get(slug=parent_list_slug, context=context, parent_list=None)
                 except Exception as e:
                     # Parent list not found, so create it
                     parent_list = List()

@@ -37,14 +37,14 @@ def list_detail(request, context_slug, list_slug):
 
     # Get the parent list (if it's a sublist)
     if parent_list_slug:
-        parent_list = List.objects.get(slug=parent_list_slug, context__slug=context_slug)
-        the_list = List.objects.get(slug=list_slug, parent_list__slug=parent_list_slug)
+        parent_list = List.objects.get(slug=parent_list_slug, context__slug=context_slug, parent_list=None)
+        the_list = List.objects.filter(slug=list_slug, context__slug=context_slug, parent_list__slug=parent_list_slug).order_by('id')[0]
 
         parent_uri = resolve_url('list_detail', context_slug, parent_list.slug)
     else:
         # Normal list
         parent_list = None
-        the_list = List.objects.get(slug=list_slug, context__slug=context_slug, parent_list=None)
+        the_list = List.objects.filter(slug=list_slug, context__slug=context_slug, parent_list=None).order_by('id')[0]
 
         parent_uri = resolve_url('context_detail', context_slug)
 
