@@ -28,17 +28,11 @@ def home(request):
                               )
 
 @login_required
-def list_detail(request, context_slug, list_slug):
-    # Split out sublist if it's there
-    if ':' in list_slug:
-        parent_list_slug, list_slug = list_slug.split(':')
-    else:
-        parent_list_slug = None
-
+def list_detail(request, context_slug, list_slug, sublist_slug=None):
     # Get the parent list (if it's a sublist)
-    if parent_list_slug:
-        parent_list = List.objects.get(slug=parent_list_slug, context__slug=context_slug, parent_list=None)
-        the_list = List.objects.filter(slug=list_slug, context__slug=context_slug, parent_list__slug=parent_list_slug).order_by('id')[0]
+    if sublist_slug:
+        parent_list = List.objects.get(slug=list_slug, context__slug=context_slug, parent_list=None)
+        the_list = List.objects.filter(slug=sublist_slug, context__slug=context_slug, parent_list__slug=list_slug).order_by('id')[0]
 
         parent_uri = resolve_url('list_detail', context_slug, parent_list.slug)
     else:

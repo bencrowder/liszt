@@ -2,13 +2,13 @@ from django.conf import settings
 from liszt.models import Item, List, Context, Tag
 
 def parse_list_string(list_string):
-    # Slice off initial : if it's there
-    if list_string[0] == ':':
+    # Slice off initial / if it's there
+    if list_string[0] == '/':
         list_string = list_string[1:]
 
     # Now see if there's a sublist
-    if ':' in list_string:
-        the_list, the_sublist = list_string.split(':')
+    if '/' in list_string:
+        the_list, the_sublist = list_string.split('/')
     else:
         the_list = list_string
         the_sublist = None
@@ -21,13 +21,13 @@ def parse_selector(selector):
     the_sublist = None
 
     # Context
-    if selector[0][0:2] == '':
+    if selector[0:2] == '::':
         # Initial context, strip off ::
-        items = selector[2:].split(':')
-        context = selector[0][2:]
+        items = selector[2:].split('/')
+        context = items[0]
     else:
         # No context, split lists
-        items = selector.split(':')
+        items = selector.split('/')
 
     # List
     if len(items) > 1:
@@ -142,18 +142,18 @@ Parse a block (a sequence of items with/without list/context specifiers.
                 remainder = line[2:]
 
                 # See if there's a list
-                if ':' in remainder:
+                if '/' in remainder:
                     # Yes, there's a list
-                    lists = remainder.split(':')
+                    lists = remainder.split('/')
 
                     # Context
                     group_response['context'] = lists[0]
 
-                    group_response['list'], group_response['sublist'] = parse_list_string(':'.join(lists[1:]))
+                    group_response['list'], group_response['sublist'] = parse_list_string('/'.join(lists[1:]))
                 else:
                     # No list, just add the context
                     group_response['context'] = remainder
-            elif line[0] == ':':
+            elif line[0] == '/':
                 # List (not a context)
                 group_response['list'], group_response['sublist'] = parse_list_string(line)
             else:

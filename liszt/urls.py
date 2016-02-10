@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^tag/(?P<tag>[^\/]+)/$', liszt_views.tag, name='tag'),
     url(r'^starred/$', liszt_views.starred, name='starred'),
     url(r'^overview/$', liszt_views.overview, name='overview'),
+    url(r'^(?P<context_slug>[^\/]+)/(?P<list_slug>[^\/]+)/(?P<sublist_slug>[^\/]+)/$', liszt_views.list_detail, name='list_detail'),
     url(r'^(?P<context_slug>[^\/]+)/(?P<list_slug>[^\/]+)/$', liszt_views.list_detail, name='list_detail'),
     url(r'^(?P<context_slug>[^\/]+)/$', liszt_views.context_detail, name='context_detail'),
 ]

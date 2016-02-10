@@ -121,17 +121,17 @@ class List(models.Model):
 
     def get_display_slug(self, html=True):
         if html:
-            return '<span class="selector">:</span>{}'.format(self.slug)
+            return '<span class="selector">/</span>{}'.format(self.slug)
         else:
-            return ':{}'.format(self.slug)
+            return '/{}'.format(self.slug)
 
     def get_full_slug(self, html=True):
         if self.parent_list:
             # For sublists
             if html:
-                return '{}<span class="selector">:</span>{}'.format(self.parent_list.slug, self.slug)
+                return '{}<span class="selector">/</span>{}'.format(self.parent_list.slug, self.slug)
             else:
-                return '{}:{}'.format(self.parent_list.slug, self.slug)
+                return '{}/{}'.format(self.parent_list.slug, self.slug)
         else:
             # Normal lists
             return self.slug
@@ -140,9 +140,9 @@ class List(models.Model):
         return self.get_full_slug(html=False)
     def get_full_display_slug(self, html=True):
         if html:
-            return '<span class="selector">:</span>{}'.format(self.get_full_slug())
+            return '<span class="selector">/</span>{}'.format(self.get_full_slug())
         else:
-            return ':{}'.format(self.get_full_slug(html=False))
+            return '/{}'.format(self.get_full_slug(html=False))
 
     def get_active_items(self):
         return self.items.filter(checked=False)
