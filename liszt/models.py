@@ -181,9 +181,9 @@ class Context(models.Model):
 
     def get_display_slug(self, html=True):
         if html:
-            return '<span class="selector">/</span>{}'.format(self.slug)
+            return '<span class="selector">::</span>{}'.format(self.slug)
         else:
-            return '/{}'.format(self.slug)
+            return '::{}'.format(self.slug)
 
     def get_active_lists(self):
         return self.lists.filter(status='active', parent_list=None)

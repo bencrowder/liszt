@@ -132,7 +132,7 @@ def search(request):
     ctext = None
 
     # Selector
-    if query[0] in ['/', ':']:
+    if query[0] == ':':
         the_context, the_list, the_sublist = parse_selector(query)
 
         if the_context:

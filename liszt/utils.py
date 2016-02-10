@@ -19,12 +19,15 @@ def parse_selector(selector):
     context = None
     the_list = None
     the_sublist = None
-    items = selector.split(':')
 
     # Context
-    if items[0] != '':
-        # Initial context, strip off /
-        context = items[0][1:]
+    if selector[0][0:2] == '':
+        # Initial context, strip off ::
+        items = selector[2:].split(':')
+        context = selector[0][2:]
+    else:
+        # No context, split lists
+        items = selector.split(':')
 
     # List
     if len(items) > 1:
@@ -134,12 +137,14 @@ Parse a block (a sequence of items with/without list/context specifiers.
         }
 
         for line in [x.strip() for x in group.split('\n') if x != '']:
-            # If it starts with /, it's a context
-            if line[0] == '/':
+            # If it starts with ::, it's a context
+            if line[0:2] == '::':
+                remainder = line[2:]
+
                 # See if there's a list
-                if ':' in line[1:]:
+                if ':' in remainder:
                     # Yes, there's a list
-                    lists = line[1:].split(':')
+                    lists = remainder.split(':')
 
                     # Context
                     group_response['context'] = lists[0]
@@ -147,8 +152,9 @@ Parse a block (a sequence of items with/without list/context specifiers.
                     group_response['list'], group_response['sublist'] = parse_list_string(':'.join(lists[1:]))
                 else:
                     # No list, just add the context
-                    group_response['context'] = line[1:]
+                    group_response['context'] = remainder
             elif line[0] == ':':
+                # List (not a context)
                 group_response['list'], group_response['sublist'] = parse_list_string(line)
             else:
                 # Normal item
