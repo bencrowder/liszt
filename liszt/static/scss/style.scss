@@ -490,7 +490,7 @@ main#content {
 			/* Star */
 			.star {
 				-webkit-user-select: none;
-				color: hsl(0, 79%, 62%);
+				color: lighten($starred-color, 45%);
 				font-size: 1.2em;
 				margin-left: 10px;
 

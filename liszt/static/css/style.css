@@ -441,7 +441,7 @@ main#content {
               margin-left: 5px; }
       main#content ul.objects li .star {
         -webkit-user-select: none;
-        color: #eb5252;
+        color: #edcfcf;
         font-size: 1.2em;
         margin-left: 10px; }
         main#content ul.objects li .star.hide {
