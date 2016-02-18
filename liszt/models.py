@@ -45,7 +45,7 @@ class Item(models.Model):
 
         return response
 
-    def get_html(self, sortable=True, show_context=False, show_list=False, show_star=True):
+    def get_html(self, sortable=True, show_context=False, show_list=False):
         html = '<li class="item" data-item-id="{}" data-item-uri="{}" data-star-item-uri="{}">\n'.format(self.id, resolve_url('toggle_item', self.id), resolve_url('toggle_starred_item', self.id))
         html += '\t<input id="item-{}" type="checkbox" {} />\n'.format(self.id, 'checked="true"' if self.checked else '')
         html += '\t<div class="wrapper">\n'
@@ -76,8 +76,7 @@ class Item(models.Model):
         html += '\t\t</div>\n'
         html += '\t</div>\n'
 
-        if show_star:
-            html += '\t<span class="star{}">&#x2605;</span>\n'.format(' hide' if not self.starred else '')
+        html += '\t<span class="star{}">&#x2605;</span>\n'.format(' hide' if not self.starred else '')
 
         if sortable:
             html += '\t<span class="handle">=</span>\n'
@@ -87,7 +86,7 @@ class Item(models.Model):
         return html
 
     def get_starred_html(self):
-        return self.get_html(sortable=True, show_context=True, show_list=True, show_star=False)
+        return self.get_html(sortable=True, show_context=True, show_list=True)
 
 
     class Meta:
