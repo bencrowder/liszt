@@ -10,6 +10,7 @@ from django.shortcuts import resolve_url
 class Item(models.Model):
     text = models.TextField()
     order = models.IntegerField(default=0)
+    starred_order = models.IntegerField(default=0)
     parent_list = models.ForeignKey('List', related_name="items")
     checked = models.BooleanField(default=False)
     starred = models.BooleanField(default=False)
@@ -44,17 +45,17 @@ class Item(models.Model):
 
         return response
 
-    def get_html(self, sortable=True, show_context=False, show_list=False):
+    def get_html(self, sortable=True, show_context=False, show_list=False, show_star=True):
         html = '<li class="item" data-item-id="{}" data-item-uri="{}" data-star-item-uri="{}">\n'.format(self.id, resolve_url('toggle_item', self.id), resolve_url('toggle_starred_item', self.id))
         html += '\t<input id="item-{}" type="checkbox" {} />\n'.format(self.id, 'checked="true"' if self.checked else '')
         html += '\t<div class="wrapper">\n'
-        html += '\t\t<label>{} {}</label>\n'.format(self.text, ' '.join([t.get_html() for t in self.tags.all()]))
+        html += '\t\t<label>{}</label>\n'.format('{} {}'.format(self.text, ' '.join([t.get_html() for t in self.tags.all()])).strip())
 
         if self.notes:
-            html += '\t\t<span class="subtitle">{}</span>\n'.format(self.get_notes())
+            html += '\t\t<span class="subtitle notes">{}</span>\n'.format(self.get_notes())
 
         if show_context or show_list:
-            html += '<span class="subtitle">'
+            html += '<span class="subtitle selector">'
             if show_context:
                 html += '<a class="context" href="{}">{}</a>'.format(self.get_context().get_url(), self.get_context().get_display_slug())
             if show_context and show_list:
@@ -75,7 +76,8 @@ class Item(models.Model):
         html += '\t\t</div>\n'
         html += '\t</div>\n'
 
-        html += '\t<span class="star{}">&#x2605;</span>\n'.format(' hide' if not self.starred else '')
+        if show_star:
+            html += '\t<span class="star{}">&#x2605;</span>\n'.format(' hide' if not self.starred else '')
 
         if sortable:
             html += '\t<span class="handle">=</span>\n'
@@ -83,6 +85,9 @@ class Item(models.Model):
         html += '</li>'
 
         return html
+
+    def get_starred_html(self):
+        return self.get_html(sortable=True, show_context=True, show_list=True, show_star=False)
 
 
     class Meta:
@@ -99,6 +104,8 @@ class List(models.Model):
     slug = models.CharField(max_length=100)
 
     order = models.IntegerField(default=0)
+    starred_order = models.IntegerField(default=0)
+
     status = models.CharField(max_length=20,
                               default=STATUS.active,
                               choices=STATUS)
@@ -112,7 +119,7 @@ class List(models.Model):
 
     def get_url(self):
         if self.parent_list:
-            return resolve_url('list_detail', self.parent_list.context.slug, self.get_full_slug(html=False))
+            return resolve_url('list_detail', self.parent_list.context.slug, self.parent_list.slug, self.slug)
         else:
             return resolve_url('list_detail', self.context.slug, self.slug)
 
@@ -138,6 +145,7 @@ class List(models.Model):
 
     def get_full_text_slug(self):
         return self.get_full_slug(html=False)
+
     def get_full_display_slug(self, html=True):
         if html:
             return '<span class="selector">/</span>{}'.format(self.get_full_slug())

@@ -1,0 +1,15 @@
+{% extends '_base.html' %}
+
+{% block pageheader %}
+<span class="starred main"><span class="selector">&#x2605;</span> starred</span>
+{% endblock pageheader %}
+
+{% block content %}
+	{% if items|length > 0 %}
+	<ul class="items objects starred sortable" data-sort-uri="{% url 'sort_things' 'starred' %}">
+		{% for item in items %}
+			{{ item.get_starred_html|safe }}
+		{% endfor %}
+	</ul>
+	{% endif %}
+{% endblock content %}

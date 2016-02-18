@@ -104,6 +104,18 @@ def toggle_starred_item(request, item_id):
     try:
         item = Item.objects.get(id=item_id)
         item.starred = not item.starred
+
+        # If starring the item, put it at the top of the list and reorder
+        if item.starred:
+            item.starred_order = 0
+
+            # Reorder the list
+            starred_items = Item.objects.filter(starred=True, checked=False).order_by('starred_order', 'parent_list__context__order', 'parent_list__order', 'parent_list__parent_list__order', 'order')
+
+            for i, starred_item in enumerate(starred_items):
+                starred_item.starred_order = i + 1
+                starred_item.save()
+
         item.save()
 
         status = 'success'
@@ -185,7 +197,7 @@ def search(request):
 
 @login_required
 def sort_things(request, type):
-    """ Toggles an item's checked state. """
+    """ Sorts contexts, lists, and items. """
 
     key = request.POST.get('key', '')
     id_list = [int(x) for x in request.POST.get('ids', '').split(',') if x != '']
@@ -200,6 +212,7 @@ def sort_things(request, type):
             'item': Item,
             'list': List,
             'context': Context,
+            'starred': Item,
         }
 
         cls = types[type]
@@ -207,7 +220,12 @@ def sort_things(request, type):
         # Get the matching objects
         for i, id in enumerate(id_list):
             thing = cls.objects.get(id=id)
-            thing.order = i
+
+            if type == 'starred':
+                thing.starred_order = i
+            else:
+                thing.order = i
+
             thing.save()
 
         status = 'success'
@@ -314,6 +332,12 @@ def update_item(request, item_id):
         'status': status,
         'message': message,
     }
+
+    if status == 'success':
+        response['item'] = {
+            'text': item.text,
+            'notes': item.get_notes(),
+        }
 
     # Return JSON response
     return JsonResponse(response)

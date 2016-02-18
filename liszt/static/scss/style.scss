@@ -110,6 +110,10 @@ section#page-header {
 			&.tag {
 				@include header-link-color($tag-color);
 			}
+
+			&.starred {
+				@include header-link-color($starred-color);
+			}
 		}
 
 		.main {
@@ -132,6 +136,10 @@ section#page-header {
 
 		span.tag {
 			@include header-color($tag-color);
+		}
+
+		span.starred {
+			@include header-color($starred-color);
 		}
 	}
 }
@@ -364,8 +372,13 @@ main#content {
 
 			/* Content wrapper */
 			& > div.wrapper {
+				-webkit-flex: 1;
+				-webkit-hyphens: auto;
 				flex: 1;
+				hyphens: auto;
+				overflow-wrap: break-word;
 				word-wrap: break-word;
+				word-break: break-word;
 
 				.edit-controls {
 					display: none;
@@ -492,7 +505,7 @@ main#content {
 				color: #bbb;
 				cursor: move;
 				font-size: 1.5em;
-				margin-left: 15px;
+				margin-left: 8px;
 			}
 
 			/* Subtitle */
@@ -583,6 +596,7 @@ main#content {
 				cursor: pointer;
 				font-size: 1.2em;
 				margin: 2px 11px 0 0;
+				min-width: 20px;
 				width: 20px;
 				height: 20px;
 
@@ -619,6 +633,26 @@ main#content {
 					&:hover {
 						color: darken($tag-color, 15%);
 					}
+				}
+			}
+		}
+
+		&.starred {
+			.subtitle {
+				font-size: .8em;
+				line-height: 1.3em;
+			}
+
+			.subtitle.selector {
+				font-size: .6em;
+				margin-top: 3px;
+
+				a.context {
+					color: #ccc;
+				}
+
+				a.list {
+					color: #ccc;
 				}
 			}
 		}

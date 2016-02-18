@@ -140,9 +140,9 @@ $(document).ready(function() {
 	});
 
 	// Starring
-	$("#content").on("press", "li.item .wrapper > label", function() {
+	$("#content").on("doubletap", "li.item .handle", function() {
 		var url = $(this).parents("li.item").attr("data-star-item-uri");
-		var star = $(this).parents(".wrapper:first").siblings(".star");
+		var star = $(this).siblings(".star");
 
 		var data = {
 			'key': config.apiKey,
@@ -301,6 +301,7 @@ $(document).ready(function() {
 		var url = controls.attr("data-update-uri");
 
 		var label = controls.siblings("label");
+		var notes = label.siblings(".subtitle.notes");
 
 		var newText = controls.find("textarea.item-text").val().trim();
 		var metadata = controls.find("textarea.item-metadata").val().trim();
@@ -322,8 +323,22 @@ $(document).ready(function() {
 			method: 'POST',
 			data: data,
 			success: function(data) {
-				// Update the label
-				label.html(newText);
+				// Update the label/subtitle
+				label.html(data.item.text);
+
+				if (data.item.notes) {
+					if (notes.length > 0) {
+						notes.html(data.item.notes);
+					} else {
+						// Create the notes part
+						$("<span class='subtitle notes'>" + data.item.notes + "</span>").insertAfter(label);
+					}
+				} else {
+					// Remove it if it's there
+					if (notes.length > 0) {
+						notes.slideUp(200).remove();
+					}
+				}
 
 				_hideEditControls(item);
 			},

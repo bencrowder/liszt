@@ -9,7 +9,7 @@ class ItemAdmin(admin.ModelAdmin):
 
 @admin.register(List)
 class ListAdmin(admin.ModelAdmin):
-    list_display = ('get_full_display_slug', 'slug', 'parent_list', 'context', 'status', 'order',)
+    list_display = ('get_full_text_slug', 'context', 'slug', 'parent_list', 'status', 'order',)
     pass
 
 @admin.register(Context)

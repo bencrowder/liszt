@@ -140,53 +140,20 @@ def tag(request, tag):
 
 @login_required
 def starred(request):
-    items = Item.objects.filter(starred=True, checked=False).order_by('parent_list__order', 'parent_list__parent_list__order', 'order')
-    contexts = {}
+    items = Item.objects.filter(starred=True, checked=False).order_by('starred_order', 'parent_list__context__order', 'parent_list__order', 'parent_list__parent_list__order', 'order')
+
     all_contexts = get_all_contexts()
-
-    def get_context(the_list):
-        # Get the context and initialize it
-        this_context = the_list.context or the_list.parent_list.context
-
-        if this_context.slug not in contexts:
-            # Modify the parent function's contexts variable
-            contexts[this_context.slug] = {
-                'context': this_context,
-                'lists': [],
-                'items': [],
-            }
-
-        return this_context
-
-    # Go through the lists first
-    #for l in lists:
-    #    # Get the context and initialize it
-    #    this_context = get_context(l)
-
-    #    # And append the list
-    #    contexts[this_context.slug]['lists'].append(l)
-
-    # Now go through the items
-    for i in items:
-        # Get the context and initialize it
-        this_context = get_context(i.parent_list)
-
-        # And append the list
-        contexts[this_context.slug]['items'].append(i.get_html(show_list=True, sortable=False))
-
-    # Sort contexts by context order
-    sorted_contexts = [contexts[k] for k in sorted(contexts, key=lambda k: contexts[k]['context'].order)]
 
     context = {
         'title': 'Starred',
-        'contexts': sorted_contexts,
+        'items': items,
         'all_contexts': all_contexts,
         'pagetype': 'starred',
         'key': settings.SECRET_KEY,
         'parent_uri': resolve_url('home'),
     }
 
-    return render_to_response('tag.html',
+    return render_to_response('starred.html',
                               context,
                               RequestContext(request),
                               )
