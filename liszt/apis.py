@@ -256,7 +256,7 @@ def update_item(request, item_id):
 
     new_context, new_list, new_sublist = parse_selector(new_selector)
     if new_sublist:
-        new_list = '{}:{}'.format(new_list, new_sublist)
+        new_list = '{}/{}'.format(new_list, new_sublist)
 
     # Make sure we have the secret key
     if key != settings.SECRET_KEY:
