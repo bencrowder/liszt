@@ -276,9 +276,6 @@ def update_item(request, item_id):
         else:
             item.notes = None
 
-        # Update the starring
-        item.starred = item_starred
-
         # Get or create the context
         if new_context != '':
             # Strip off initial /
