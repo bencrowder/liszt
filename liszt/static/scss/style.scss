@@ -643,8 +643,15 @@ main#content {
 				line-height: 1.3em;
 			}
 
+			li.item {
+				label {
+					display: inline;
+				}
+			}
+
 			.subtitle.selector {
-				font-size: .6em;
+				display: inline;
+				font-size: .9em;
 				margin-top: 3px;
 
 				a.context {
@@ -728,5 +735,9 @@ main#content {
 		}
 	}
 }
+
+
+/* Dark mode */
+/* -------------------------------------------------- */
 
 @import "_dark.scss";

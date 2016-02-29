@@ -529,8 +529,11 @@ main#content {
   main#content ul.items.starred .subtitle {
     font-size: .8em;
     line-height: 1.3em; }
+  main#content ul.items.starred li.item label {
+    display: inline; }
   main#content ul.items.starred .subtitle.selector {
-    font-size: .6em;
+    display: inline;
+    font-size: .9em;
     margin-top: 3px; }
     main#content ul.items.starred .subtitle.selector a.context {
       color: #ccc; }
@@ -583,6 +586,8 @@ main#content {
     .wrapper ul.entries li.list a {
       color: #0f97d2; }
 
+/* Dark mode */
+/* -------------------------------------------------- */
 /* Dark */
 /* -------------------------------------------------- */
 body.dark {
