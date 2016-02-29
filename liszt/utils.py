@@ -220,10 +220,22 @@ to the appropriate contexts/lists.
                 b_item = Item()
                 b_item.parent_list = b_list
                 b_item.text = item['label'].strip()
+
                 if item['notes'] != '':
                     b_item.notes = item['notes']
+
                 if item['starred']:
+                    # Reorder the starred list
+                    starred_items = Item.objects.filter(starred=True, checked=False).order_by('starred_order', 'parent_list__context__order', 'parent_list__order', 'parent_list__parent_list__order', 'order')
+
+                    for i, starred_item in enumerate(starred_items):
+                        starred_item.starred_order = i + 1
+                        starred_item.save()
+
+                    # And put this item at the top
+                    b_item.starred_order = 0
                     b_item.starred = True
+
                 b_item.order = i
                 b_item.save()
 
