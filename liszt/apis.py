@@ -144,6 +144,10 @@ def search(request):
     items = []
     ctext = None
 
+    # If you search for something like work/inbox, prepend ::
+    if '/' in query and query[0] != ':':
+        query = '::{}'.format(query)
+
     # Selector
     if query[0] == ':':
         the_context, the_list, the_sublist = parse_selector(query)
