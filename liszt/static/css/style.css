@@ -199,7 +199,7 @@ section#page-header {
 
 .container {
   margin: 0px auto;
-  max-width: 400px; }
+  max-width: 450px; }
 
 /* Navigation */
 /* -------------------------------------------------- */
@@ -536,9 +536,9 @@ main#content {
     font-size: .9em;
     margin-top: 3px; }
     main#content ul.items.starred .subtitle.selector a.context {
-      color: #ccc; }
+      color: #ddd; }
     main#content ul.items.starred .subtitle.selector a.list {
-      color: #ccc; }
+      color: #ddd; }
   main#content .results h2 {
     border-bottom: solid 1px #ddd;
     color: #ccc;
@@ -603,5 +603,13 @@ body.dark {
   body.dark main#content .results h2 {
     color: #515761;
     border-bottom-color: #515761; }
+
+/* Media queries */
+/* -------------------------------------------------- */
+/* Media queries */
+@media screen and (min-width: 800px) {
+  main#content ul.items.starred .subtitle.selector {
+    position: absolute;
+    left: 20px; } }
 
 /*# sourceMappingURL=style.css.map */

@@ -51,9 +51,6 @@ class Item(models.Model):
         html += '\t<div class="wrapper">\n'
         html += '\t\t<label>{}</label>\n'.format('{} {}'.format(self.text, ' '.join([t.get_html() for t in self.tags.all()])).strip())
 
-        if self.notes:
-            html += '\t\t<span class="subtitle notes">{}</span>\n'.format(self.get_notes())
-
         if show_context or show_list:
             html += '<span class="subtitle selector">'
             if show_context:
@@ -63,6 +60,9 @@ class Item(models.Model):
             if show_list:
                 html += '<a class="list" href="{}">{}</a></span>'.format(self.parent_list.get_url(), self.parent_list.get_full_display_slug())
             html += '</span>'
+
+        if self.notes:
+            html += '\t\t<span class="subtitle notes">{}</span>\n'.format(self.get_notes())
 
         html += '\t\t<div class="edit-controls" data-update-uri="{}">\n'.format(resolve_url('update_item', self.id))
         html += '\t\t\t<textarea class="item-text">{}</textarea>\n'.format(self.get_text_with_notes())

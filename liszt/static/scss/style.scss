@@ -146,7 +146,7 @@ section#page-header {
 
 .container {
 	margin: 0px auto;
-	max-width: 400px;
+	max-width: 450px;
 }
 
 
@@ -655,11 +655,11 @@ main#content {
 				margin-top: 3px;
 
 				a.context {
-					color: #ccc;
+					color: #ddd;
 				}
 
 				a.list {
-					color: #ccc;
+					color: #ddd;
 				}
 			}
 		}
@@ -741,3 +741,19 @@ main#content {
 /* -------------------------------------------------- */
 
 @import "_dark.scss";
+
+
+/* Media queries */
+/* -------------------------------------------------- */
+
+/* Media queries */
+@media screen and (min-width: 800px) {
+	main#content {
+		ul.items.starred {
+			.subtitle.selector {
+				position: absolute;
+				left: 20px;
+			}
+		}
+	}
+}
