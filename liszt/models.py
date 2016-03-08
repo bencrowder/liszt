@@ -49,7 +49,8 @@ class Item(models.Model):
         html = '<li class="item" data-item-id="{}" data-item-uri="{}" data-star-item-uri="{}">\n'.format(self.id, resolve_url('toggle_item', self.id), resolve_url('toggle_starred_item', self.id))
         html += '\t<input id="item-{}" type="checkbox" {} />\n'.format(self.id, 'checked="true"' if self.checked else '')
         html += '\t<div class="wrapper">\n'
-        html += '\t\t<label>{}</label>\n'.format('{} {}'.format(self.text, ' '.join([t.get_html() for t in self.tags.all()])).strip())
+        #html += '\t\t<label>{}</label>\n'.format('{} {}'.format(self.text, ' '.join([t.get_html() for t in self.tags.all()])).strip())
+        html += '\t\t<label>{}</label>\n'.format(self.text)
 
         if show_context or show_list:
             html += '<span class="subtitle selector">'
@@ -66,7 +67,8 @@ class Item(models.Model):
 
         html += '\t\t<div class="edit-controls" data-update-uri="{}">\n'.format(resolve_url('update_item', self.id))
         html += '\t\t\t<textarea class="item-text">{}</textarea>\n'.format(self.get_text_with_notes())
-        html += '\t\t\t<textarea class="item-metadata">{}{}\n:tags {}\n:id {}</textarea>\n'.format(self.get_context().get_display_slug(html=False), self.parent_list.get_full_display_slug(html=False), self.get_tags(), self.id)
+        #html += '\t\t\t<textarea class="item-metadata">{}{}\n:tags {}\n:id {}</textarea>\n'.format(self.get_context().get_display_slug(html=False), self.parent_list.get_full_display_slug(html=False), self.get_tags(), self.id)
+        html += '\t\t\t<textarea class="item-metadata">{}{}:id {}</textarea>\n'.format(self.get_context().get_display_slug(html=False), self.parent_list.get_full_display_slug(html=False), self.id)
 
         html += '\t\t\t<div class="buttons">\n'
         html += '\t\t\t\t<a class="save button" href="">Save</a>\n'

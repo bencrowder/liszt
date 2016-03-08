@@ -156,7 +156,10 @@ def search(request):
             # Yes context
             if the_list:
                 # List specified, so get exact context
-                ctext = Context.objects.get(slug=the_context, status='active')
+                try:
+                    ctext = Context.objects.get(slug=the_context, status='active')
+                except:
+                    return JsonResponse({})
             else:
                 # Get list of contexts that match
                 contexts = Context.objects.filter(slug__istartswith=the_context, status='active')[:5]

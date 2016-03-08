@@ -32,13 +32,13 @@ def list_detail(request, context_slug, list_slug, sublist_slug=None):
     # Get the parent list (if it's a sublist)
     if sublist_slug:
         parent_list = List.objects.get(slug=list_slug, context__slug=context_slug, parent_list=None)
-        the_list = List.objects.filter(slug=sublist_slug, context__slug=context_slug, parent_list__slug=list_slug).order_by('id')[0]
+        the_list = List.objects.filter(slug=sublist_slug, context__slug=context_slug, parent_list__slug=list_slug).select_related('context').order_by('id')[0]
 
         parent_uri = resolve_url('list_detail', context_slug, parent_list.slug)
     else:
         # Normal list
         parent_list = None
-        the_list = List.objects.filter(slug=list_slug, context__slug=context_slug, parent_list=None).order_by('id')[0]
+        the_list = List.objects.filter(slug=list_slug, context__slug=context_slug, parent_list=None).select_related('context').order_by('id')[0]
 
         parent_uri = resolve_url('context_detail', context_slug)
 
@@ -140,7 +140,7 @@ def tag(request, tag):
 
 @login_required
 def starred(request):
-    items = Item.objects.filter(starred=True, checked=False).order_by('starred_order', 'parent_list__context__order', 'parent_list__order', 'parent_list__parent_list__order', 'order')
+    items = Item.objects.filter(starred=True, checked=False).order_by('starred_order', 'parent_list__context__order', 'parent_list__order', 'parent_list__parent_list__order', 'order').select_related('parent_list', 'parent_list__context')
 
     all_contexts = get_all_contexts()
 

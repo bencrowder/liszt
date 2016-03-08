@@ -50,7 +50,7 @@
 
 			<div class="group">	
 			{% for c in all_contexts %}
-				<a href="{% url 'context_detail' c.slug %}">{{ c.get_display_slug|safe }}</a>
+				<a href="{% url 'context_detail' c.slug %}"><span class="selector">::</span>{{ c.slug|safe }}</a>
 			{% endfor %}
 			</div>
 

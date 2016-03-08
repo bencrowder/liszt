@@ -57,6 +57,7 @@ $(document).ready(function() {
 
 	var field = document.querySelector('#search-tray input[type=text]');
 	Mousetrap(field).bind('esc', _hideSearchTray);
+	Mousetrap(field).bind('enter', _followSearch);
 
 	// Add tray
 	Mousetrap.bind('a', _showAddTray);
@@ -392,6 +393,15 @@ function _toggleSearchTray() {
 	return false;
 }
 
+function _followSearch() {
+	// Go to the first thing listed
+	if ($("#content .results ul.objects").length > 0) {
+		var url = $("#content .results ul.objects:first li:first .wrapper > a").attr("href");
+
+		window.location.href = url;
+	}
+}
+
 function _submitSearchTray() {
 	// Get value of text box
 	var query = $("#search-tray input[type=text]").val().trim();
@@ -416,59 +426,61 @@ function _submitSearchTray() {
 				// Update the search results
 				var html = '';
 
-				// Total
-				var totalResults = data.contexts.length + data.lists.length + data.items.length;
-				html += '<h2>' + totalResults + ' result' + (totalResults != 1 ? 's' : '') + '</h2>';
+				if (data.contexts && data.lists && data.items) {
+					// Total
+					var totalResults = data.contexts.length + data.lists.length + data.items.length;
+					html += '<h2>' + totalResults + ' result' + (totalResults != 1 ? 's' : '') + '</h2>';
 
-				// Contexts
-				if (data.contexts.length > 0) {
-					html += '<ul class="contexts lists objects">';
-					for (var i=0; i<data.contexts.length; i++) {
-						var c = data.contexts[i];
-						html += '<li class="list">';
-						html += '<div class="wrapper">';
-						html += '<a href="' + c.url + '">' + c.slug + '</a> ';
-						html += '<span class="subtitle">' + c.num_lists + ' list';
-						if (c.num_lists != 1) html += 's';
-						html += '</span>';
-						html += '</div>';
-						html += '</li>';
-					}
-					html += '</ul>';
-				}
-
-				// Lists
-				if (data.lists.length > 0) {
-					html += '<ul class="lists objects">';
-					for (var i=0; i<data.lists.length; i++) {
-						var l = data.lists[i];
-						html += '<li class="list">';
-						html += '<div class="wrapper">';
-						html += '<a href="' + l.url + '">' + l.slug + '</a> ';
-						html += '<span class="subtitle">' + l.num_items + ' item';
-						if (l.num_items != 1) html += 's';
-						if (l.num_lists > 0) {
-							html += ', ' + l.num_lists + ' list';
-							if (l.num_lists != 1) html += 's';
+					// Contexts
+					if (data.contexts.length > 0) {
+						html += '<ul class="contexts lists objects">';
+						for (var i=0; i<data.contexts.length; i++) {
+							var c = data.contexts[i];
+							html += '<li class="list">';
+							html += '<div class="wrapper">';
+							html += '<a href="' + c.url + '">' + c.slug + '</a> ';
+							html += '<span class="subtitle">' + c.num_lists + ' list';
+							if (c.num_lists != 1) html += 's';
+							html += '</span>';
+							html += '</div>';
+							html += '</li>';
 						}
-						html += ', <a class="context" href="' + l.context_url + '">' + l.context_slug + '</a>';
-						if (l.parent_list_slug) {
-							html += '&thinsp;<a class="list" href="' + l.parent_list_url + '">' + l.parent_list_slug + '</a></span>';
-						}
-						html += '</span>';
-						html += '</div>';
-						html += '</li>';
+						html += '</ul>';
 					}
-					html += '</ul>';
-				}
 
-				// Items
-				if (data.items.length > 0) {
-					html += '<ul class="items objects">';
-					for (var i=0; i<data.items.length; i++) {
-						html += data.items[i].html;
+					// Lists
+					if (data.lists.length > 0) {
+						html += '<ul class="lists objects">';
+						for (var i=0; i<data.lists.length; i++) {
+							var l = data.lists[i];
+							html += '<li class="list">';
+							html += '<div class="wrapper">';
+							html += '<a href="' + l.url + '">' + l.slug + '</a> ';
+							html += '<span class="subtitle">' + l.num_items + ' item';
+							if (l.num_items != 1) html += 's';
+							if (l.num_lists > 0) {
+								html += ', ' + l.num_lists + ' list';
+								if (l.num_lists != 1) html += 's';
+							}
+							html += ', <a class="context" href="' + l.context_url + '">' + l.context_slug + '</a>';
+							if (l.parent_list_slug) {
+								html += '&thinsp;<a class="list" href="' + l.parent_list_url + '">' + l.parent_list_slug + '</a></span>';
+							}
+							html += '</span>';
+							html += '</div>';
+							html += '</li>';
+						}
+						html += '</ul>';
 					}
-					html += '</ul>';
+
+					// Items
+					if (data.items.length > 0) {
+						html += '<ul class="items objects">';
+						for (var i=0; i<data.items.length; i++) {
+							html += data.items[i].html;
+						}
+						html += '</ul>';
+					}
 				}
 
 				// Put the HTML in the results panel
