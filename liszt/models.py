@@ -14,6 +14,7 @@ class Item(models.Model):
     parent_list = models.ForeignKey('List', related_name="items")
     checked = models.BooleanField(default=False)
     starred = models.BooleanField(default=False)
+    someday = models.BooleanField(default=False)
     notes = models.TextField(blank=True, null=True)
 
     tags = models.ManyToManyField('Tag', blank=True, related_name="items")
