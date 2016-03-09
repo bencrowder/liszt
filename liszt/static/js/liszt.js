@@ -308,14 +308,12 @@ $(document).ready(function() {
 		var metadata = controls.find("textarea.item-metadata").val().trim();
 
 		var selector = metadata.split("\n")[0];
-		var tags = metadata.split("\n")[1].slice(6).trim();
-		var itemId = metadata.split("\n")[2].slice(4).trim();
+		var itemId = metadata.split("\n")[1].slice(4).trim();
 
 		var data = {
 			'key': config.apiKey,
 			'text': newText,
 			'selector': selector,
-			'tags': tags,
 			'id': itemId,
 		};
 
