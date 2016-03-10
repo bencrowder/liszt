@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404, render_to_response, redirect, re
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 
-from liszt.models import Item, List, Context, Tag
+from liszt.models import Item, List, Context
 from liszt.utils import get_all_contexts
 
 @login_required
@@ -11,13 +11,10 @@ def home(request):
     all_contexts = get_all_contexts()
     contexts = Context.objects.all()
 
-    tags = [x.get_html() for x in Tag.objects.all()]
-
     context = {
         'title': 'Home',
         'contexts': contexts,
         'all_contexts': all_contexts,
-        'tags': tags,
         'pagetype': 'home',
         'key': settings.SECRET_KEY,
     }
@@ -81,63 +78,6 @@ def context_detail(request, context_slug):
                               context,
                               RequestContext(request),
                               )
-@login_required
-def tag(request, tag):
-    # Get the tag
-    tag = Tag.objects.get(slug=tag)
-
-    items = tag.get_active_items()
-    lists = tag.get_active_lists()
-    contexts = {}
-    all_contexts = get_all_contexts()
-
-    def get_context(the_list):
-        # Get the context and initialize it
-        this_context = the_list.context or the_list.parent_list.context
-
-        if this_context.slug not in contexts:
-            # Modify the parent function's contexts variable
-            contexts[this_context.slug] = {
-                'context': this_context,
-                'lists': [],
-                'items': [],
-            }
-
-        return this_context
-
-    # Go through the lists first
-    for l in lists:
-        # Get the context and initialize it
-        this_context = get_context(l)
-
-        # And append the list
-        contexts[this_context.slug]['lists'].append(l)
-
-    # Now go through the items
-    for i in items:
-        # Get the context and initialize it
-        this_context = get_context(i.parent_list)
-
-        # And append the list
-        contexts[this_context.slug]['items'].append(i.get_html(show_list=True))
-
-    # Sort contexts by context order
-    sorted_contexts = [contexts[k] for k in sorted(contexts, key=lambda k: contexts[k]['context'].order)]
-
-    context = {
-        'title': '#{} — Tag'.format(tag),
-        'tag': tag,
-        'all_contexts': sorted_contexts,
-        'pagetype': 'tag',
-        'key': settings.SECRET_KEY,
-        'parent_uri': resolve_url('home'),
-    }
-
-    return render_to_response('tag.html',
-                              context,
-                              RequestContext(request),
-                              )
-
 @login_required
 def starred(request):
     items = Item.objects.filter(starred=True, checked=False).order_by('starred_order', 'parent_list__context__order', 'parent_list__order', 'parent_list__parent_list__order', 'order').select_related('parent_list', 'parent_list__context')

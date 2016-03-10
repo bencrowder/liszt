@@ -18,7 +18,6 @@ urlpatterns = [
     url(r'^$', liszt_views.home, name='home'),
     url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$', auth_views.logout, name='logout'),
-    url(r'^tag/(?P<tag>[^\/]+)/$', liszt_views.tag, name='tag'),
     url(r'^starred/$', liszt_views.starred, name='starred'),
     url(r'^overview/$', liszt_views.overview, name='overview'),
     url(r'^(?P<context_slug>[^\/]+)/(?P<list_slug>[^\/]+)/(?P<sublist_slug>[^\/]+)/$', liszt_views.list_detail, name='list_detail'),

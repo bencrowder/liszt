@@ -618,12 +618,10 @@ main#content {
 			/* Label */
 			label {
 				color: $item-color;
-				cursor: pointer;
 				display: block;
 				flex: 1;
 				font-size: 1.2em;
 				line-height: 1.2em;
-				-webkit-user-select: none;
 
 				.tag {
 					color: $tag-color;

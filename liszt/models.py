@@ -17,18 +17,11 @@ class Item(models.Model):
     someday = models.BooleanField(default=False)
     notes = models.TextField(blank=True, null=True)
 
-    tags = models.ManyToManyField('Tag', blank=True, related_name="items")
-
     def __str__(self):
         return self.text
 
     def get_toggle_uri(self):
         return resolve_url("toggle_item", self.id)
-
-    def get_tags(self):
-        """ Returns tags in form "#tag1 #tag2" """
-
-        return ' '.join(['#{}'.format(t.slug) for t in self.tags.all()])
 
     def get_context(self):
         return self.parent_list.context or self.parent_list.parent_list.context
@@ -50,7 +43,6 @@ class Item(models.Model):
         html = '<li class="item" data-item-id="{}" data-item-uri="{}" data-star-item-uri="{}">\n'.format(self.id, resolve_url('toggle_item', self.id), resolve_url('toggle_starred_item', self.id))
         html += '\t<input id="item-{}" type="checkbox" {} />\n'.format(self.id, 'checked="true"' if self.checked else '')
         html += '\t<div class="wrapper">\n'
-        #html += '\t\t<label>{}</label>\n'.format('{} {}'.format(self.text, ' '.join([t.get_html() for t in self.tags.all()])).strip())
         html += '\t\t<label>{}</label>\n'.format(self.text)
 
         if show_context or show_list:
@@ -68,7 +60,6 @@ class Item(models.Model):
 
         html += '\t\t<div class="edit-controls" data-update-uri="{}">\n'.format(resolve_url('update_item', self.id))
         html += '\t\t\t<textarea class="item-text">{}</textarea>\n'.format(self.get_text_with_notes())
-        #html += '\t\t\t<textarea class="item-metadata">{}{}\n:tags {}\n:id {}</textarea>\n'.format(self.get_context().get_display_slug(html=False), self.parent_list.get_full_display_slug(html=False), self.get_tags(), self.id)
         html += '\t\t\t<textarea class="item-metadata">{}{}\n:id {}</textarea>\n'.format(self.get_context().get_display_slug(html=False), self.parent_list.get_full_display_slug(html=False), self.id)
 
         html += '\t\t\t<div class="buttons">\n'
@@ -113,8 +104,6 @@ class List(models.Model):
                               choices=STATUS)
     parent_list = models.ForeignKey('List', related_name="sublists", blank=True, null=True)
     context = models.ForeignKey('Context', related_name="lists", blank=True, null=True)
-
-    tags = models.ManyToManyField('Tag', blank=True, related_name="lists")
 
     def __str__(self):
         return self.slug
@@ -205,30 +194,3 @@ class Context(models.Model):
         ordering = ['order', 'slug']
 
 
-class Tag(models.Model):
-    slug = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.slug
-
-    def get_display_slug(self):
-        return '<span class="selector">#</span>{}'.format(self.slug)
-
-    def get_url(self):
-        return resolve_url('tag', self.slug)
-
-    def get_html(self):
-        if self.slug != '':
-            html = '<a class="tag" href="{}">{}</a>'.format(resolve_url('tag', self.slug), self.get_display_slug())
-        else:
-            html = ''
-        return html
-
-    def get_active_items(self):
-        return self.items.filter(checked=False)
-
-    def get_active_lists(self):
-        return self.lists.filter(status='active')
-
-    class Meta:
-        ordering = ['slug']

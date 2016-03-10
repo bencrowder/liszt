@@ -130,6 +130,7 @@ $(document).ready(function() {
 			data: data,
 			success: function(data) {
 				item.prop("checked", !item.prop("checked"));
+				return false;
 			},
 			error: function(data) {
 				console.log("error :(", data);
@@ -141,6 +142,7 @@ $(document).ready(function() {
 	});
 
 	// Starring
+	/*
 	$("#content").on("doubletap", "li.item .handle", function() {
 		var url = $(this).parents("li.item").attr("data-star-item-uri");
 		var star = $(this).siblings(".star");
@@ -164,6 +166,7 @@ $(document).ready(function() {
 
 		return false;
 	});
+	*/
 
 
 	// Sorting items in a list
@@ -253,9 +256,9 @@ $(document).ready(function() {
 	// Item editing
 	// --------------------------------------------------
 
-	$("#content").on("doubletap", "li.item .wrapper > label", function() {
-		var controls = $(this).siblings(".edit-controls");
-		var labels = $(this).parents(".wrapper:first").find("> label, > .subtitle");
+	$("#content").on("doubletap", "li.item .handle", function() {
+		var controls = $(this).siblings(".wrapper").find(".edit-controls");
+		var labels = $(this).siblings(".wrapper").find("> label, > .subtitle");
 
 		labels.fadeOut(75, function() {
 			controls.fadeIn(75, function () {

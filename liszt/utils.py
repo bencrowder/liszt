@@ -1,5 +1,5 @@
 from django.conf import settings
-from liszt.models import Item, List, Context, Tag
+from liszt.models import Item, List, Context
 
 def parse_list_string(list_string):
     # Slice off initial / if it's there
@@ -37,23 +37,6 @@ def parse_selector(selector):
             the_sublist = items[2]
 
     return context, the_list, the_sublist
-
-def get_or_create_tag(tag_slug):
-    tag = None
-
-    # Try to get the context
-    try:
-        tag = Tag.objects.get(slug=tag_slug)
-    except Exception as e:
-        # Not found, so create it
-        try:
-            tag = Tag()
-            tag.slug = tag_slug
-            tag.save()
-        except Exception as e:
-            pass
-
-    return tag
 
 def get_or_create_context(context_slug):
     context = None
@@ -159,12 +142,11 @@ Parse a block (a sequence of items with/without list/context specifiers.
             else:
                 # Normal item
 
-                # Get tags and notes
-                label, tags, notes, starred, item_id = parse_item(line)
+                # Get info and notes
+                label, notes, starred, item_id = parse_item(line)
 
                 group_response['items'].append({
                     'label': label,
-                    'tags': tags,
                     'notes': notes,
                     'starred': starred,
                 })
@@ -239,13 +221,6 @@ to the appropriate contexts/lists.
                 b_item.order = i
                 b_item.save()
 
-                # Add tags
-                for tag in item['tags']:
-                    if tag != '':
-                        tag_obj = get_or_create_tag(tag)
-                        b_item.tags.add(tag_obj)
-                b_item.save()
-
         except Exception as e:
             status = 'error'
             message = e
@@ -253,9 +228,8 @@ to the appropriate contexts/lists.
     return status, message
 
 def parse_item(item):
-    """ Parses a line. Returns tuple with tagless string, tag list, and notes. """
+    """ Parses a line. Returns tuple with string and notes. """
     label = []
-    tags = []
     notes = ''
     id = None
     starred = False
@@ -272,18 +246,15 @@ def parse_item(item):
     if ':::' in item:
         item, notes = [x.strip() for x in item.split(':::')]
 
-    # Now go through and get tags if any
+    # Now go through and get metadata if any
     for token in item.split(' '):
-        if token[0] == '#':
-            # A tag
-            tags.append(token[1:])
-        elif token[0:3] == ":id":
+        if token[0:3] == ":id":
             id = int(token[3:])
         else:
-            # Not a tag
+            # Not metadata
             label.append(token)
 
-    return (' '.join(label).strip(), tags, notes, starred, id)
+    return (' '.join(label).strip(), notes, starred, id)
 
 def get_all_contexts():
     return Context.objects.filter(status=Context.STATUS.active).order_by('slug').values()

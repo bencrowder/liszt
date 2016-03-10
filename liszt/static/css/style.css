@@ -514,12 +514,10 @@ main#content {
           border-color: #246189; }
     main#content ul.items li.item label {
       color: #333333;
-      cursor: pointer;
       display: block;
       flex: 1;
       font-size: 1.2em;
-      line-height: 1.2em;
-      -webkit-user-select: none; }
+      line-height: 1.2em; }
       main#content ul.items li.item label .tag {
         color: #3b9b59;
         font-size: .8em;

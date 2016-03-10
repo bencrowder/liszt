@@ -258,7 +258,6 @@ def update_item(request, item_id):
     new_text = request.POST.get('text', '').strip()
 
     new_selector = request.POST.get('selector', '').strip()
-    new_tags = request.POST.get('tags', '').strip()
     new_id = request.POST.get('id', '').strip()
 
     new_context, new_list, new_sublist = parse_selector(new_selector)
@@ -273,7 +272,7 @@ def update_item(request, item_id):
         item = Item.objects.get(id=item_id)
 
         # Update the text if it's changed
-        new_text, item_tags, item_notes, item_starred, edit_item_id = parse_item(new_text)
+        new_text, item_notes, item_starred, edit_item_id = parse_item(new_text)
         if new_text != '' and item.text != new_text:
             item.text = new_text
 
@@ -309,20 +308,6 @@ def update_item(request, item_id):
 
             # Assign
             item.parent_list = lst
-
-        # Tags, first clear them out
-        item.tags.clear()
-
-        # Now add them
-        new_tags = [x.strip() for x in new_tags.split(' ')]
-        for tag in new_tags:
-            if tag != '':
-                # Strip off initial #
-                if tag[0] == '#':
-                    tag = tag[1:]
-
-                tag_obj = get_or_create_tag(tag)
-                item.tags.add(tag_obj)
 
         # Save it
         item.save()
