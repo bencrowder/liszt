@@ -282,6 +282,9 @@ def update_item(request, item_id):
         else:
             item.notes = None
 
+        # Update starred
+        item.starred = item_starred
+
         # Get or create the context
         if new_context != '':
             # Strip off initial /
@@ -327,6 +330,7 @@ def update_item(request, item_id):
         response['item'] = {
             'text': item.text,
             'notes': item.get_notes(),
+            'starred': item.starred,
         }
 
     # Return JSON response

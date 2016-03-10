@@ -142,10 +142,9 @@ $(document).ready(function() {
 	});
 
 	// Starring
-	/*
-	$("#content").on("doubletap", "li.item .handle", function() {
-		var url = $(this).parents("li.item").attr("data-star-item-uri");
-		var star = $(this).siblings(".star");
+	$("#content").on("doubletap", "li.item .wrapper > label", function() {
+		var url = $(this).closest("li.item").attr("data-star-item-uri");
+		var star = $(this).closest(".wrapper").siblings(".star");
 
 		var data = {
 			'key': config.apiKey,
@@ -166,7 +165,6 @@ $(document).ready(function() {
 
 		return false;
 	});
-	*/
 
 
 	// Sorting items in a list
@@ -270,17 +268,28 @@ $(document).ready(function() {
 		return false;
 	});
 
-	function _hideEditControls(item) {
+	function _hideEditControls(item, fast) {
 		var controls = item.parents(".edit-controls");
 		var labels = controls.siblings("label, .subtitle");
 
-		controls.fadeOut(75, function() {
-			labels.fadeIn(75);
-		});
+		if (fast) {
+			controls.hide();
+			labels.show();
+		} else {
+			controls.fadeOut(75, function() {
+				labels.fadeIn(75);
+			});
+		}
 	}
 
 	$("#content").on("tap", "li.item .wrapper .edit-controls .cancel", function() {
-		_hideEditControls($(this));
+		_hideEditControls($(this), true);
+
+		return false;
+	});
+
+	$("#content").on("tap", "li.item .wrapper .edit-controls .star", function() {
+		$(this).toggleClass("selected");
 
 		return false;
 	});
@@ -309,6 +318,11 @@ $(document).ready(function() {
 
 		var newText = controls.find("textarea.item-text").val().trim();
 		var metadata = controls.find("textarea.item-metadata").val().trim();
+
+		var starred = controls.find(".star").hasClass("selected");
+		if (starred) {
+			newText += " *";
+		}
 
 		var selector = metadata.split("\n")[0];
 		var itemId = metadata.split("\n")[1].slice(4).trim();
@@ -340,6 +354,14 @@ $(document).ready(function() {
 					if (notes.length > 0) {
 						notes.slideUp(200).remove();
 					}
+				}
+
+				// Update star
+				var star = controls.closest(".wrapper").siblings(".star");
+				if (data.item.starred) {
+					star.removeClass("hide");
+				} else {
+					star.addClass("hide");
 				}
 
 				_hideEditControls(item);

@@ -404,6 +404,44 @@ main#content {
 						}
 					}
 
+					.meta {
+						background: hsl(206, 41%, 75%);
+						border-radius: 3px 3px 0 0;
+						display: -webkit-flex;
+						display: flex;
+						margin-top: .5em;
+						padding: 5px 9px;
+
+						.left {
+							-webkit-flex: 1;
+							flex: 1;
+						}
+
+						.right {
+							-webkit-flex: 1;
+							flex: 1;
+							text-align: right;
+						}
+
+						.star {
+							color: hsl(207, 73%, 91%);
+							cursor: pointer;
+							margin-left: 0;
+
+							&:before {
+								content: '\2605';
+							}
+
+							&:hover {
+								color: #444;
+							}
+
+							&.selected {
+								color: #fff;
+							}
+						}
+					}
+
 					.group {
 						align-items: center;
 						display: flex;
@@ -618,10 +656,13 @@ main#content {
 			/* Label */
 			label {
 				color: $item-color;
+				cursor: pointer;
 				display: block;
 				flex: 1;
 				font-size: 1.2em;
 				line-height: 1.2em;
+				user-select: none;
+				-webkit-user-select: none;
 
 				.tag {
 					color: $tag-color;

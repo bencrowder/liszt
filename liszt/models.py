@@ -60,6 +60,9 @@ class Item(models.Model):
 
         html += '\t\t<div class="edit-controls" data-update-uri="{}">\n'.format(resolve_url('update_item', self.id))
         html += '\t\t\t<textarea class="item-text">{}</textarea>\n'.format(self.get_text_with_notes())
+        html += '\t\t\t<div class="meta">\n'
+        html += '\t\t\t\t<div class="right"><span class="star {}"></span></div>\n'.format('selected' if self.starred else '')
+        html += '\t\t\t</div>\n'
         html += '\t\t\t<textarea class="item-metadata">{}{}\n:id {}</textarea>\n'.format(self.get_context().get_display_slug(html=False), self.parent_list.get_full_display_slug(html=False), self.id)
 
         html += '\t\t\t<div class="buttons">\n'
