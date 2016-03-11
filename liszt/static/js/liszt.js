@@ -873,7 +873,7 @@ function _getPrevReviewItem() {
 }
 
 function _saveReviewItem() {
-	var itemId = $("#review").data("item-id");
+	var itemId = $("#review").attr("data-item-id");
 
 	var url = $("#review").data("update-uri");
 	url = url.replace("-1", itemId);
@@ -894,6 +894,8 @@ function _saveReviewItem() {
 		'key': config.apiKey,
 		'review_mode': true,
 	};
+
+	console.log(url, data);
 
 	$.ajax({
 		url: url,
