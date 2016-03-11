@@ -541,15 +541,15 @@ $(document).ready(function() {
 	});
 	
 	if ($("#review").length > 0) {
-		Mousetrap.bind('m x', function() {
+		Mousetrap.bind('x', function() {
 			$(".group.actions .checked").toggleClass("selected");
 		});
 
-		Mousetrap.bind('m s', function() {
+		Mousetrap.bind('s', function() {
 			$(".group.actions .starred").toggleClass("selected");
 		});
 
-		Mousetrap.bind('m m', function() {
+		Mousetrap.bind('m', function() {
 			$(".group.actions .someday").toggleClass("selected");
 		});
 
