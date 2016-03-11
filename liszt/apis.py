@@ -297,17 +297,56 @@ def update_item(request, item_id):
     """ Updates an item. """
 
     key = request.POST.get('key', '')
-    new_text = request.POST.get('text', '').strip()
-    new_selector = request.POST.get('selector', '').strip()
-    new_id = request.POST.get('id', '').strip()
-
-    new_context, new_list, new_sublist = parse_selector(new_selector)
-    if new_sublist:
-        new_list = '{}/{}'.format(new_list, new_sublist)
 
     # Make sure we have the secret key
     if key != settings.SECRET_KEY:
         return JsonResponse({})
+
+    new_text = request.POST.get('text', '').strip()
+    new_selector = request.POST.get('selector', '').strip()
+    new_id = request.POST.get('id', '').strip()
+
+    # Review mode
+    review_mode = request.POST.get('review_mode', False)
+    if review_mode:
+        try:
+            item = Item.objects.get(id=item_id)
+
+            checked = request.POST.get('checked', None)
+            if checked == 'false':
+                checked = False
+            item.checked = checked
+
+            starred = request.POST.get('starred', None)
+            if starred == 'false':
+                starred = False
+            item.starred = starred
+
+            someday = request.POST.get('someday', False)
+            if someday != 'false' and someday != False:
+                someday_list = get_or_create_list(item.parent_list.context, 'someday')
+                item.parent_list = someday_list
+
+            item.save()
+
+            response = {
+                'status': 'success',
+                'message': '',
+            }
+
+        except Exception as e:
+            response = {
+                'status': 'error',
+                'message': e,
+            }
+            print(e)
+
+        # Return JSON response
+        return JsonResponse(response)
+
+    new_context, new_list, new_sublist = parse_selector(new_selector)
+    if new_sublist:
+        new_list = '{}/{}'.format(new_list, new_sublist)
 
     try:
         item = Item.objects.get(id=item_id)
@@ -382,6 +421,11 @@ def update_list(request, list_id):
     """ Updates a list. """
 
     key = request.POST.get('key', '')
+
+    # Make sure we have the secret key
+    if key != settings.SECRET_KEY:
+        return JsonResponse({})
+
     new_name = request.POST.get('name', '').strip()
     new_selector = request.POST.get('selector', '').strip()
     new_id = request.POST.get('id', '').strip()
@@ -399,10 +443,6 @@ def update_list(request, list_id):
         archive = False
 
     new_context, new_list, _ = parse_selector(new_selector)
-
-    # Make sure we have the secret key
-    if key != settings.SECRET_KEY:
-        return JsonResponse({})
 
     try:
         the_list = List.objects.get(id=list_id)
@@ -476,6 +516,39 @@ def update_list(request, list_id):
             'for_review': the_list.for_review,
             'starred': the_list.starred,
         }
+
+    # Return JSON response
+    return JsonResponse(response)
+
+@login_required
+def get_review_items(request):
+    """ Returns a list of items in all the for_review lists. """
+
+    key = request.GET.get('key', '')
+
+    # Make sure we have the secret key
+    if key != settings.SECRET_KEY:
+        return JsonResponse({})
+
+    try:
+        items = Item.objects.filter(parent_list__for_review=True, checked=False).select_related('parent_list', 'parent_list__context', 'parent_list__parent_list').order_by('parent_list__order')
+
+        # Serialize it
+        items = [{'id': i.id, 'html': i.get_html(sortable=False, show_context=True, show_list=True), 'name': i.text, 'notes': i.get_notes(), 'checked': i.checked, 'starred': i.starred, 'toggle_uri': i.get_toggle_uri(), 'context_slug': i.get_context().get_display_slug(), 'context_url': i.get_context().get_url(), 'list_slug': i.parent_list.get_full_display_slug(), 'list_url': i.parent_list.get_url()} for i in items]
+
+        status = 'success'
+        message = ''
+    except Exception as e:
+        status = 'error'
+        message = e
+
+    response = {
+        'status': status,
+        'message': message,
+    }
+
+    if status == 'success':
+        response['items'] = items
 
     # Return JSON response
     return JsonResponse(response)

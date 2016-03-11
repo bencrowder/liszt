@@ -506,6 +506,60 @@ $(document).ready(function() {
 
 		return false;
 	});
+
+
+	// Review mode
+	// --------------------------------------------------
+	
+	if ($("#review").length > 0) {
+		_loadReviewMode();
+	}
+
+	$("#review").on("tap", ".group.nav .prev", function() {
+		_getPrevReviewItem();
+		return false;
+	});
+
+	$("#review").on("tap", ".group.nav .next", function() {
+		_getNextReviewItem();
+		return false;
+	});
+
+	$("#review").on("tap", ".group.nav .savenext", function() {
+		_saveReviewItem();
+		return false;
+	});
+
+	$("#review").on("tap", ".group.actions span", function() {
+		$(this).toggleClass("selected");
+		return false;
+	});
+	
+	if ($("#review").length > 0) {
+		Mousetrap.bind('m x', function() {
+			$(".group.actions .checked").toggleClass("selected");
+		});
+
+		Mousetrap.bind('m s', function() {
+			$(".group.actions .starred").toggleClass("selected");
+		});
+
+		Mousetrap.bind('m m', function() {
+			$(".group.actions .someday").toggleClass("selected");
+		});
+
+		Mousetrap.bind('p', function() {
+			_getPrevReviewItem();
+		});
+
+		Mousetrap.bind('n', function() {
+			_getNextReviewItem();
+		});
+
+		Mousetrap.bind('enter', function() {
+			_saveReviewItem();
+		});
+	}
 });
 
 
@@ -727,6 +781,131 @@ function _submitAddTray() {
 	});
 
 	return false;
+}
+
+
+// Review mode
+// --------------------------------------------------
+
+function _loadReviewMode() {
+	var url = $("#review").data("uri");
+
+	$.ajax({
+		url: url,
+		method: 'GET',
+		success: function(data) {
+			_startReviewMode(data.items);
+		},
+		error: function(data) {
+			console.log("error :(", data);
+		},
+	});
+}
+
+var currentReviewItemIndex;
+var reviewItems;
+
+function _startReviewMode(items) {
+	// Save to global variable
+	reviewItems = items;
+
+	if (reviewItems.length > 0) {
+		// Load the first item
+		_loadReviewItem(0);
+	}	
+}
+
+function _loadReviewItem(index) {
+	// Make sure the item exists
+	if (typeof reviewItems[index] != "undefined") {
+		currentReviewItemIndex = index;
+		var item = reviewItems[index];
+
+		// Controls
+		html = "<section class='controls'>";
+		html += "<div class='group nav'>";
+		html += "<span class='prev'>Previous</span>";
+		html += "<span class='next'>Next</span>";
+		html += "<span class='savenext'>Save &amp; Next</span>";
+		html += "</div>";
+		html += "<div class='group actions'>";
+		html += "<span class='checked'><span class='icon'>&#x25a0;</span> Checked</span>";
+		html += "<span class='starred";
+		if (item.starred) {
+			html += " selected";
+		}
+		html += "'><span class='icon'>&#x2605;</span> Starred</span>";
+		html += "<span class='someday'><span class='icon'>&rarr;</span> Someday</span>";
+		html += "</div>";
+		html += "</section>";
+
+		html += "<section class='metadata'>";
+		html += (index + 1) + " of " + reviewItems.length;
+		html += "</section>";
+
+		html += "<div class='item'>";
+		html += "<div class='selector'><a class='context' href='" + item.context_url + "'>" + item.context_slug + "</a> <a class='list' href='" + item.list_url + "'>" + item.list_slug + "</a></div>";
+		html += "<div class='name'>" + item.name + "</div>";
+		if (item.notes) html += "<div class='notes'>" + item.notes + "</div>";
+		html += "</div>";
+
+		$("#review").html(html);
+
+		$("#review").attr("data-item-id", item.id);
+	}
+}
+
+function _getNextReviewItem() {
+	if (currentReviewItemIndex < reviewItems.length - 1) {
+		_loadReviewItem(currentReviewItemIndex + 1);
+	}
+}
+
+function _getPrevReviewItem() {
+	if (currentReviewItemIndex > 0) {
+		_loadReviewItem(currentReviewItemIndex - 1);
+	}
+}
+
+function _saveReviewItem() {
+	var itemId = $("#review").data("item-id");
+
+	var url = $("#review").data("update-uri");
+	url = url.replace("-1", itemId);
+
+	// Checked
+	var checked = $("#review .group.actions .checked").hasClass("selected");
+
+	// Starred
+	var starred = $("#review .group.actions .starred").hasClass("selected");
+
+	// Someday
+	var someday = $("#review .group.actions .someday").hasClass("selected");
+
+	var data = {
+		'checked': checked,
+		'starred': starred,
+		'someday': someday,
+		'key': config.apiKey,
+		'review_mode': true,
+	};
+
+	$.ajax({
+		url: url,
+		method: 'POST',
+		data: data,
+		success: function(data) {
+			$("#review .item .name").fadeOut(150, function() {
+				// Get the next review item
+				_getNextReviewItem();
+			});
+		},
+		error: function(data) {
+			$("<div class='error'>Error: " + data + "</div>").appendTo("#review");
+			console.log("error :(", data);
+		},
+	});
+
 }
 
 

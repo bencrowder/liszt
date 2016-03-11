@@ -641,6 +641,93 @@ main#content {
     .wrapper ul.entries li.list a {
       color: #0f97d2; }
 
+/* Review mode */
+/* -------------------------------------------------- */
+#review h2 {
+  font-weight: normal; }
+#review .metadata {
+  color: #aaa;
+  font-style: italic;
+  float: right;
+  margin-left: 15px;
+  text-align: right; }
+#review .selector {
+  font-size: 1.1em;
+  line-height: 1.2em;
+  margin-top: 5px; }
+  #review .selector a {
+    text-decoration: none; }
+    #review .selector a:hover {
+      color: #444; }
+    #review .selector a.context {
+      color: #d0356b; }
+      #review .selector a.context:hover {
+        color: #95234b; }
+    #review .selector a.list {
+      color: #0f97d2; }
+      #review .selector a.list:hover {
+        color: #0a648a; }
+#review .name {
+  font-size: 1.4em;
+  line-height: 1.2em;
+  margin-top: 1em; }
+#review .notes {
+  color: #888;
+  margin-top: 5px; }
+#review .controls {
+  border-bottom: solid 1px #ddd;
+  margin-bottom: 0.4em;
+  padding-bottom: 1.8em; }
+  #review .controls .group {
+    -webkit-justify-content: space-between;
+    display: -webkit-flex;
+    display: flex;
+    margin: -5px;
+    justify-content: space-between; }
+    #review .controls .group.actions > span {
+      -webkit-user-select: none;
+      background: #c4ddf3;
+      border-radius: 3px;
+      color: #31618c;
+      cursor: pointer;
+      display: inline-block;
+      margin: 5px;
+      line-height: 1.1em;
+      padding: 7px 12px 8px;
+      user-select: none; }
+      #review .controls .group.actions > span.selected {
+        background: #31618c;
+        color: #fff; }
+      #review .controls .group.actions > span:hover {
+        background: #444;
+        color: #fff; }
+      #review .controls .group.actions > span .icon {
+        color: #8badcb;
+        display: none;
+        float: left;
+        margin-right: 5px; }
+    #review .controls .group.nav {
+      font-size: 1.1em;
+      line-height: 1.1em;
+      margin-bottom: 1em;
+      width: 100%; }
+      #review .controls .group.nav > span {
+        -webkit-user-select: none;
+        color: #74a4c8;
+        cursor: pointer;
+        margin: 5px;
+        font-style: italic;
+        user-select: none; }
+        #review .controls .group.nav > span:hover {
+          color: #444; }
+        #review .controls .group.nav > span.next {
+          text-align: center; }
+        #review .controls .group.nav > span.savenext {
+          text-align: right; }
+
+@media screen and (min-width: 400px) {
+  #review .controls .group.actions > span .icon {
+    display: inline; } }
 /* Dark mode */
 /* -------------------------------------------------- */
 /* Dark */
@@ -661,7 +748,6 @@ body.dark {
 
 /* Media queries */
 /* -------------------------------------------------- */
-/* Media queries */
 @media screen and (min-width: 800px) {
   main#content ul.items.starred .subtitle.selector {
     position: absolute;

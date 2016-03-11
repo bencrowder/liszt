@@ -826,6 +826,147 @@ main#content {
 }
 
 
+/* Review mode */
+/* -------------------------------------------------- */
+
+#review {
+	h2 {
+		font-weight: normal;
+	}
+
+	.metadata {
+		color: #aaa;
+		font-style: italic;
+		float: right;
+		margin-left: 15px;
+		text-align: right;
+	}
+
+	.selector {
+		font-size: 1.1em;
+		line-height: 1.2em;
+		margin-top: 5px;
+
+		a {
+			text-decoration: none;
+
+			&:hover {
+				color: #444;
+			}
+
+			&.context {
+				color: $context-color;
+
+				&:hover {
+					color: darken($context-color, 15%);
+				}
+			}
+
+			&.list {
+				color: $list-color;
+
+				&:hover {
+					color: darken($list-color, 15%);
+				}
+			}
+		}
+	}
+
+	.name {
+		font-size: 1.4em;
+		line-height: 1.2em;
+		margin-top: 1em;
+	}
+
+	.notes {
+		color: #888;
+		margin-top: 5px;
+	}
+
+	.controls {
+		border-bottom: solid 1px #ddd;
+		margin-bottom: 0.4em;
+		padding-bottom: 1.8em;
+
+		.group {
+			-webkit-justify-content: space-between;
+			display: -webkit-flex;
+			display: flex;
+			margin: -5px;
+			justify-content: space-between;
+
+			&.actions > span {
+				-webkit-user-select: none;
+				background: hsl(208, 65%, 86%);
+				border-radius: 3px;
+				color: hsl(208, 48%, 37%);
+				cursor: pointer;
+				display: inline-block;
+				margin: 5px;
+				line-height: 1.1em;
+				padding: 7px 12px 8px;
+				user-select: none;
+
+				&.selected {
+					background: hsl(208, 48%, 37%);
+					color: #fff;
+				}
+
+				&:hover {
+					background: #444;
+					color: #fff;
+				}
+
+				.icon {
+					color: hsl(208, 38%, 67%);
+					display: none;
+					float: left;
+					margin-right: 5px;
+				}
+			}
+
+			&.nav {
+				font-size: 1.1em;
+				line-height: 1.1em;
+				margin-bottom: 1em;
+				width: 100%;
+
+				& > span {
+					-webkit-user-select: none;
+					color: hsl(206, 43%, 62%);
+					cursor: pointer;
+					margin: 5px;
+					font-style: italic;
+					user-select: none;
+
+					&:hover {
+						color: #444;
+					}
+
+					&.next {
+						text-align: center;
+					}
+
+					&.savenext {
+						text-align: right;
+					}
+				}
+			}
+		}
+	}
+}
+
+@media screen and (min-width: 400px) {
+	#review {
+		.controls {
+			.group.actions > span .icon {
+				display: inline;
+			}
+		}
+	}
+}
+
+
 /* Dark mode */
 /* -------------------------------------------------- */
 
@@ -835,7 +976,6 @@ main#content {
 /* Media queries */
 /* -------------------------------------------------- */
 
-/* Media queries */
 @media screen and (min-width: 800px) {
 	main#content {
 		ul.items.starred {
@@ -846,3 +986,5 @@ main#content {
 		}
 	}
 }
+
+

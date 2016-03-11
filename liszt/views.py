@@ -145,3 +145,20 @@ def overview(request):
                               RequestContext(request),
                               )
 
+@login_required
+def review(request):
+    all_contexts = get_all_contexts()
+
+    context = {
+        'title': 'Review',
+        'all_contexts': all_contexts,
+        'pagetype': 'review',
+        'key': settings.SECRET_KEY,
+        'parent_uri': resolve_url('home'),
+    }
+
+    return render_to_response('review.html',
+                              context,
+                              RequestContext(request),
+                              )
+

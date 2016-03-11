@@ -1,0 +1,11 @@
+{% extends '_base.html' %}
+
+{% block pageheader %}
+<span class="tag main">Review</span>
+{% endblock pageheader %}
+
+{% block content %}
+<section id="review" data-uri="{% url 'get_review_items' %}?key={{ key }}" data-update-uri="{% url 'update_item' -1 %}">
+	<h2>Loading...</h2>
+</section>
+{% endblock content %}
