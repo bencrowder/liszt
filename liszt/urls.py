@@ -12,7 +12,9 @@ urlpatterns = [
     url(r'^api/search/$', liszt_apis.search, name='search'),
     url(r'^api/toggle-item/(?P<item_id>[^\/]+)/$', liszt_apis.toggle_item, name='toggle_item'),
     url(r'^api/toggle-starred-item/(?P<item_id>[^\/]+)/$', liszt_apis.toggle_starred_item, name='toggle_starred_item'),
+    url(r'^api/toggle-starred-list/(?P<list_id>[^\/]+)/$', liszt_apis.toggle_starred_list, name='toggle_starred_list'),
     url(r'^api/update-item/(?P<item_id>[^\/]+)/$', liszt_apis.update_item, name='update_item'),
+    url(r'^api/update-list/(?P<list_id>[^\/]+)/$', liszt_apis.update_list, name='update_list'),
     url(r'^api/sort-things/(?P<type>[^\/]+)/$', liszt_apis.sort_things, name='sort_things'),
 
     url(r'^$', liszt_views.home, name='home'),

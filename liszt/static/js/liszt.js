@@ -294,7 +294,7 @@ $(document).ready(function() {
 		return false;
 	});
 
-	var fields = document.querySelectorAll('.edit-controls textarea');
+	var fields = document.querySelectorAll('li.item .edit-controls textarea');
 	for (var i=0; i<fields.length; i++) {
 		Mousetrap(fields[i]).bind('esc', function(e) {
 			_hideEditControls($(e.target))
@@ -376,6 +376,133 @@ $(document).ready(function() {
 
 	$("#content").on("tap", "li.item .wrapper .edit-controls .save", function() {
 		_saveItem($(this));
+
+		return false;
+	});
+
+
+	// List editing
+	// --------------------------------------------------
+
+	$("#content").on("doubletap", "li.list .handle", function() {
+		var controls = $(this).siblings(".wrapper").find(".edit-controls");
+		var labels = $(this).siblings(".wrapper").find("> a, > .subtitle");
+
+		labels.fadeOut(75, function() {
+			controls.fadeIn(75, function () {
+				autosize(controls.find("textarea"));
+				controls.find("textarea.list-name").focus();
+			});
+		});
+
+		return false;
+	});
+
+	function _hideListEditControls(item, fast) {
+		var controls = item.parents(".edit-controls");
+		var labels = controls.siblings("a, .subtitle");
+
+		if (fast) {
+			controls.hide();
+			labels.show();
+		} else {
+			controls.fadeOut(75, function() {
+				labels.fadeIn(75);
+			});
+		}
+	}
+
+	$("#content").on("tap", "li.list .wrapper .edit-controls .cancel", function() {
+		_hideListEditControls($(this), true);
+
+		return false;
+	});
+
+	$("#content").on("tap", "li.list .wrapper .edit-controls .star", function() {
+		$(this).toggleClass("selected");
+
+		return false;
+	});
+
+	var fields = document.querySelectorAll('li.list .edit-controls textarea');
+	for (var i=0; i<fields.length; i++) {
+		Mousetrap(fields[i]).bind('esc', function(e) {
+			_hideListEditControls($(e.target))
+		});
+
+		Mousetrap(fields[i]).bind(['mod+enter', 'shift+enter', 'enter'], function(e) {
+			_saveList($(e.target))
+
+			return false;
+		});
+	}
+
+	// Save
+	function _saveList(list) {
+		var controls = list.parents(".edit-controls");
+
+		var url = controls.attr("data-update-uri");
+
+		var label = controls.siblings("a");
+		var subtitle = label.siblings(".subtitle");
+
+		var newName = controls.find("textarea.list-name").val().trim();
+		var metadata = controls.find("textarea.list-metadata").val().trim();
+
+		var starred = controls.find(".star").hasClass("selected");
+		var forReview = controls.find(".for-review").prop("checked");
+		var archive = controls.find(".archive").prop("checked");
+
+		var selector = metadata.split("\n")[0];
+		var listId = metadata.split("\n")[1].slice(4).trim();
+
+		var data = {
+			'key': config.apiKey,
+			'name': newName,
+			'starred': starred,
+			'archive': archive,
+			'for_review': forReview,
+			'selector': selector,
+			'id': listId,
+		};
+
+		$.ajax({
+			url: url,
+			method: 'POST',
+			data: data,
+			success: function(data) {
+				if (data.list) {
+					// Update the link
+					label.html(data.list.name);
+
+					// Update star
+					var star = controls.closest(".wrapper").siblings(".star");
+					if (data.list.starred) {
+						star.removeClass("hide");
+					} else {
+						star.addClass("hide");
+					}
+				} else {
+					// Archived the list, so hide it
+					var theList = controls.closest(".list");
+
+					theList.slideUp(200, function() {
+						theList.remove();
+					});
+				}
+
+				_hideListEditControls(list);
+			},
+			error: function(data) {
+				console.log("error :(", data);
+			},
+		});
+
+		return false;
+	}
+
+	$("#content").on("tap", "li.list .wrapper .edit-controls .save", function() {
+		_saveList($(this));
 
 		return false;
 	});

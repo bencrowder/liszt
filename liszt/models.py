@@ -14,7 +14,6 @@ class Item(models.Model):
     parent_list = models.ForeignKey('List', related_name="items")
     checked = models.BooleanField(default=False)
     starred = models.BooleanField(default=False)
-    someday = models.BooleanField(default=False)
     notes = models.TextField(blank=True, null=True)
 
     def __str__(self):
@@ -92,7 +91,6 @@ class Item(models.Model):
 
 class List(models.Model):
     STATUS = Choices(
-
         ('active', 'Active'),
         ('archived', 'Archived'),
     )
@@ -100,7 +98,10 @@ class List(models.Model):
     slug = models.CharField(max_length=100)
 
     order = models.IntegerField(default=0)
+    starred = models.BooleanField(default=False)
     starred_order = models.IntegerField(default=0)
+
+    for_review = models.BooleanField(default=False)
 
     status = models.CharField(max_length=20,
                               default=STATUS.active,
@@ -157,6 +158,48 @@ class List(models.Model):
 
     def count_sublists(self):
         return len(self.get_active_sublists())
+
+    def get_html(self, sortable=True, show_context=False, show_list=False):
+        num_items = self.count_items()
+        num_sublists = self.count_sublists()
+
+        html = '<li class="list" data-object-id="{}" data-star-list-uri="{}">\n'.format(self.id, resolve_url('toggle_starred_list', self.id))
+        html += '\t<div class="wrapper">\n'
+        html += '\t\t<a href="{}">{}</a>\n'.format(resolve_url('list_detail', self.get_context().slug, self.slug), self.get_display_slug())
+
+        html += '\t\t<span class="subtitle">'
+        html += '{} item{}'.format(num_items, 's' if num_items != 1 else '')
+        if num_sublists > 0:
+            html += ', {} list{}'.format(num_sublists, 's' if num_sublists != 1 else '')
+        html += '</span>\n'
+
+        html += '\t\t<div class="edit-controls" data-update-uri="{}">\n'.format(resolve_url('update_list', self.id))
+        html += '\t\t\t<textarea class="list-name">/{}</textarea>\n'.format(self.slug)
+        html += '\t\t\t<div class="meta">\n'
+        html += '\t\t\t\t<div class="left"><span><input type="checkbox" name="for-review" class="for-review" {}/> <label for="for-review">Review</label></div></span> <span><input type="checkbox" name="archive" class="archive" /> <label for="archive">Archive</label></span>\n'.format('checked' if self.for_review else '')
+        html += '\t\t\t\t<div class="right"><span class="star {}"></span></div>\n'.format('selected' if self.starred else '')
+        html += '\t\t\t</div>\n'
+        html += '\t\t\t<textarea class="list-metadata">{}{}\n:id {}</textarea>\n'.format(self.get_context().get_display_slug(html=False), self.parent_list.get_full_display_slug(html=False) if self.parent_list else '', self.id)
+
+        html += '\t\t\t<div class="buttons">\n'
+        html += '\t\t\t\t<a class="save button" href="">Save</a>\n'
+        html += '\t\t\t\t<a class="cancel button" href="">Cancel</a>\n'
+        html += '\t\t\t</div>\n'
+
+        html += '\t\t</div>\n'
+        html += '\t</div>\n'
+
+        html += '\t<span class="star{}">&#x2605;</span>\n'.format(' hide' if not self.starred else '')
+
+        if sortable:
+            html += '\t<span class="handle">=</span>\n'
+
+        html += '</li>'
+
+        return html
+
+    def get_starred_html(self):
+        return self.get_html(sortable=True, show_context=True, show_list=True)
 
     class Meta:
         ordering = ['order', 'slug']

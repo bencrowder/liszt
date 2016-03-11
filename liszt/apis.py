@@ -134,6 +134,48 @@ def toggle_starred_item(request, item_id):
     return JsonResponse(response)
 
 @login_required
+def toggle_starred_list(request, listid):
+    """ Toggles an list's starred state. """
+
+    key = request.GET.get('key', '')
+
+    # Make sure we have the secret key
+    if key != settings.SECRET_KEY:
+        return JsonResponse({})
+
+    try:
+        list = List.objects.get(id=list_id)
+        list.starred = not list.starred
+
+        # If starring the list, put it at the top of the starred list and reorder
+        if list.starred:
+            # Reorder the list
+            starred_lists = List.objects.filter(starred=True, status=List.STATUS.active).order_by('starred_order', 'parent_list__context__order', 'parent_list__order', 'order')
+
+            for i, starred_list in enumerate(starred_lists):
+                starred_list.starred_order = i + 1
+                starred_list.save()
+
+            # And put this item at the top
+            list.starred_order = 0
+
+        list.save()
+
+        status = 'success'
+        message = ''
+    except Exception as e:
+        status = 'error'
+        message = e
+
+    response = {
+        'status': status,
+        'message': message,
+    }
+
+    # Return JSON response
+    return JsonResponse(response)
+
+@login_required
 def search(request):
     """ Searches. """
 
@@ -256,7 +298,6 @@ def update_item(request, item_id):
 
     key = request.POST.get('key', '')
     new_text = request.POST.get('text', '').strip()
-
     new_selector = request.POST.get('selector', '').strip()
     new_id = request.POST.get('id', '').strip()
 
@@ -331,6 +372,109 @@ def update_item(request, item_id):
             'text': item.text,
             'notes': item.get_notes(),
             'starred': item.starred,
+        }
+
+    # Return JSON response
+    return JsonResponse(response)
+
+@login_required
+def update_list(request, list_id):
+    """ Updates a list. """
+
+    key = request.POST.get('key', '')
+    new_name = request.POST.get('name', '').strip()
+    new_selector = request.POST.get('selector', '').strip()
+    new_id = request.POST.get('id', '').strip()
+    starred = request.POST.get('starred', False)
+    for_review = request.POST.get('for_review', False)
+    archive = request.POST.get('archive', False)
+
+    if starred == 'false':
+        starred = False
+
+    if for_review == 'false':
+        for_review = False
+
+    if archive == 'false':
+        archive = False
+
+    new_context, new_list, _ = parse_selector(new_selector)
+
+    # Make sure we have the secret key
+    if key != settings.SECRET_KEY:
+        return JsonResponse({})
+
+    try:
+        the_list = List.objects.get(id=list_id)
+
+        if archive:
+            # Archive the list
+            the_list.status = List.STATUS.archived
+            the_list.save()
+
+            return JsonResponse({})
+
+        # Update the text if it's changed
+        if new_name != '' and the_list.slug != new_name:
+            # Strip off initial /
+            if new_name[0] == '/':
+                new_name = new_name[1:]
+
+            the_list.slug = new_name
+
+        # Update starred
+        the_list.starred = starred
+
+        # Update for review
+        the_list.for_review = for_review
+
+        # Get or create the context
+        if new_context != '':
+            # Strip off initial /
+            if new_context[0] == '/':
+                new_context = new_context[1:]
+
+            ctx = get_or_create_context(new_context)
+
+            # Update order (since we're changing contexts)
+            the_list.order = 0
+
+            # Set the new context
+            the_list.context = ctx
+        else:
+            # Get it from the list
+            ctx = the_list.get_context()
+
+        # Get or create the list
+        if new_list != '' and new_list is not None:
+            # Strip off initial :
+            if new_list[0] == ':':
+                new_list = new_list[1:]
+
+            lst = get_or_create_list(ctx, new_list)
+
+            # Assign
+            the_list.parent_list = lst
+
+        # Save it
+        the_list.save()
+
+        status = 'success'
+        message = ''
+    except Exception as e:
+        status = 'error'
+        message = e
+
+    response = {
+        'status': status,
+        'message': message,
+    }
+
+    if status == 'success':
+        response['list'] = {
+            'slug': the_list.slug,
+            'for_review': the_list.for_review,
+            'starred': the_list.starred,
         }
 
     # Return JSON response

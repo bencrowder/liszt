@@ -366,7 +366,8 @@ main#content {
       /* Star */
       /* Handle */
       /* Subtitle */
-      /* Placeholder for sorting */ }
+      /* Placeholder for sorting */
+      /* List editing */ }
       main#content ul.objects li > div.wrapper {
         -webkit-flex: 1;
         -webkit-hyphens: auto;
@@ -387,7 +388,7 @@ main#content {
             width: 100%; }
             main#content ul.objects li > div.wrapper .edit-controls textarea:focus {
               outline: none; }
-            main#content ul.objects li > div.wrapper .edit-controls textarea.item-metadata {
+            main#content ul.objects li > div.wrapper .edit-controls textarea.item-metadata, main#content ul.objects li > div.wrapper .edit-controls textarea.list-metadata {
               background: #d3eefd;
               font-size: 1.1em;
               margin-bottom: 5px;
@@ -407,7 +408,7 @@ main#content {
               flex: 1;
               text-align: right; }
             main#content ul.objects li > div.wrapper .edit-controls .meta .star {
-              color: #d7eaf9;
+              color: #779dbb;
               cursor: pointer;
               margin-left: 0; }
               main#content ul.objects li > div.wrapper .edit-controls .meta .star:before {
@@ -496,6 +497,35 @@ main#content {
               color: #0a648a; }
       main#content ul.objects li.placeholder {
         background: #eee; }
+      main#content ul.objects li.list > div.wrapper .edit-controls > span {
+        margin-right: 10px; }
+      main#content ul.objects li.list > div.wrapper .edit-controls input[type=checkbox] {
+        -webkit-user-select: none;
+        -webkit-appearance: none;
+        border: solid 1px #698fb0;
+        border-radius: 2px;
+        cursor: pointer;
+        font-size: 1.2em;
+        margin: 0 4px -2px 0;
+        min-width: 16px;
+        width: 16px;
+        height: 16px; }
+        main#content ul.objects li.list > div.wrapper .edit-controls input[type=checkbox]:focus {
+          outline: none; }
+        main#content ul.objects li.list > div.wrapper .edit-controls input[type=checkbox]:hover {
+          border-color: #1a2732; }
+        main#content ul.objects li.list > div.wrapper .edit-controls input[type=checkbox]:checked {
+          background: #1f4260;
+          border-color: #1f4260; }
+          main#content ul.objects li.list > div.wrapper .edit-controls input[type=checkbox]:checked:hover {
+            background: #020b12;
+            border-color: #020b12; }
+      main#content ul.objects li.list > div.wrapper .edit-controls label {
+        color: #698fb0; }
+      main#content ul.objects li.list > div.wrapper .edit-controls textarea.list-name {
+        font-size: 1.4em;
+        line-height: 1.2em;
+        max-height: 1.4em; }
     main#content ul.objects.heading {
       margin-bottom: 0; }
   main#content ul.lists {
