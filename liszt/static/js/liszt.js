@@ -110,6 +110,11 @@ $(document).ready(function() {
 		window.location.href = $("nav[role=menu] .overview-link").attr("href");
 	});
 
+	// Review
+	Mousetrap.bind('g r', function() {
+		window.location.href = $("nav[role=menu] .review-link").attr("href");
+	});
+
 
 	// Item toggles
 	// --------------------------------------------------
