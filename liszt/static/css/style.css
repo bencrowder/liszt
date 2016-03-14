@@ -604,41 +604,51 @@ main#content {
 
 /* Overview */
 /* -------------------------------------------------- */
-.wrapper ul.entries {
+#overview h2 {
+  font-size: 0.9em;
+  font-weight: normal;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.05em; }
+#overview ul.entries + ul.entries {
+  border-top: solid 1px #ddd;
+  margin-top: 2.5em;
+  padding-top: 1em; }
+#overview ul.entries {
   font-size: 1.2em;
   line-height: 1.3em;
   list-style: none;
   margin: 0;
   padding: 0; }
-  .wrapper ul.entries li a {
+  #overview ul.entries li a {
     text-decoration: none; }
-  .wrapper ul.entries li span {
+  #overview ul.entries li span {
     color: #bbb;
     font-size: .8em;
     line-height: 1.1em;
     margin-left: 1px; }
-  .wrapper ul.entries li.context:first-child {
+  #overview ul.entries li.context:first-child {
     margin-top: 1em; }
-  .wrapper ul.entries li.indent-1 {
+  #overview ul.entries li.indent-1 {
     margin-left: 20px; }
-  .wrapper ul.entries li.indent-2 {
+  #overview ul.entries li.indent-2 {
     margin-left: 40px; }
-  .wrapper ul.entries li.context {
+  #overview ul.entries li.context {
     color: #fff;
     font-size: 1.1em;
     margin-top: 2em; }
-    .wrapper ul.entries li.context span.selector {
+    #overview ul.entries li.context span.selector {
       color: #aa5a76;
       margin-right: 1px; }
-    .wrapper ul.entries li.context a {
+    #overview ul.entries li.context a {
       color: #d0356b; }
-  .wrapper ul.entries li.list {
+  #overview ul.entries li.list {
     color: #fff;
     margin-top: 5px; }
-    .wrapper ul.entries li.list span.selector {
+    #overview ul.entries li.list span.selector {
       color: #308ab0;
       margin-right: 1px; }
-    .wrapper ul.entries li.list a {
+    #overview ul.entries li.list a {
       color: #0f97d2; }
 
 /* Review mode */

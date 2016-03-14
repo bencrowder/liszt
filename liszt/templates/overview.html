@@ -5,9 +5,18 @@
 {% endblock pageheader %}
 
 {% block content %}
+<section id="overview">
+	<h2>Review Lists</h2>
+	<ul class="entries">
+	{% for l in review_lists %}
+		<li class="list"><a class="context" href="{{ l.context.get_url }}">{{ l.context.get_display_slug|safe }}</a> <a class="list" href="{{ l.get_url }}">{{ l.get_display_slug|safe }}</a></li>
+	{% endfor %}
+	</ul>
+
 	<ul class="entries">
 	{% for e in entries %}
 		<li class="{{ e.type }} indent-{{ e.indent }}"><a href="{{ e.url }}">{{ e.label|safe }}</a>{% if e.num_items %} <span>{{ e.num_items }} items{% endif %}</span></li>
 	{% endfor %}
 	</ul>
+</section>
 {% endblock content %}

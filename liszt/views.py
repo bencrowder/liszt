@@ -131,9 +131,12 @@ def overview(request):
                     'num_items': s.count_items(),
                 })
 
+    review_lists = List.objects.filter(for_review=True, status=List.STATUS.active).order_by('order')
+
     context = {
         'title': 'Overview',
         'entries': entries,
+        'review_lists': review_lists,
         'all_contexts': all_contexts,
         'pagetype': 'overview',
         'key': settings.SECRET_KEY,
