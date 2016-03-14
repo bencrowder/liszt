@@ -327,6 +327,19 @@ def update_item(request, item_id):
                 someday_list = get_or_create_list(item.parent_list.context, 'someday')
                 item.parent_list = someday_list
 
+            to_list = request.POST.get('to_list', '')
+            if to_list != '':
+                the_context, the_list, the_sublist = parse_selector(to_list)
+
+                the_context = get_or_create_context(the_context)
+
+                if the_sublist is not None:
+                    to_list = get_or_create_list(the_context, the_sublist, the_list)
+                else:
+                    to_list = get_or_create_list(the_context, the_list)
+
+                item.parent_list = to_list
+
             item.save()
 
             response = {

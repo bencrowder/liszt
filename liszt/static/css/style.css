@@ -680,12 +680,19 @@ main#content {
   padding-bottom: 1.8em; }
   #review .controls .group {
     -webkit-justify-content: space-between;
+    -webkit-flex-wrap: wrap;
     display: -webkit-flex;
     display: flex;
+    flex-wrap: wrap;
     margin: -5px;
     justify-content: space-between; }
+    #review .controls .group.actions {
+      border-top: solid 1px #ddd;
+      padding-top: 1em; }
     #review .controls .group.actions > span {
+      -webkit-align-self: center;
       -webkit-user-select: none;
+      align-self: center;
       background: #c4ddf3;
       border-radius: 3px;
       color: #31618c;
@@ -698,14 +705,40 @@ main#content {
       #review .controls .group.actions > span.selected {
         background: #31618c;
         color: #fff; }
+        #review .controls .group.actions > span.selected .icon {
+          color: #fff; }
+        #review .controls .group.actions > span.selected.tolist input[type=text] {
+          background: rgba(0, 0, 0, 0.3);
+          color: #fff; }
       #review .controls .group.actions > span:hover {
         background: #444;
         color: #fff; }
       #review .controls .group.actions > span .icon {
         color: #8badcb;
-        display: none;
         float: left;
         margin-right: 5px; }
+        #review .controls .group.actions > span .icon.checked {
+          font-size: 1.6em;
+          margin-right: 0;
+          padding-bottom: 5px; }
+        #review .controls .group.actions > span .icon.starred {
+          margin-right: 0; }
+      #review .controls .group.actions > span.tolist {
+        -webkit-align-items: center;
+        align-items: center;
+        display: -webkit-inline-flex;
+        display: inline-flex;
+        width: 100%; }
+        #review .controls .group.actions > span.tolist input[type=text] {
+          background: rgba(255, 255, 255, 0.3);
+          border: none;
+          border-radius: 3px;
+          color: #000;
+          font-size: 1.1em;
+          padding: 4px 7px;
+          width: 90%; }
+          #review .controls .group.actions > span.tolist input[type=text]:focus {
+            outline: none; }
     #review .controls .group.nav {
       font-size: 1.1em;
       line-height: 1.1em;
@@ -725,9 +758,15 @@ main#content {
         #review .controls .group.nav > span.savenext {
           text-align: right; }
 
-@media screen and (min-width: 400px) {
-  #review .controls .group.actions > span .icon {
-    display: inline; } }
+/* Media queries */
+@media screen and (min-width: 500px) {
+  #review .controls .group {
+    -webkit-flex-wrap: nowrap;
+    flex-wrap: nowrap; }
+    #review .controls .group.actions span.tolist {
+      max-width: 170px; }
+      #review .controls .group.actions span.tolist input[type=text] {
+        width: 80%; } }
 /* Dark mode */
 /* -------------------------------------------------- */
 /* Dark */

@@ -536,7 +536,10 @@ $(document).ready(function() {
 	});
 
 	$("#review").on("tap", ".group.actions span", function() {
-		$(this).toggleClass("selected");
+		if (!$(this).hasClass("tolist")) {
+			$(this).toggleClass("selected");
+		}
+
 		return false;
 	});
 	
@@ -553,6 +556,11 @@ $(document).ready(function() {
 			$(".group.actions .someday").toggleClass("selected");
 		});
 
+		Mousetrap.bind('l', function() {
+			$(".group.actions .tolist input[type=text]").focus();
+			return false;
+		});
+
 		Mousetrap.bind('p', function() {
 			_getPrevReviewItem();
 		});
@@ -563,6 +571,26 @@ $(document).ready(function() {
 
 		Mousetrap.bind('enter', function() {
 			_saveReviewItem();
+		});
+
+		$("#review").on("keyup", ".group.actions .tolist input[type=text]", function(e) {
+			if (e.which == 13) {
+				$(this).blur();
+				_saveReviewItem();
+				return false;
+			} else if (e.which == 27) {
+				$(this).blur();
+				return false;
+			}
+
+			var content = $(this).val().trim();
+			var span = $(this).closest("span.tolist");
+
+			if (content.length > 0) {
+				span.addClass("selected");
+			} else {
+				span.removeClass("selected");
+			}
 		});
 	}
 });
@@ -834,13 +862,14 @@ function _loadReviewItem(index) {
 		html += "<span class='savenext'>Save &amp; Next</span>";
 		html += "</div>";
 		html += "<div class='group actions'>";
-		html += "<span class='checked'><span class='icon'>&#x25a0;</span> Checked</span>";
+		html += "<span class='checked'><span class='icon checked'>&#x25a1;</span></span>";
 		html += "<span class='starred";
 		if (item.starred) {
 			html += " selected";
 		}
-		html += "'><span class='icon'>&#x2605;</span> Starred</span>";
+		html += "'><span class='icon starred'>&#x2605;</span> </span>";
 		html += "<span class='someday'><span class='icon'>&rarr;</span> Someday</span>";
+		html += "<span class='tolist'><span class='icon'>&rarr;</span> <input type='text' /></span>";
 		html += "</div>";
 		html += "</section>";
 
@@ -887,15 +916,20 @@ function _saveReviewItem() {
 	// Someday
 	var someday = $("#review .group.actions .someday").hasClass("selected");
 
+	// Move to list
+	var toList = $("#review .group.actions .tolist input[type=text]").val().trim();
+	if (toList.length > 0 && toList.slice(0, 1) != "::") {
+		toList = "::" + toList;
+	}
+
 	var data = {
 		'checked': checked,
 		'starred': starred,
 		'someday': someday,
+		'to_list': toList,
 		'key': config.apiKey,
 		'review_mode': true,
 	};
-
-	console.log(url, data);
 
 	$.ajax({
 		url: url,

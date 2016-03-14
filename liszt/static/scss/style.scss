@@ -890,13 +890,22 @@ main#content {
 
 		.group {
 			-webkit-justify-content: space-between;
+			-webkit-flex-wrap: wrap;
 			display: -webkit-flex;
 			display: flex;
+			flex-wrap: wrap;
 			margin: -5px;
 			justify-content: space-between;
 
+			&.actions {
+				border-top: solid 1px #ddd;
+				padding-top: 1em;
+			}
+
 			&.actions > span {
+				-webkit-align-self: center;
 				-webkit-user-select: none;
+				align-self: center;
 				background: hsl(208, 65%, 86%);
 				border-radius: 3px;
 				color: hsl(208, 48%, 37%);
@@ -910,6 +919,17 @@ main#content {
 				&.selected {
 					background: hsl(208, 48%, 37%);
 					color: #fff;
+
+					& .icon {
+						color: #fff;
+					}
+
+					&.tolist {
+						input[type=text] {
+							background: rgba(0, 0, 0, 0.3);
+							color: #fff;
+						}
+					}
 				}
 
 				&:hover {
@@ -919,9 +939,40 @@ main#content {
 
 				.icon {
 					color: hsl(208, 38%, 67%);
-					display: none;
 					float: left;
 					margin-right: 5px;
+
+					&.checked {
+						font-size: 1.6em;
+						margin-right: 0;
+						padding-bottom: 5px;
+					}
+
+					&.starred {
+						margin-right: 0;
+					}
+				}
+
+				&.tolist {
+					-webkit-align-items: center;
+					align-items: center;
+					display: -webkit-inline-flex;
+					display: inline-flex;
+					width: 100%;
+
+					input[type=text] {
+						background: rgba(255, 255, 255, 0.3);
+						border: none;
+						border-radius: 3px;
+						color: #000;
+						font-size: 1.1em;
+						padding: 4px 7px;
+						width: 90%;
+
+						&:focus {
+							outline: none;
+						}
+					}
 				}
 			}
 
@@ -956,11 +1007,19 @@ main#content {
 	}
 }
 
-@media screen and (min-width: 400px) {
-	#review {
-		.controls {
-			.group.actions > span .icon {
-				display: inline;
+/* Media queries */
+@media screen and (min-width: 500px) {
+	#review .controls .group {
+		-webkit-flex-wrap: nowrap;
+		flex-wrap: nowrap;
+
+		&.actions {
+			span.tolist {
+				max-width: 170px;
+
+				input[type=text] {
+					width: 80%;
+				}
 			}
 		}
 	}
