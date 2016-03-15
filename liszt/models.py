@@ -165,7 +165,7 @@ class List(models.Model):
 
         html = '<li class="list" data-object-id="{}" data-star-list-uri="{}">\n'.format(self.id, resolve_url('toggle_starred_list', self.id))
         html += '\t<div class="wrapper">\n'
-        html += '\t\t<a href="{}">{}</a>\n'.format(resolve_url('list_detail', self.get_context().slug, self.slug), self.get_display_slug())
+        html += '\t\t<a href="{}">{}</a>\n'.format(self.get_url(), self.get_display_slug())
 
         html += '\t\t<span class="subtitle">'
         html += '{} item{}'.format(num_items, 's' if num_items != 1 else '')
