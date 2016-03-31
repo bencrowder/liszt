@@ -565,7 +565,15 @@ $(document).ready(function() {
 			_getPrevReviewItem();
 		});
 
+		Mousetrap.bind('k', function() {
+			_getPrevReviewItem();
+		});
+
 		Mousetrap.bind('n', function() {
+			_getNextReviewItem();
+		});
+
+		Mousetrap.bind('j', function() {
 			_getNextReviewItem();
 		});
 
