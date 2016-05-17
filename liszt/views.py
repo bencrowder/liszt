@@ -12,7 +12,7 @@ def home(request):
     contexts = Context.objects.all()
 
     context = {
-        'title': 'Home',
+        'title': 'Liszt',
         'contexts': contexts,
         'all_contexts': all_contexts,
         'pagetype': 'home',
@@ -42,7 +42,7 @@ def list_detail(request, context_slug, list_slug, sublist_slug=None):
     all_contexts = get_all_contexts()
 
     context = {
-        'title': ':{}'.format(list_slug),
+        'title': '::{}/{} — Liszt'.format(context_slug, the_list.get_full_text_slug()),
         'all_contexts': all_contexts,
         'pagetype': 'list',
         'list': the_list,
@@ -66,7 +66,7 @@ def context_detail(request, context_slug):
     all_contexts = get_all_contexts()
 
     context = {
-        'title': '/{}'.format(context_slug),
+        'title': '::{} — Liszt'.format(context_slug),
         'pagetype': 'context',
         'ctext': the_context,
         'all_contexts': all_contexts,
@@ -85,7 +85,7 @@ def starred(request):
     all_contexts = get_all_contexts()
 
     context = {
-        'title': 'Starred',
+        'title': 'Starred — Liszt',
         'items': items,
         'all_contexts': all_contexts,
         'pagetype': 'starred',
@@ -134,7 +134,7 @@ def overview(request):
     review_lists = List.objects.filter(for_review=True, status=List.STATUS.active).order_by('order')
 
     context = {
-        'title': 'Overview',
+        'title': 'Overview — Liszt',
         'entries': entries,
         'review_lists': review_lists,
         'all_contexts': all_contexts,
@@ -153,7 +153,7 @@ def review(request):
     all_contexts = get_all_contexts()
 
     context = {
-        'title': 'Review',
+        'title': 'Review — Liszt',
         'all_contexts': all_contexts,
         'pagetype': 'review',
         'key': settings.SECRET_KEY,
