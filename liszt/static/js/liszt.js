@@ -835,6 +835,9 @@ function _loadReviewMode() {
 		url: url,
 		method: 'GET',
 		success: function(data) {
+			for (i in data.items) {
+				var item = data.items[i];
+			}
 			_startReviewMode(data.items);
 		},
 		error: function(data) {

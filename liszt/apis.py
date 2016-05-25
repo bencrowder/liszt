@@ -544,10 +544,46 @@ def get_review_items(request):
         return JsonResponse({})
 
     try:
-        items = Item.objects.filter(parent_list__for_review=True, checked=False).select_related('parent_list', 'parent_list__context', 'parent_list__parent_list').order_by('parent_list__order')
+        items = Item.objects.filter(parent_list__for_review=True, checked=False)
+        items = items.select_related('parent_list', 'parent_list__context', 'parent_list__parent_list')
+        items = items.order_by('parent_list__order', 'parent_list__context__order')
+
+        # Sort into contexts
+        contexts = {}
+        for item in items:
+            # Extract slugs
+            context_slug = item.parent_list.context.slug
+            list_slug = item.parent_list.slug
+            if item.parent_list.parent_list:
+                sublist_slug = list_slug
+                list_slug = item.parent_list.parent_list.slug
+
+            if context_slug not in contexts:
+                contexts[context_slug] = { 'order': item.parent_list.context.order, 'lists': {} }
+            
+            if list_slug not in contexts[context_slug]['lists']:
+                contexts[context_slug]['lists'][list_slug] = { 'order': item.parent_list.order, 'items': {} }
+
+            contexts[context_slug]['lists'][list_slug]['items'][item.order] = item
+
+        # Now sort and flatten the list
+        flattened_items = []
+
+        sorted_contexts = sorted(contexts, key=lambda slug: contexts[slug]['order'])
+        for c in sorted_contexts:
+            # Sort lists
+            sorted_lists = sorted(contexts[c]['lists'], key=lambda k: contexts[c]['lists'][k]['order'])
+
+            for l in sorted_lists:
+                the_list = contexts[c]['lists'][l]
+                print("::{}/{}".format(c, l))
+                sorted_items = sorted(the_list['items'])
+
+                for item in sorted_items:
+                    flattened_items.append(the_list['items'][item])
 
         # Serialize it
-        items = [{'id': i.id, 'html': i.get_html(sortable=False, show_context=True, show_list=True), 'name': i.text, 'notes': i.get_notes(), 'checked': i.checked, 'starred': i.starred, 'toggle_uri': i.get_toggle_uri(), 'context_slug': i.get_context().get_display_slug(), 'context_url': i.get_context().get_url(), 'list_slug': i.parent_list.get_full_display_slug(), 'list_url': i.parent_list.get_url()} for i in items]
+        items = [{'id': i.id, 'html': i.get_html(sortable=False, show_context=True, show_list=True), 'name': i.text, 'notes': i.get_notes(), 'checked': i.checked, 'starred': i.starred, 'toggle_uri': i.get_toggle_uri(), 'context_slug': i.get_context().get_display_slug(), 'context_url': i.get_context().get_url(), 'list_slug': i.parent_list.get_full_display_slug(), 'list_url': i.parent_list.get_url(), 'order': '{}{}-{}'.format(i.get_context().order, i.parent_list.order, i.order)} for i in flattened_items]
 
         status = 'success'
         message = ''

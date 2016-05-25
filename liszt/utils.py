@@ -65,6 +65,11 @@ def get_or_create_list(context, list_slug, parent_list_slug=None):
                 parent_list = List.objects.get(slug=parent_list_slug, context=context, parent_list=None)
                 the_list = List.objects.get(slug=list_slug, parent_list__slug=parent_list_slug, context=context)
             except Exception as e:
+                # Reorder existing lists so the new one shows up in order
+                for index, lst in enumerate(List.objects.filter(context=context, parent_list=parent_list)):
+                    lst.order = index + 1
+                    lst.save()
+
                 # New sublist
                 the_list = List()
                 the_list.slug = list_slug
@@ -72,11 +77,18 @@ def get_or_create_list(context, list_slug, parent_list_slug=None):
                 the_list.parent_list = parent_list
                 the_list.context = context
                 the_list.save()
+
         else:
             the_list = List.objects.get(slug=list_slug, context=context, parent_list=None)
     except Exception as e:
         # Not found, so create it
         try:
+            # Reorder existing lists so the new one shows up in order
+            for index, lst in enumerate(List.objects.filter(context=context, parent_list=None)):
+                lst.order = index + 1
+                lst.save()
+
+            # Create the new one
             the_list = List()
             the_list.slug = list_slug
             the_list.order = 0 # put at beginning
@@ -88,6 +100,13 @@ def get_or_create_list(context, list_slug, parent_list_slug=None):
                     parent_list = List.objects.get(slug=parent_list_slug, context=context, parent_list=None)
                 except Exception as e:
                     # Parent list not found, so create it
+
+                    # Reorder existing lists so the new one shows up in order
+                    for index, lst in enumerate(List.objects.filter(context=context, parent_list=None)):
+                        lst.order = index + 1
+                        lst.save()
+
+                    # Create it
                     parent_list = List()
                     parent_list.slug = parent_list_slug
                     parent_list.order = 0 # put at beginning
@@ -193,9 +212,9 @@ to the appropriate contexts/lists.
             # Reorder existing items so the new ones show up in order
             b_num_items = len(b_items)
             list_items = b_list.get_active_items()
-            for i in list_items:
-                i.order += b_num_items
-                i.save()
+            for index, item in enumerate(list_items):
+                item.order = b_num_items + index
+                item.save()
 
             # Add items to the specified context/list
             for i, item in enumerate(b_items):
