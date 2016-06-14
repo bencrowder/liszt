@@ -26,13 +26,13 @@
 	</script>
 
 	{% if section %}
-	<link rel="shortcut icon" href="{% static 'favicon/' %}favicon-{{ section }}.png">
+	<link rel="shortcut icon" href="{% static 'favicon/' %}favicon-{{ section }}.png?v1">
 	{% else %}
-	<link rel="shortcut icon" href="{% static 'favicon.png' %}">
+	<link rel="shortcut icon" href="{% static 'favicon.png' %}?v1">
 	{% endif %}
 
-	<link rel="apple-touch-icon" href="{% static 'apple-touch-icon.png' %}">
-	<link rel="apple-touch-icon-precomposed" href="{% static 'apple-touch-icon.png' %}">
+	<link rel="apple-touch-icon" href="{% static 'apple-touch-icon.png' %}?v1">
+	<link rel="apple-touch-icon-precomposed" href="{% static 'apple-touch-icon.png' %}?v1">
 
 	{% endblock head %}
 </head>
