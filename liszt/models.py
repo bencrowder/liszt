@@ -148,7 +148,10 @@ class List(models.Model):
             return '/{}'.format(self.get_full_slug(html=False))
 
     def get_active_items(self):
-        return self.items.filter(checked=False)
+        if self.hidden:
+            return self.items.all().order_by('checked', 'order')
+        else:
+            return self.items.filter(checked=False)
 
     def count_items(self):
         return len(self.get_active_items())

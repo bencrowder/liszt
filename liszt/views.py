@@ -26,6 +26,8 @@ def home(request):
 
 @login_required
 def list_detail(request, context_slug, list_slug, sublist_slug=None):
+    hidden = request.GET.get('hidden', None)
+
     # Get the parent list (if it's a sublist)
     if sublist_slug:
         parent_list = List.objects.get(slug=list_slug, context__slug=context_slug, parent_list=None)
@@ -38,6 +40,9 @@ def list_detail(request, context_slug, list_slug, sublist_slug=None):
         the_list = List.objects.filter(slug=list_slug, context__slug=context_slug, parent_list=None).select_related('context').order_by('id')[0]
 
         parent_uri = resolve_url('context_detail', context_slug)
+
+    # Tell the list whether we're showing hidden items
+    the_list.hidden = hidden
 
     all_contexts = get_all_contexts()
 
