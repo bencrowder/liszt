@@ -148,7 +148,8 @@ class List(models.Model):
             return '/{}'.format(self.get_full_slug(html=False))
 
     def get_active_items(self):
-        if self.hidden:
+        hidden = getattr(self, 'hidden', None)
+        if hidden is not None and hidden:
             return self.items.all().order_by('checked', 'order')
         else:
             return self.items.filter(checked=False)
