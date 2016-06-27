@@ -11,7 +11,6 @@ from liszt.models import Item, List, Context
 from liszt.utils import *
 
 @csrf_exempt
-@login_required
 def add_items(request):
     """ Adds a sequence of items. """
 
