@@ -3,12 +3,14 @@ from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponse
+from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 
 from liszt.models import Item, List, Context
 
 from liszt.utils import *
 
+@csrf_exempt
 @login_required
 def add_items(request):
     """ Adds a sequence of items. """
