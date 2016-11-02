@@ -62,8 +62,8 @@ def get_or_create_list(context, list_slug, parent_list_slug=None):
     try:
         if parent_list_slug:
             try:
-                parent_list = List.objects.get(slug=parent_list_slug, context=context, parent_list=None)
-                the_list = List.objects.get(slug=list_slug, parent_list__slug=parent_list_slug, context=context)
+                parent_list = List.objects.filter(slug=parent_list_slug, context=context, parent_list=None)[0]
+                the_list = List.objects.filter(slug=list_slug, parent_list__slug=parent_list_slug, context=context)[0]
             except Exception as e:
                 # Reorder existing lists so the new one shows up in order
                 for index, lst in enumerate(List.objects.filter(context=context, parent_list=parent_list)):
@@ -77,9 +77,8 @@ def get_or_create_list(context, list_slug, parent_list_slug=None):
                 the_list.parent_list = parent_list
                 the_list.context = context
                 the_list.save()
-
         else:
-            the_list = List.objects.get(slug=list_slug, context=context, parent_list=None)
+            the_list = List.objects.filter(slug=list_slug, context=context, parent_list=None)[0]
     except Exception as e:
         # Not found, so create it
         try:

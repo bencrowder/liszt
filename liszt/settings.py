@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
 ]
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE_CLASSES = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -49,7 +49,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-)
+]
 
 ROOT_URLCONF = 'liszt.urls'
 
@@ -101,12 +101,14 @@ try:
 except ImportError:
     pass
 
-if DEBUG:
-    INSTALLED_APPS.append('debug_toolbar.apps.DebugToolbarConfig')
-
-    DEBUG_TOOLBAR_PANELS = (
-        'debug_toolbar.panels.profiling.ProfilingPanel',
-        'debug_toolbar.panels.sql.SQLPanel',
-        'debug_toolbar.panels.templates.TemplatesPanel',
-        'debug_toolbar.panels.timer.TimerPanel',
-    )
+#if DEBUG:
+#    MIDDLEWARE_CLASSES += 'debug_toolbar.middleware.DebugToolbarMiddleware'
+#
+#    INSTALLED_APPS.append('debug_toolbar.apps.DebugToolbarConfig')
+#
+#    DEBUG_TOOLBAR_PANELS = (
+#        'debug_toolbar.panels.profiling.ProfilingPanel',
+#        'debug_toolbar.panels.sql.SQLPanel',
+#        'debug_toolbar.panels.templates.TemplatesPanel',
+#        'debug_toolbar.panels.timer.TimerPanel',
+#    )
