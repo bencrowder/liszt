@@ -202,8 +202,8 @@ def parse_block(block):
 
 def process_payload(payload, default_context=None, default_list=None):
     """
-Takes a payload, parses it into blocks, and then adds the items in it
-to the appropriate contexts/lists.
+    Takes a payload, parses it into blocks, and then adds the items in it
+    to the appropriate contexts/lists.
     """
     status = 'success'
     message = ''
@@ -222,15 +222,12 @@ to the appropriate contexts/lists.
                 b_context = get_or_create_context(block['context'])
 
             # Set the list if it's there, otherwise use default
-            if block['list'] is not None:
-                if block['sublist'] is not None:
-                    b_list = get_or_create_list(b_context, block['sublist'], block['list'])
-                else:
-                    b_list = get_or_create_list(b_context, block['list'])
+            if block['lists'] is not None:
+                b_list = get_or_create_list(b_context, block['lists'])
             else:
                 if block['context'] != None:
                     # Use inbox as default
-                    b_list = get_or_create_list(b_context, 'inbox')
+                    b_list = get_or_create_list(b_context, ['inbox'])
 
             # Get the number of items in b_list to use for ordering
             b_list_len = b_list.count_items()
