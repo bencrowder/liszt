@@ -23,18 +23,12 @@ def parse_selector(selector):
         # Initial context, strip off ::
         items = selector[2:].split('/')
         context = items[0]
+        lists = items[1:]
     else:
         # No context, split lists
-        items = selector.split('/')
+        lists = parse_list_string(selector)
 
-    # List
-    if len(items) > 1:
-        the_list = items[1]
-
-        if len(items) > 2:
-            the_sublist = items[2]
-
-    return context, the_list, the_sublist
+    return context, lists
 
 def get_or_create_context(context_slug):
     context = None
@@ -55,70 +49,109 @@ def get_or_create_context(context_slug):
 
     return context
 
-def get_or_create_list(context, list_slug, parent_list_slug=None):
-    # Get the list
-    try:
-        if parent_list_slug:
-            try:
-                parent_list = List.objects.filter(slug=parent_list_slug, context=context, parent_list=None)[0]
-                the_list = List.objects.filter(slug=list_slug, parent_list__slug=parent_list_slug, context=context)[0]
-            except Exception as e:
-                # Reorder existing lists so the new one shows up in order
-                for index, lst in enumerate(List.objects.filter(context=context, parent_list=parent_list)):
-                    lst.order = index + 1
-                    lst.save()
+def get_or_create_list(context, lists):
+    # Check for empty lists
+    if len(lists) == 0:
+        return None
 
-                # New sublist
-                the_list = List()
-                the_list.slug = list_slug
-                the_list.order = 0 # put at beginning
-                the_list.parent_list = parent_list
-                the_list.context = context
-                the_list.save()
-        else:
-            the_list = List.objects.filter(slug=list_slug, context=context, parent_list=None)[0]
-    except Exception as e:
-        # Not found, so create it
+    parent_slug = None
+    parent_list = None
+
+    for list_slug in lists:
         try:
+            if parent_slug:
+                cur_list = List.objects.filter(slug=list_slug, parent_list__slug=parent_slug, context=context)[0]
+                parent_list = List.objects.filter(slug=parent_slug, context=context)[0]
+            else:
+                cur_list = List.objects.filter(slug=list_slug, parent_list=None, context=context)[0]
+        except Exception as e:
             # Reorder existing lists so the new one shows up in order
-            for index, lst in enumerate(List.objects.filter(context=context, parent_list=None)):
+            for index, lst in enumerate(List.objects.filter(context=context, parent_list=parent_list)):
                 lst.order = index + 1
                 lst.save()
 
-            # Create the new one
-            the_list = List()
-            the_list.slug = list_slug
-            the_list.order = 0 # put at beginning
-            the_list.context = context
+            try:
+                # Create a new list
+                cur_list = List()
+                cur_list.slug = list_slug
+                cur_list.order = 0 # put at beginning
+                cur_list.context = context
 
-            if parent_list_slug:
-                # There's a parent list, so try to get it
-                try:
-                    parent_list = List.objects.get(slug=parent_list_slug, context=context, parent_list=None)
-                except Exception as e:
-                    # Parent list not found, so create it
+                if parent_list:
+                    cur_list.parent_list = parent_list
 
-                    # Reorder existing lists so the new one shows up in order
-                    for index, lst in enumerate(List.objects.filter(context=context, parent_list=None)):
-                        lst.order = index + 1
-                        lst.save()
+                # Actually create it
+                cur_list.save()
+            except Exception as e:
+                print("Couldn't create list", e)
 
-                    # Create it
-                    parent_list = List()
-                    parent_list.slug = parent_list_slug
-                    parent_list.order = 0 # put at beginning
-                    parent_list.context = context
-                    parent_list.save()
+        # Now set it to be the parent of the next list
+        parent_slug = list_slug
 
-                # Hook it up as the parent_list
-                the_list.parent_list = parent_list
+    # At this point, cur_list is the list we want to return
+    return cur_list
 
-            the_list.save()
-        except Exception as e:
-            print("Couldn't create list", e)
-            pass
+    # Get the list
+    #try:
+    #    if parent_list_slug:
+    #        try:
+    #            parent_list = List.objects.filter(slug=parent_list_slug, context=context, parent_list=None)[0]
+    #            the_list = List.objects.filter(slug=list_slug, parent_list__slug=parent_list_slug, context=context)[0]
+    #        except Exception as e:
+    #            # Reorder existing lists so the new one shows up in order
+    #            for index, lst in enumerate(List.objects.filter(context=context, parent_list=parent_list)):
+    #                lst.order = index + 1
+    #                lst.save()
 
-    return the_list
+    #            # New sublist
+    #            the_list = List()
+    #            the_list.slug = list_slug
+    #            the_list.order = 0 # put at beginning
+    #            the_list.parent_list = parent_list
+    #            the_list.context = context
+    #            the_list.save()
+    #    else:
+    #        the_list = List.objects.filter(slug=list_slug, context=context, parent_list=None)[0]
+    #except Exception as e:
+    #    # Not found, so create it
+    #    try:
+    #        # Reorder existing lists so the new one shows up in order
+    #        for index, lst in enumerate(List.objects.filter(context=context, parent_list=None)):
+    #            lst.order = index + 1
+    #            lst.save()
+
+    #        # Create the new one
+    #        the_list = List()
+    #        the_list.slug = list_slug
+    #        the_list.order = 0 # put at beginning
+    #        the_list.context = context
+
+    #        if parent_list_slug:
+    #            # There's a parent list, so try to get it
+    #            try:
+    #                parent_list = List.objects.get(slug=parent_list_slug, context=context, parent_list=None)
+    #            except Exception as e:
+    #                # Parent list not found, so create it
+
+    #                # Reorder existing lists so the new one shows up in order
+    #                for index, lst in enumerate(List.objects.filter(context=context, parent_list=None)):
+    #                    lst.order = index + 1
+    #                    lst.save()
+
+    #                # Create it
+    #                parent_list = List()
+    #                parent_list.slug = parent_list_slug
+    #                parent_list.order = 0 # put at beginning
+    #                parent_list.context = context
+    #                parent_list.save()
+
+    #            # Hook it up as the parent_list
+    #            the_list.parent_list = parent_list
+
+    #        the_list.save()
+    #    except Exception as e:
+    #        print("Couldn't create list", e)
+    #        pass
 
 def parse_block(block):
     """
