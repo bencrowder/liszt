@@ -2,18 +2,16 @@ from django.conf import settings
 from liszt.models import Item, List, Context
 
 def parse_list_string(list_string):
+    """
+    Takes a string like "projects/liszt" or "/work/services/redesign/tools"
+    and returns it in list form.
+    """
+
     # Slice off initial / if it's there
     if list_string[0] == '/':
         list_string = list_string[1:]
 
-    # Now see if there's a sublist
-    if '/' in list_string:
-        the_list, the_sublist = list_string.split('/')
-    else:
-        the_list = list_string
-        the_sublist = None
-
-    return the_list, the_sublist
+    return list_string.split('/')
 
 def parse_selector(selector):
     context = None
