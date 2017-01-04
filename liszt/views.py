@@ -25,32 +25,45 @@ def home(request):
                               )
 
 @login_required
-def list_detail(request, context_slug, list_slug, sublist_slug=None):
+def list_detail(request, context_slug, list_slugs):
     hidden = request.GET.get('hidden', None)
 
-    # Get the parent list (if it's a sublist)
-    if sublist_slug:
-        parent_list = List.objects.get(slug=list_slug, context__slug=context_slug, parent_list=None)
-        the_list = List.objects.filter(slug=sublist_slug, context__slug=context_slug, parent_list__slug=list_slug).select_related('context').order_by('id')[0]
+    # Process list slugs
+    lists = list_slugs.split('/')
 
+    # Check if there's a parent
+    if len(lists) > 1:
+        # Parent list (two up from last)
+        parent_list_slug = lists[-2]
+        parent_list = List.objects.get(slug=parent_list_slug, context__slug=context_slug, parent_list=None)
         parent_uri = resolve_url('list_detail', context_slug, parent_list.slug)
-    else:
-        # Normal list
-        parent_list = None
-        the_list = List.objects.filter(slug=list_slug, context__slug=context_slug, parent_list=None).select_related('context').order_by('id')[0]
 
+        # Current list (last list in list)
+        cur_list_slug = lists[-1]
+    else:
+        # No parent
+        parent_list = None
         parent_uri = resolve_url('context_detail', context_slug)
 
+        # Current list
+        cur_list_slug = lists[0]
+
+    # Get the list
+    cur_list = List.objects.filter(slug=cur_list_slug,
+                                   context__slug=context_slug,
+                                   parent_list=parent_list).select_related('context').order_by('id')[0]
+
+
     # Tell the list whether we're showing hidden items
-    the_list.hidden = hidden
+    cur_list.hidden = hidden
 
     all_contexts = get_all_contexts()
 
     context = {
-        'title': '::{}/{} — Liszt'.format(context_slug, the_list.get_full_text_slug()),
+        'title': '::{}/{} — Liszt'.format(context_slug, cur_list.get_full_text_slug()),
         'all_contexts': all_contexts,
         'pagetype': 'list',
-        'list': the_list,
+        'list': cur_list,
         'key': settings.SECRET_KEY,
         'parent_uri': parent_uri,
     }

@@ -129,11 +129,19 @@ class List(models.Model):
 
     def get_full_slug(self, html=True):
         if self.parent_list:
+            parents = []
+            p = self.parent_list
+            while p.parent_list:
+                parents.append(p.slug)
+                p = p.parent_list
+
             # For sublists
             if html:
-                return '{}<span class="selector">/</span>{}'.format(self.parent_list.slug, self.slug)
+                parent_html = '<span class="selector">/</span>'.join(parents)
+                return '{}<span class="selector">/</span>{}'.format(parent_html, self.slug)
             else:
-                return '{}/{}'.format(self.parent_list.slug, self.slug)
+                parent_text = '/'.join(parents)
+                return '{}/{}'.format(parent_text, self.slug)
         else:
             # Normal lists
             return self.slug
