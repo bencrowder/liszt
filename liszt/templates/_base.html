@@ -40,7 +40,7 @@
 <body data-parent-uri="{{ parent_uri }}">
 	<div class="wrapper">
 		{% block menu %}
-		{% if request.user.username %}
+		{% if request.user.username != '' %}
 		<nav role="menu">
 			<div class="group">
 				<a href="{% url 'home' %}">home</a>
