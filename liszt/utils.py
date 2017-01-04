@@ -155,15 +155,14 @@ def get_or_create_list(context, lists):
 
 def parse_block(block):
     """
-Parse a block (a sequence of items with/without list/context specifiers.
+    Parse a block (a sequence of items with/without list/context specifiers.
     """
     response = []
 
     # Split into groups by newlines
     for group in [x.strip() for x in block.split('\n\n')]:
         group_response = {
-            'list': None,
-            'sublist': None,
+            'lists': None,
             'context': None,
             'items': [],
         }
@@ -176,18 +175,15 @@ Parse a block (a sequence of items with/without list/context specifiers.
                 # See if there's a list
                 if '/' in remainder:
                     # Yes, there's a list
-                    lists = remainder.split('/')
-
-                    # Context
-                    group_response['context'] = lists[0]
-
-                    group_response['list'], group_response['sublist'] = parse_list_string('/'.join(lists[1:]))
+                    items = remainder.split('/')
+                    group_response['lists'] = parse_list_string(items[1:])
+                    group_response['context'] = items[0]
                 else:
                     # No list, just add the context
                     group_response['context'] = remainder
             elif line[0] == '/':
                 # List (not a context)
-                group_response['list'], group_response['sublist'] = parse_list_string(line)
+                group_response['lists'] = parse_list_string(line)
             else:
                 # Normal item
 
