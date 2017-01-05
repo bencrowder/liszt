@@ -6,10 +6,10 @@
 	{% if forloop.last %}
 	<span class="list main">{{ p.get_display_slug|safe }}</span>
 	{% else %}	
-	<a class="list" href="{% url 'list_detail' context.slug p.slug %}">{{ p.get_display_slug|safe }}</a>&thinsp;
+	<a class="list" href="{{ p.get_url }}">{{ p.get_display_slug|safe }}</a>&thinsp;
 	{% endif %}
 {% endfor %}
-<div class="hidden" id="page-data" data-type="list" data-context-slug="{{ context.slug }}" data-list-slugs="{% for p in parents %}{{ p.slug }}|{% endfor %}"></div>
+<div class="hidden" id="page-data" data-type="list" data-context-slug="{{ context.slug }}" data-list-slugs="{% for p in parents %}{{ p.slug }}{% if not forloop.last %},{% endif %}{% endfor %}"></div>
 {% endblock pageheader %}
 
 {% block content %}

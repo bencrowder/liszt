@@ -40,7 +40,7 @@ def add_items(request):
 
     # Get default list
     if d_lists:
-        lists = d_lists.split('/')
+        lists = d_lists.split(',')
         default_list = get_or_create_list(default_context, lists)
     else:
         default_list = get_or_create_list(default_context, ['inbox'])
@@ -447,7 +447,7 @@ def update_list(request, list_id):
     if archive == 'false':
         archive = False
 
-    new_context, new_list, _ = parse_selector(new_selector)
+    new_context, new_lists = parse_selector(new_selector)
 
     try:
         the_list = List.objects.get(id=list_id)
@@ -491,12 +491,8 @@ def update_list(request, list_id):
             ctx = the_list.get_context()
 
         # Get or create the list
-        if new_list != '' and new_list is not None:
-            # Strip off initial :
-            if new_list[0] == ':':
-                new_list = new_list[1:]
-
-            lst = get_or_create_list(ctx, new_list.split('/'))
+        if len(new_lists) > 0 and new_lists is not None:
+            lst = get_or_create_list(ctx, new_lists)
 
             # Assign
             the_list.parent_list = lst

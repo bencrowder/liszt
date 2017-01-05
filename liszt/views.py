@@ -4,7 +4,7 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 
 from liszt.models import Item, List, Context
-from liszt.utils import get_all_contexts
+from liszt.utils import get_all_contexts, get_list
 
 @login_required
 def home(request):
@@ -26,39 +26,22 @@ def home(request):
 
 @login_required
 def list_detail(request, context_slug, list_slugs):
-    hidden = request.GET.get('hidden', None)
-
-    # Process list slugs
-    lists = list_slugs.split('/')
-
-    # Check if there's a parent
-    if len(lists) > 1:
-        # Parent list (two up from last)
-        parent_list_slug = lists[-2]
-        parent_list = List.objects.get(slug=parent_list_slug, context__slug=context_slug)
-        parent_uri = resolve_url('list_detail', context_slug, parent_list.slug)
-
-        # Current list (last list in list)
-        cur_list_slug = lists[-1]
-    else:
-        # No parent
-        parent_list = None
-        parent_uri = resolve_url('context_detail', context_slug)
-
-        # Current list
-        cur_list_slug = lists[0]
-
-    # Get the list
-    cur_list = List.objects.filter(slug=cur_list_slug,
-                                   context__slug=context_slug,
-                                   parent_list=parent_list)
-    cur_list = cur_list.select_related('context')
-    cur_list = cur_list.order_by('id')
-    
     all_contexts = get_all_contexts()
 
-    if cur_list.count() > 0:
-        cur_list = cur_list[0]
+    hidden = request.GET.get('hidden', None)
+
+    # Process list slugs and get the list
+    lists = list_slugs.split('/')
+    cur_list = get_list(context_slug, lists)
+
+    if cur_list:
+        # Check if there's a parent
+        if cur_list.parent_list:
+            # Parent list
+            parent_uri = resolve_url('list_detail', context_slug, cur_list.parent_list.slug)
+        else:
+            # No parent
+            parent_uri = resolve_url('context_detail', context_slug)
 
         # Tell the list whether we're showing hidden items
         cur_list.hidden = hidden
@@ -70,8 +53,8 @@ def list_detail(request, context_slug, list_slugs):
         parents = []
         parent_slug = None
         for list_slug in lists:
-            cur_list = List.objects.filter(slug=list_slug, parent_list__slug=parent_slug, context=ctx)[0]
-            parents.append(cur_list)
+            c = List.objects.filter(slug=list_slug, parent_list__slug=parent_slug, context=ctx)[0]
+            parents.append(c)
             parent_slug = list_slug
 
         context = {
@@ -97,7 +80,6 @@ def list_detail(request, context_slug, list_slugs):
             'all_contexts': all_contexts,
             'pagetype': 'list',
             'key': settings.SECRET_KEY,
-            'parent_uri': parent_uri,
         }
 
         return render_to_response('404.html',

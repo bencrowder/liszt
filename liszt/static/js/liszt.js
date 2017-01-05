@@ -798,12 +798,10 @@ function _submitAddTray() {
 
 	// Check if we should pass in context/list
 	var contextSlug = $("#page-data").attr("data-context-slug");
-	var listSlug = $("#page-data").attr("data-list-slug");
-	var parentListSlug = $("#page-data").attr("data-parent-list-slug");
+	var listSlugs = $("#page-data").attr("data-list-slugs");
 
 	if (contextSlug != '') data['context'] = contextSlug;
-	if (listSlug != '') data['list'] = listSlug;
-	if (parentListSlug != '') data['parent_list'] = parentListSlug;
+	if (listSlugs != '') data['lists'] = listSlugs;
 
 	$.ajax({
 		url: url,
