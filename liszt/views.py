@@ -35,7 +35,7 @@ def list_detail(request, context_slug, list_slugs):
     if len(lists) > 1:
         # Parent list (two up from last)
         parent_list_slug = lists[-2]
-        parent_list = List.objects.get(slug=parent_list_slug, context__slug=context_slug, parent_list=None)
+        parent_list = List.objects.get(slug=parent_list_slug, context__slug=context_slug)
         parent_uri = resolve_url('list_detail', context_slug, parent_list.slug)
 
         # Current list (last list in list)
@@ -51,30 +51,49 @@ def list_detail(request, context_slug, list_slugs):
     # Get the list
     cur_list = List.objects.filter(slug=cur_list_slug,
                                    context__slug=context_slug,
-                                   parent_list=parent_list).select_related('context').order_by('id')[0]
-
-
-    # Tell the list whether we're showing hidden items
-    cur_list.hidden = hidden
-
+                                   parent_list=parent_list)
+    cur_list = cur_list.select_related('context')
+    cur_list = cur_list.order_by('id')
+    
     all_contexts = get_all_contexts()
 
-    context = {
-        'title': '::{}/{} — Liszt'.format(context_slug, cur_list.get_full_text_slug()),
-        'all_contexts': all_contexts,
-        'pagetype': 'list',
-        'list': cur_list,
-        'key': settings.SECRET_KEY,
-        'parent_uri': parent_uri,
-    }
+    if cur_list.count() > 0:
+        cur_list = cur_list[0]
 
-    if parent_list:
-        context['parent_list'] = parent_list
+        # Tell the list whether we're showing hidden items
+        cur_list.hidden = hidden
 
-    return render_to_response('list.html',
-                              context,
-                              RequestContext(request),
-                              )
+        context = {
+            'title': '::{}/{} — Liszt'.format(context_slug, cur_list.get_full_text_slug()),
+            'all_contexts': all_contexts,
+            'pagetype': 'list',
+            'list': cur_list,
+            'key': settings.SECRET_KEY,
+            'parent_uri': parent_uri,
+        }
+
+        if parent_list:
+            context['parent_list'] = parent_list
+
+        return render_to_response('list.html',
+                                context,
+                                RequestContext(request),
+                                )
+    else:
+        cur_list = None
+
+        context = {
+            'title': 'Not Found — Liszt',
+            'all_contexts': all_contexts,
+            'pagetype': 'list',
+            'key': settings.SECRET_KEY,
+            'parent_uri': parent_uri,
+        }
+
+        return render_to_response('404.html',
+                                context,
+                                RequestContext(request),
+                                )
 
 @login_required
 def context_detail(request, context_slug):

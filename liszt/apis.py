@@ -18,14 +18,12 @@ def add_items(request):
         payload = request.GET.get('payload', '').strip()
         key = request.GET.get('key', '')
         d_context = request.GET.get('context', None)
-        d_list = request.GET.get('list', None)
-        d_parent_list = request.GET.get('parent_list', None)
+        d_lists = request.GET.get('lists', None)
     elif request.method == 'POST':
         payload = request.POST.get('payload', '').strip()
         key = request.POST.get('key', '')
         d_context = request.POST.get('context', None)
-        d_list = request.POST.get('list', None)
-        d_parent_list = request.POST.get('parent_list', None)
+        d_lists = request.POST.get('lists', None)
 
     callback = request.GET.get('callback', '')
 
@@ -41,10 +39,11 @@ def add_items(request):
         default_context = Context.objects.filter(status='active').first()
 
     # Get default list
-    if d_list:
-        default_list = get_or_create_list(default_context, d_list, d_parent_list)
+    if d_lists:
+        lists = d_lists.split('/')
+        default_list = get_or_create_list(default_context, lists)
     else:
-        default_list = get_or_create_list(default_context, 'inbox')
+        default_list = get_or_create_list(default_context, ['inbox'])
 
     # Add the sequence
     status, message = process_payload(payload, default_context, default_list)
@@ -325,19 +324,15 @@ def update_item(request, item_id):
 
             someday = request.POST.get('someday', False)
             if someday != 'false' and someday != False:
-                someday_list = get_or_create_list(item.parent_list.context, 'someday')
+                someday_list = get_or_create_list(item.parent_list.context, ['someday'])
                 item.parent_list = someday_list
 
             to_list = request.POST.get('to_list', '')
             if to_list != '':
-                the_context, the_list, the_sublist = parse_selector(to_list)
+                the_context, the_lists = parse_selector(to_list)
 
                 the_context = get_or_create_context(the_context)
-
-                if the_sublist is not None:
-                    to_list = get_or_create_list(the_context, the_sublist, the_list)
-                else:
-                    to_list = get_or_create_list(the_context, the_list)
+                to_list = get_or_create_list(the_context, the_lists)
 
                 item.parent_list = to_list
 
@@ -396,12 +391,8 @@ def update_item(request, item_id):
             if new_list[0] == ':':
                 new_list = new_list[1:]
 
-            the_list, the_sublist = parse_list_string(new_list)
-
-            if the_sublist is not None:
-                lst = get_or_create_list(ctx, the_sublist, the_list)
-            else:
-                lst = get_or_create_list(ctx, the_list)
+            the_lists = parse_list_string(new_list)
+            lst = get_or_create_list(ctx, the_lists)
 
             # Assign
             item.parent_list = lst
@@ -505,7 +496,7 @@ def update_list(request, list_id):
             if new_list[0] == ':':
                 new_list = new_list[1:]
 
-            lst = get_or_create_list(ctx, new_list)
+            lst = get_or_create_list(ctx, new_list.split('/'))
 
             # Assign
             the_list.parent_list = lst
@@ -577,7 +568,6 @@ def get_review_items(request):
 
             for l in sorted_lists:
                 the_list = contexts[c]['lists'][l]
-                print("::{}/{}".format(c, l))
                 sorted_items = sorted(the_list['items'])
 
                 for item in sorted_items:

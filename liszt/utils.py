@@ -60,8 +60,8 @@ def get_or_create_list(context, lists):
     for list_slug in lists:
         try:
             if parent_slug:
-                cur_list = List.objects.filter(slug=list_slug, parent_list__slug=parent_slug, context=context)[0]
                 parent_list = List.objects.filter(slug=parent_slug, context=context)[0]
+                cur_list = List.objects.filter(slug=list_slug, parent_list__slug=parent_slug, context=context)[0]
             else:
                 cur_list = List.objects.filter(slug=list_slug, parent_list=None, context=context)[0]
         except Exception as e:
@@ -176,7 +176,7 @@ def parse_block(block):
                 if '/' in remainder:
                     # Yes, there's a list
                     items = remainder.split('/')
-                    group_response['lists'] = parse_list_string(items[1:])
+                    group_response['lists'] = parse_list_string('/'.join(items[1:]))
                     group_response['context'] = items[0]
                 else:
                     # No list, just add the context
@@ -211,6 +211,7 @@ def process_payload(payload, default_context=None, default_list=None):
     blocks = parse_block(payload)
 
     for block in blocks:
+        print("block", block)
         try:
             # Clear things out
             b_context = default_context

@@ -114,7 +114,15 @@ class List(models.Model):
 
     def get_url(self):
         if self.parent_list:
-            return resolve_url('list_detail', self.parent_list.context.slug, self.parent_list.slug, self.slug)
+            slugs = []
+            p = self.parent_list
+            while p:
+                slugs.append(p.slug)
+                p = p.parent_list
+            slugs.reverse()
+            slugs.append(self.slug)
+
+            return resolve_url('list_detail', self.context.slug, '/'.join(slugs))
         else:
             return resolve_url('list_detail', self.context.slug, self.slug)
 
@@ -131,7 +139,7 @@ class List(models.Model):
         if self.parent_list:
             parents = []
             p = self.parent_list
-            while p.parent_list:
+            while p:
                 parents.append(p.slug)
                 p = p.parent_list
 
