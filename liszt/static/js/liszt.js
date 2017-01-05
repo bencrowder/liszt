@@ -120,7 +120,7 @@ $(document).ready(function() {
 	// --------------------------------------------------
 
 	// Checkbox
-	$("#content").on("tap", "ul.items li.item input[type=checkbox]", function() {
+	$("#content").on("tap", "ul.items li.item input[type=checkbox]", function(e) {
 		var url = $(this).parents("li.item").attr("data-item-uri");
 
 		var data = {
@@ -143,11 +143,13 @@ $(document).ready(function() {
 			},
 		});
 
+		e.preventDefault();
+
 		return false;
 	});
 
 	// Starring
-	$("#content").on("doubletap", "li.item .wrapper > label", function() {
+	$("#content").on("doubletap", "li.item .wrapper > label", function(e) {
 		var url = $(this).closest("li.item").attr("data-star-item-uri");
 		var star = $(this).closest(".wrapper").siblings(".star");
 
@@ -167,6 +169,8 @@ $(document).ready(function() {
 				return false;
 			},
 		});
+
+		e.preventDefault();
 
 		return false;
 	});
@@ -269,6 +273,8 @@ $(document).ready(function() {
 				controls.find("textarea.item-text").focus();
 			});
 		});
+
+		e.preventDefault();
 
 		return false;
 	});
