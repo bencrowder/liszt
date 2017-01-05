@@ -63,17 +63,27 @@ def list_detail(request, context_slug, list_slugs):
         # Tell the list whether we're showing hidden items
         cur_list.hidden = hidden
 
+        # Get the context
+        ctx = Context.objects.get(slug=context_slug)
+
+        # Get the parents
+        parents = []
+        parent_slug = None
+        for list_slug in lists:
+            cur_list = List.objects.filter(slug=list_slug, parent_list__slug=parent_slug, context=ctx)[0]
+            parents.append(cur_list)
+            parent_slug = list_slug
+
         context = {
             'title': '::{}/{} — Liszt'.format(context_slug, cur_list.get_full_text_slug()),
             'all_contexts': all_contexts,
+            'context': ctx,
+            'parents': parents,
             'pagetype': 'list',
             'list': cur_list,
             'key': settings.SECRET_KEY,
             'parent_uri': parent_uri,
         }
-
-        if parent_list:
-            context['parent_list'] = parent_list
 
         return render_to_response('list.html',
                                 context,

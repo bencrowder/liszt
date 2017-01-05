@@ -1,15 +1,15 @@
 {% extends '_base.html' %}
 
 {% block pageheader %}
-{% if parent_list %}
-	<a class="context" href="{% url 'context_detail' parent_list.context.slug %}">{{ parent_list.context.get_display_slug|safe }}</a>
-	<a class="list" href="{% url 'list_detail' parent_list.context.slug parent_list.slug %}">{{ parent_list.get_display_slug|safe }}</a>&thinsp;<span class="list main">{{ list.get_display_slug|safe }}</span>
-	<div class="hidden" id="page-data" data-type="list" data-context-slug="{{ parent_list.context.slug }}" data-list-slug="{{ list.slug }}" data-parent-list-slug="{{ parent_list.slug }}"></div>
-{% else %}
-	<a class="context" href="{% url 'context_detail' list.context.slug %}">{{ list.context.get_display_slug|safe }}</a>
-	<span class="list main">{{ list.get_display_slug|safe }}</span>
-	<div class="hidden" id="page-data" data-type="list" data-context-slug="{{ list.context.slug }}" data-list-slug="{{ list.slug }}"></div>
-{% endif %}
+<a class="context" href="{% url 'context_detail' context.slug %}">{{ context.get_display_slug|safe }}</a>
+{% for p in parents %}
+	{% if forloop.last %}
+	<span class="list main">{{ p.get_display_slug|safe }}</span>
+	{% else %}	
+	<a class="list" href="{% url 'list_detail' context.slug p.slug %}">{{ p.get_display_slug|safe }}</a>&thinsp;
+	{% endif %}
+{% endfor %}
+<div class="hidden" id="page-data" data-type="list" data-context-slug="{{ context.slug }}" data-list-slugs="{% for p in parents %}{{ p.slug }}|{% endfor %}"></div>
 {% endblock pageheader %}
 
 {% block content %}
