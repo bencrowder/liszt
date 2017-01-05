@@ -89,24 +89,37 @@ def list_detail(request, context_slug, list_slugs):
 
 @login_required
 def context_detail(request, context_slug):
-    # Get the context
-    the_context = Context.objects.get(slug=context_slug)
-
     all_contexts = get_all_contexts()
 
-    context = {
-        'title': '::{} — Liszt'.format(context_slug),
-        'pagetype': 'context',
-        'ctext': the_context,
-        'all_contexts': all_contexts,
-        'key': settings.SECRET_KEY,
-        'parent_uri': resolve_url('home'),
-    }
+    # Get the context
+    try:
+        the_context = Context.objects.get(slug=context_slug)
 
-    return render_to_response('context.html',
-                              context,
-                              RequestContext(request),
-                              )
+        context = {
+            'title': '::{} — Liszt'.format(context_slug),
+            'pagetype': 'context',
+            'ctext': the_context,
+            'all_contexts': all_contexts,
+            'key': settings.SECRET_KEY,
+            'parent_uri': resolve_url('home'),
+        }
+
+        return render_to_response('context.html',
+                                context,
+                                RequestContext(request),
+                                )
+    except Exception as e:
+        context = {
+            'title': 'Not Found — Liszt',
+            'all_contexts': all_contexts,
+            'pagetype': 'context',
+            'key': settings.SECRET_KEY,
+        }
+
+        return render_to_response('404.html',
+                                context,
+                                RequestContext(request),
+                                )
 @login_required
 def starred(request):
     items = Item.objects.filter(starred=True, checked=False).order_by('starred_order', 'parent_list__context__order', 'parent_list__order', 'parent_list__parent_list__order', 'order').select_related('parent_list', 'parent_list__context')
