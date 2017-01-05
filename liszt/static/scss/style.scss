@@ -724,6 +724,17 @@ main#content {
 					}
 				}
 			}
+
+			&.waiting {
+				label {
+					color: #999;
+					font-style: italic;
+				}
+			}
+
+			&.urgent {
+				font-weight: 600;
+			}
 		}
 
 		&.starred {

@@ -39,10 +39,20 @@ class Item(models.Model):
         return response
 
     def get_html(self, sortable=True, show_context=False, show_list=False):
-        html = '<li class="item" data-item-id="{}" data-item-uri="{}" data-star-item-uri="{}">\n'.format(self.id, resolve_url('toggle_item', self.id), resolve_url('toggle_starred_item', self.id))
+        item_classes = []
+        display_text = self.text
+
+        if self.text[0:2] == '! ':
+            item_classes.append('urgent')
+            display_text = self.text[2:].strip()
+
+        if '@waiting' in [self.text, self.notes]:
+            item_classes.append('waiting')
+
+        html = '<li class="item {}" data-item-id="{}" data-item-uri="{}" data-star-item-uri="{}">\n'.format(' '.join(item_classes), self.id, resolve_url('toggle_item', self.id), resolve_url('toggle_starred_item', self.id))
         html += '\t<input id="item-{}" type="checkbox" {} />\n'.format(self.id, 'checked="true"' if self.checked else '')
         html += '\t<div class="wrapper">\n'
-        html += '\t\t<label>{}</label>\n'.format(self.text)
+        html += '\t\t<label>{}</label>\n'.format(display_text)
 
         if show_context or show_list:
             html += '<span class="subtitle selector">'

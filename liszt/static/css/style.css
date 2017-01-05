@@ -581,6 +581,11 @@ main#content {
         text-decoration: none; }
         main#content ul.items li.item label .tag:hover {
           color: #266439; }
+    main#content ul.items li.item.waiting label {
+      color: #999;
+      font-style: italic; }
+    main#content ul.items li.item.urgent {
+      font-weight: 600; }
   main#content ul.items.starred .subtitle {
     font-size: .8em;
     line-height: 1.3em; }

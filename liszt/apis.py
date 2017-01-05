@@ -353,9 +353,7 @@ def update_item(request, item_id):
         # Return JSON response
         return JsonResponse(response)
 
-    new_context, new_list, new_sublist = parse_selector(new_selector)
-    if new_sublist:
-        new_list = '{}/{}'.format(new_list, new_sublist)
+    new_context, new_lists = parse_selector(new_selector)
 
     try:
         item = Item.objects.get(id=item_id)
@@ -386,13 +384,8 @@ def update_item(request, item_id):
             ctx = item.get_context()
 
         # Get or create the list
-        if new_list != '':
-            # Strip off initial :
-            if new_list[0] == ':':
-                new_list = new_list[1:]
-
-            the_lists = parse_list_string(new_list)
-            lst = get_or_create_list(ctx, the_lists)
+        if len(new_lists) > 0 and new_lists is not None:
+            lst = get_or_create_list(ctx, new_lists)
 
             # Assign
             item.parent_list = lst

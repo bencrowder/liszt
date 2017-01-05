@@ -263,7 +263,7 @@ $(document).ready(function() {
 	// Item editing
 	// --------------------------------------------------
 
-	$("#content").on("doubletap", "li.item .handle", function() {
+	$("#content").on("doubletap", "li.item .handle", function(e) {
 		var controls = $(this).siblings(".wrapper").find(".edit-controls");
 		var labels = $(this).siblings(".wrapper").find("> label, > .subtitle");
 
@@ -293,14 +293,18 @@ $(document).ready(function() {
 		}
 	}
 
-	$("#content").on("tap", "li.item .wrapper .edit-controls .cancel", function() {
+	$("#content").on("tap", "li.item .wrapper .edit-controls .cancel", function(e) {
 		_hideEditControls($(this), true);
+
+		e.preventDefault();
 
 		return false;
 	});
 
-	$("#content").on("tap", "li.item .wrapper .edit-controls .star", function() {
+	$("#content").on("tap", "li.item .wrapper .edit-controls .star", function(e) {
 		$(this).toggleClass("selected");
+
+		e.preventDefault();
 
 		return false;
 	});
@@ -385,8 +389,10 @@ $(document).ready(function() {
 		return false;
 	}
 
-	$("#content").on("tap", "li.item .wrapper .edit-controls .save", function() {
+	$("#content").on("tap", "li.item .wrapper .edit-controls .save", function(e) {
 		_saveItem($(this));
+
+		e.preventDefault();
 
 		return false;
 	});
@@ -395,7 +401,7 @@ $(document).ready(function() {
 	// List editing
 	// --------------------------------------------------
 
-	$("#content").on("doubletap", "li.list .handle", function() {
+	$("#content").on("doubletap", "li.list .handle", function(e) {
 		var controls = $(this).siblings(".wrapper").find(".edit-controls");
 		var labels = $(this).siblings(".wrapper").find("> a, > .subtitle");
 
@@ -405,6 +411,8 @@ $(document).ready(function() {
 				controls.find("textarea.list-name").focus();
 			});
 		});
+
+		e.preventDefault();
 
 		return false;
 	});
@@ -512,8 +520,10 @@ $(document).ready(function() {
 		return false;
 	}
 
-	$("#content").on("tap", "li.list .wrapper .edit-controls .save", function() {
+	$("#content").on("tap", "li.list .wrapper .edit-controls .save", function(e) {
 		_saveList($(this));
+
+		e.preventDefault();
 
 		return false;
 	});
