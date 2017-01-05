@@ -155,7 +155,7 @@ $(document).ready(function() {
 	});
 
 	// Starring
-	$("#content").on("doubletap", "li.item .wrapper > label", function(e) {
+	$("#content").on("flick", "li.item .wrapper > label", function(e) {
 		if ($(this).attr("in-progress") != "true") {
 			$(this).attr("in-progress", "true");
 
@@ -276,9 +276,9 @@ $(document).ready(function() {
 	// Item editing
 	// --------------------------------------------------
 
-	$("#content").on("doubletap", "li.item .handle", function(e) {
-		var controls = $(this).siblings(".wrapper").find(".edit-controls");
-		var labels = $(this).siblings(".wrapper").find("> label, > .subtitle");
+	$("#content").on("doubletap", "li.item .wrapper label", function(e) {
+		var controls = $(this).closest(".wrapper").find(".edit-controls");
+		var labels = $(this).closest(".wrapper").find("> label, > .subtitle");
 
 		labels.fadeOut(75, function() {
 			controls.fadeIn(75, function () {
@@ -414,9 +414,9 @@ $(document).ready(function() {
 	// List editing
 	// --------------------------------------------------
 
-	$("#content").on("doubletap", "li.list .handle", function(e) {
-		var controls = $(this).siblings(".wrapper").find(".edit-controls");
-		var labels = $(this).siblings(".wrapper").find("> a, > .subtitle");
+	$("#content").on("doubletap", "li.list .wrapper .subtitle", function(e) {
+		var controls = $(this).closest(".wrapper").find(".edit-controls");
+		var labels = $(this).closest(".wrapper").find("> a, > .subtitle");
 
 		labels.fadeOut(75, function() {
 			controls.fadeIn(75, function () {
