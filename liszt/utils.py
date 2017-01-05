@@ -30,6 +30,17 @@ def parse_selector(selector):
 
     return context, lists
 
+def get_context(context_slug):
+    context = None
+
+    # Try to get the context
+    try:
+        context = Context.objects.get(slug=context_slug)
+    except Exception as e:
+        pass
+
+    return context
+
 def get_or_create_context(context_slug):
     context = None
 
