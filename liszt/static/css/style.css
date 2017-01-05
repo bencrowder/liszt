@@ -555,7 +555,7 @@ main#content {
   main#content ul.items li.item {
     /* Checkbox */
     /* Label */ }
-    main#content ul.items li.item input[type=checkbox] {
+    main#content ul.items li.item .checkbox {
       -webkit-user-select: none;
       -webkit-appearance: none;
       border: solid 1px #ccc;
@@ -566,12 +566,12 @@ main#content {
       min-width: 20px;
       width: 20px;
       height: 20px; }
-      main#content ul.items li.item input[type=checkbox]:focus {
+      main#content ul.items li.item .checkbox:focus {
         outline: none; }
-      main#content ul.items li.item input[type=checkbox]:checked {
+      main#content ul.items li.item .checkbox.checked {
         background: #444;
         border-color: #444; }
-        main#content ul.items li.item input[type=checkbox]:checked:hover {
+        main#content ul.items li.item .checkbox.checked:hover {
           background: #246189;
           border-color: #246189; }
     main#content ul.items li.item label {

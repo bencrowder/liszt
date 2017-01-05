@@ -688,7 +688,7 @@ main#content {
 	ul.items {
 		li.item {
 			/* Checkbox */
-			input[type=checkbox] {
+			.checkbox {
 				-webkit-user-select: none;
 				-webkit-appearance: none;
 				border: solid 1px #ccc;
@@ -704,7 +704,7 @@ main#content {
 					outline: none;
 				}
 
-				&:checked {
+				&.checked {
 					background: #444;
 					border-color: #444;
 

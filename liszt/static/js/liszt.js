@@ -120,7 +120,7 @@ $(document).ready(function() {
 	// --------------------------------------------------
 
 	// Checkbox
-	$("#content").on("tap", "ul.items li.item input[type=checkbox]", function(e) {
+	$("#content").on("tap", "ul.items li.item .checkbox", function(e) {
 		if ($(this).attr("in-progress") != "true") {
 			$(this).attr("in-progress", "true");
 
@@ -138,7 +138,7 @@ $(document).ready(function() {
 				data: data,
 				success: function(data) {
 					item.attr("in-progress", "");
-					item.prop("checked", !item.prop("checked"));
+					item.toggleClass("checked");
 					return false;
 				},
 				error: function(data) {

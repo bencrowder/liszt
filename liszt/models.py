@@ -50,7 +50,7 @@ class Item(models.Model):
             item_classes.append('waiting')
 
         html = '<li class="item {}" data-item-id="{}" data-item-uri="{}" data-star-item-uri="{}">\n'.format(' '.join(item_classes), self.id, resolve_url('toggle_item', self.id), resolve_url('toggle_starred_item', self.id))
-        html += '\t<input id="item-{}" type="checkbox" {} />\n'.format(self.id, 'checked="true"' if self.checked else '')
+        html += '\t<div class="checkbox {}" id="item-{}"></div>\n'.format('checked' if self.checked else '', self.id)
         html += '\t<div class="wrapper">\n'
         html += '\t\t<label>{}</label>\n'.format(display_text)
 
