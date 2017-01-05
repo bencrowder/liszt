@@ -82,7 +82,7 @@ def get_list(context_slug, lists):
             parent_slug = list_slug
             parent_id = cur_list.id
         except Exception as e:
-            print("Couldn't find list", e)
+            print("Couldn't find list", list_slug, "exception=", e)
 
     # At this point, cur_list is the list we want to return
     return cur_list
