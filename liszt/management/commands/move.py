@@ -21,7 +21,7 @@ class Command(BaseCommand):
         src_context_slug, src_list_slugs = utils.parse_selector(src)
 
         # If error (more than one context/list, can't find the context/list, etc.), exit
-        src_context = utils.get_context(src_context_slug)
+        src_context = utils.get_or_create_context(src_context_slug)
 
         if src_context is None:
             print("Error, source context doesn't exist")
@@ -42,7 +42,7 @@ class Command(BaseCommand):
         dest_context_slug, dest_list_slugs = utils.parse_selector(dest)
 
         # If error (more than one context/list, can't find the context/list, etc.), exit
-        dest_context = utils.get_context(dest_context_slug)
+        dest_context = utils.get_or_create_context(dest_context_slug)
 
         if dest_context is None:
             print("Error, destination context doesn't exist")
