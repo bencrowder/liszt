@@ -1,0 +1,62 @@
+{% extends '_base.html' %}
+
+{% block pageheader %}
+<span class="context main">{{ ctext.get_display_slug|safe }} overview</span>
+<div class="hidden" id="page-data" data-type="context" data-context-slug="{{ ctext.slug }}"></div>
+{% endblock pageheader %}
+
+{% block content %}
+
+<div class="group">
+	<h2 class="contextview">Current</h2>
+	{% if current.get_active_sublists|length > 0 %}
+	<ul class="sublists lists objects sortable" data-sort-uri="{% url 'sort_things' 'list' %}">
+		{% for sublist in current.get_active_sublists %}
+		{{ sublist.get_html|safe }}
+		{% endfor %}
+	</ul>
+	{% endif %}
+
+	<ul class="items objects sortable" data-sort-uri="{% url 'sort_things' 'item' %}">
+		{% for item in current.get_active_items %}
+		{{ item.get_html|safe }}
+		{% endfor %}
+	</ul>
+</div>
+
+
+<div class="group">
+	<h2 class="contextview">Upcoming</h2>
+	{% if upcoming.get_active_sublists|length > 0 %}
+	<ul class="sublists lists objects sortable" data-sort-uri="{% url 'sort_things' 'list' %}">
+		{% for sublist in upcoming.get_active_sublists %}
+		{{ sublist.get_html|safe }}
+		{% endfor %}
+	</ul>
+	{% endif %}
+
+	<ul class="items objects sortable" data-sort-uri="{% url 'sort_things' 'item' %}">
+		{% for item in upcoming.get_active_items %}
+		{{ item.get_html|safe }}
+		{% endfor %}
+	</ul>
+</div>
+
+
+<div class="group">
+	<h2 class="contextview">Inbox</h2>
+	{% if inbox.get_active_sublists|length > 0 %}
+	<ul class="sublists lists objects sortable" data-sort-uri="{% url 'sort_things' 'list' %}">
+		{% for sublist in inbox.get_active_sublists %}
+		{{ sublist.get_html|safe }}
+		{% endfor %}
+	</ul>
+	{% endif %}
+
+	<ul class="items objects sortable" data-sort-uri="{% url 'sort_things' 'item' %}">
+		{% for item in inbox.get_active_items %}
+		{{ item.get_html|safe }}
+		{% endfor %}
+	</ul>
+</div>
+{% endblock content %}

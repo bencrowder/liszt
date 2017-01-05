@@ -47,6 +47,8 @@
 				<a href="{% url 'starred' %}">&#x2605;</a>
 				<a class="overview-link" href="{% url 'overview' %}">overview</a>
 				<a class="review-link" href="{% url 'review' %}">review</a>
+				{% if ctext %}<a class="contextview-link" href="{% url 'context_view' ctext.slug %}">contextview</a>{% endif %}
+				{% if context %}<a class="contextview-link" href="{% url 'context_view' context.slug %}">contextview</a>{% endif %}
 			</div>
 
 			<div class="group">	

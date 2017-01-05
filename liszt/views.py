@@ -121,6 +121,47 @@ def context_detail(request, context_slug):
                                 RequestContext(request),
                                 )
 @login_required
+def context_view(request, context_slug):
+    all_contexts = get_all_contexts()
+
+    # Get the context
+    try:
+        the_context = Context.objects.get(slug=context_slug)
+
+        # Now get the main lists: current, upcoming, and inbox
+        current = get_list(context_slug, ['current'])
+        upcoming = get_list(context_slug, ['upcoming'])
+        inbox = get_list(context_slug, ['inbox'])
+
+        context = {
+            'title': '::{} — Liszt'.format(context_slug),
+            'pagetype': 'context',
+            'ctext': the_context,
+            'current': current,
+            'upcoming': upcoming,
+            'inbox': inbox,
+            'all_contexts': all_contexts,
+            'key': settings.SECRET_KEY,
+            'parent_uri': resolve_url('home'),
+        }
+
+        return render_to_response('contextview.html',
+                                context,
+                                RequestContext(request),
+                                )
+    except Exception as e:
+        context = {
+            'title': 'Not Found — Liszt',
+            'all_contexts': all_contexts,
+            'pagetype': 'context',
+            'key': settings.SECRET_KEY,
+        }
+
+        return render_to_response('404.html',
+                                context,
+                                RequestContext(request),
+                                )
+@login_required
 def starred(request):
     items = Item.objects.filter(starred=True, checked=False).order_by('starred_order', 'parent_list__context__order', 'parent_list__order', 'parent_list__parent_list__order', 'order').select_related('parent_list', 'parent_list__context')
 

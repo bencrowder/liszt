@@ -777,6 +777,21 @@ main#content {
 		}
 	}
 
+	.group {
+		h2.contextview {
+			font-size: 1.2em;
+			font-style: italic;
+			font-weight: normal;
+			margin: 1.5em 0 .5em;
+		}
+
+		&:first-child {
+			h2.contextview {
+				margin-top: .5em;
+			}
+		}
+	}
+
 	/* Search results */
 	.results {
 		h2 {
