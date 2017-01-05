@@ -121,27 +121,33 @@ $(document).ready(function() {
 
 	// Checkbox
 	$("#content").on("tap", "ul.items li.item input[type=checkbox]", function(e) {
-		var url = $(this).parents("li.item").attr("data-item-uri");
+		if ($(this).attr("in-progress") != "true") {
+			$(this).attr("in-progress", "true");
 
-		var data = {
-			'key': config.apiKey,
-		};
+			var url = $(this).parents("li.item").attr("data-item-uri");
 
-		var item = $(this);
+			var data = {
+				'key': config.apiKey,
+			};
 
-		$.ajax({
-			url: url,
-			method: 'GET',
-			data: data,
-			success: function(data) {
-				item.prop("checked", !item.prop("checked"));
-				return false;
-			},
-			error: function(data) {
-				console.log("error :(", data);
-				return false;
-			},
-		});
+			var item = $(this);
+
+			$.ajax({
+				url: url,
+				method: 'GET',
+				data: data,
+				success: function(data) {
+					item.attr("in-progress", "");
+					item.prop("checked", !item.prop("checked"));
+					return false;
+				},
+				error: function(data) {
+					item.attr("in-progress", "");
+					console.log("error :(", data);
+					return false;
+				},
+			});
+		}
 
 		e.preventDefault();
 
@@ -150,25 +156,31 @@ $(document).ready(function() {
 
 	// Starring
 	$("#content").on("doubletap", "li.item .wrapper > label", function(e) {
-		var url = $(this).closest("li.item").attr("data-star-item-uri");
-		var star = $(this).closest(".wrapper").siblings(".star");
+		if ($(this).attr("in-progress") != "true") {
+			$(this).attr("in-progress", "true");
 
-		var data = {
-			'key': config.apiKey,
-		};
+			var item = $(this);
+			var url = $(this).closest("li.item").attr("data-star-item-uri");
+			var star = $(this).closest(".wrapper").siblings(".star");
 
-		$.ajax({
-			url: url,
-			method: 'GET',
-			data: data,
-			success: function(data) {
-				star.toggleClass("hide");
-			},
-			error: function(data) {
-				console.log("error :(", data);
-				return false;
-			},
-		});
+			var data = {
+				'key': config.apiKey,
+			};
+
+			$.ajax({
+				url: url,
+				method: 'GET',
+				data: data,
+				success: function(data) {
+					item.attr("in-progress", "");
+					star.toggleClass("hide");
+				},
+				error: function(data) {
+					item.attr("in-progress", "");
+					console.log("error :(", data);
+					return false;
+				},
+			});
 
 		e.preventDefault();
 

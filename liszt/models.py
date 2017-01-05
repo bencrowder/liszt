@@ -38,7 +38,7 @@ class Item(models.Model):
 
         return response
 
-    def get_html(self, sortable=True, show_context=False, show_list=False):
+    def get_html(self, sortable=True, show_context=False, show_list=False, editable=True):
         item_classes = []
         display_text = self.text
 
@@ -83,6 +83,9 @@ class Item(models.Model):
         html += '\t</div>\n'
 
         html += '\t<span class="star{}">&#x2605;</span>\n'.format(' hide' if not self.starred else '')
+
+#        if editable:
+#            html += '\t<span class="edit"><img src="/static/pencil.svg" /></span>\n'
 
         if sortable:
             html += '\t<span class="handle">=</span>\n'

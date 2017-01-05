@@ -365,6 +365,7 @@ main#content {
       /* Content wrapper */
       /* Star */
       /* Handle */
+      /* Edit icon */
       /* Subtitle */
       /* Placeholder for sorting */
       /* List editing */ }
@@ -477,6 +478,13 @@ main#content {
         cursor: move;
         font-size: 1.5em;
         margin-left: 8px; }
+      main#content ul.objects li .edit {
+        -webkit-user-select: none;
+        cursor: move;
+        margin-left: 8px; }
+        main#content ul.objects li .edit img {
+          height: 12px;
+          width: 12px; }
       main#content ul.objects li span.subtitle {
         color: #a6a6a6;
         display: block;
