@@ -46,7 +46,7 @@ class Item(models.Model):
             item_classes.append('urgent')
             display_text = self.text[2:].strip()
 
-        if '@waiting' in [self.text, self.notes]:
+        if "@waiting" in self.text or (self.notes and "@waiting" in self.notes):
             item_classes.append('waiting')
 
         html = '<li class="item {}" data-item-id="{}" data-item-uri="{}" data-star-item-uri="{}">\n'.format(' '.join(item_classes), self.id, resolve_url('toggle_item', self.id), resolve_url('toggle_starred_item', self.id))
