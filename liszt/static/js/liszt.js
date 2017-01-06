@@ -106,6 +106,11 @@ $(document).ready(function() {
 	});
 
 	// Overview
+	Mousetrap.bind('g c', function() {
+		window.location.href = $("nav[role=menu] .contextview-link").attr("href");
+	});
+
+	// Overview
 	Mousetrap.bind('g o', function() {
 		window.location.href = $("nav[role=menu] .overview-link").attr("href");
 	});
