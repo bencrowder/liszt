@@ -189,7 +189,6 @@ def process_payload(payload, default_context=None, default_list=None):
     blocks = parse_block(payload)
 
     for block in blocks:
-        print("block", block)
         try:
             # Clear things out
             b_context = default_context

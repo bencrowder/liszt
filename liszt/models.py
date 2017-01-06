@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
 from django_extensions.db.fields import AutoSlugField
+from django.utils import timezone
 from django.utils.text import slugify
 from model_utils import Choices
 from django.shortcuts import resolve_url
@@ -15,6 +16,9 @@ class Item(models.Model):
     checked = models.BooleanField(default=False)
     starred = models.BooleanField(default=False)
     notes = models.TextField(blank=True, null=True)
+    linked_list = models.ForeignKey('List', related_name="linked_items", null=True, blank=True)
+    target_date = models.DateField(null=True, blank=True)
+    date_added = models.DateTimeField(null=True, blank=True, default=timezone.now)
 
     def __str__(self):
         return self.text
