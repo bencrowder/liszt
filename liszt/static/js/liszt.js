@@ -155,6 +155,7 @@ $(document).ready(function() {
 	});
 
 	// Starring
+	/*
 	$("#content").on("flick", "li.item .wrapper > label", function(e) {
 		if ($(this).attr("in-progress") != "true") {
 			$(this).attr("in-progress", "true");
@@ -187,6 +188,7 @@ $(document).ready(function() {
 
 		return false;
 	});
+	*/
 
 
 	// Sorting items in a list
