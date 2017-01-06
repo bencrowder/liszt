@@ -623,7 +623,12 @@ main#content {
     font-size: 1.2em;
     font-style: italic;
     font-weight: normal;
-    margin: 1.5em 0 .5em; }
+    margin: 1.75em 0 .5em; }
+    main#content .group h2.contextview a {
+      color: #666;
+      text-decoration: none; }
+      main#content .group h2.contextview a:hover {
+        color: #222; }
   main#content .group:first-child h2.contextview {
     margin-top: .5em; }
   main#content .results h2 {

@@ -8,7 +8,7 @@
 {% block content %}
 
 <div class="group">
-	<h2 class="contextview">Current</h2>
+	<h2 class="contextview"><a href="{% url 'list_detail' ctext.slug 'current' %}">Current</a></h2>
 	{% if current.get_active_sublists|length > 0 %}
 	<ul class="sublists lists objects sortable" data-sort-uri="{% url 'sort_things' 'list' %}">
 		{% for sublist in current.get_active_sublists %}
@@ -26,7 +26,7 @@
 
 
 <div class="group">
-	<h2 class="contextview">Upcoming</h2>
+	<h2 class="contextview"><a href="{% url 'list_detail' ctext.slug 'upcoming' %}">Upcoming</a></h2>
 	{% if upcoming.get_active_sublists|length > 0 %}
 	<ul class="sublists lists objects sortable" data-sort-uri="{% url 'sort_things' 'list' %}">
 		{% for sublist in upcoming.get_active_sublists %}
@@ -44,7 +44,7 @@
 
 
 <div class="group">
-	<h2 class="contextview">Inbox</h2>
+	<h2 class="contextview"><a href="{% url 'list_detail' ctext.slug 'inbox' %}">Inbox</a></h2>
 	{% if inbox.get_active_sublists|length > 0 %}
 	<ul class="sublists lists objects sortable" data-sort-uri="{% url 'sort_things' 'list' %}">
 		{% for sublist in inbox.get_active_sublists %}
