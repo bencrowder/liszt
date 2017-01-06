@@ -2,6 +2,7 @@ from django.conf import settings
 from django.shortcuts import get_object_or_404, render_to_response, redirect, resolve_url
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 
 from liszt.models import Item, List, Context
 from liszt.utils import get_all_contexts, get_list
@@ -181,6 +182,26 @@ def starred(request):
                               RequestContext(request),
                               )
 
+@login_required
+def dateview(request):
+    now = timezone.now()
+    items = Item.objects.filter(target_date__isnull=False, target_date__gte=now, checked=False).order_by('target_date', 'order').select_related('parent_list', 'parent_list__context')
+
+    all_contexts = get_all_contexts()
+
+    context = {
+        'title': 'Dateview — Liszt',
+        'items': items,
+        'all_contexts': all_contexts,
+        'pagetype': 'dateview',
+        'key': settings.SECRET_KEY,
+        'parent_uri': resolve_url('home'),
+    }
+
+    return render_to_response('starred.html',
+                              context,
+                              RequestContext(request),
+                              )
 @login_required
 def overview(request):
     all_contexts = get_all_contexts()
