@@ -10,14 +10,14 @@
 <div class="group">
 	<h2 class="contextview"><a href="{% url 'list_detail' ctext.slug 'current' %}">Current</a></h2>
 	{% if current.get_active_sublists|length > 0 %}
-	<ul class="sublists lists objects sortable" data-sort-uri="{% url 'sort_things' 'list' %}">
+	<ul class="sublists lists objects sortable" data-sort-uri="{% url 'sort_things' 'list' %}" data-target="current">
 		{% for sublist in current.get_active_sublists %}
 		{{ sublist.get_html|safe }}
 		{% endfor %}
 	</ul>
 	{% endif %}
 
-	<ul class="items objects sortable" data-sort-uri="{% url 'sort_things' 'item' %}">
+	<ul class="items objects sortable" data-sort-uri="{% url 'sort_things' 'item' %}" data-target="current">
 		{% for item in current.get_active_items %}
 		{{ item.get_html|safe }}
 		{% endfor %}
@@ -28,14 +28,14 @@
 <div class="group">
 	<h2 class="contextview"><a href="{% url 'list_detail' ctext.slug 'upcoming' %}">Upcoming</a></h2>
 	{% if upcoming.get_active_sublists|length > 0 %}
-	<ul class="sublists lists objects sortable" data-sort-uri="{% url 'sort_things' 'list' %}">
+	<ul class="sublists lists objects sortable" data-sort-uri="{% url 'sort_things' 'list' %}" data-target="upcoming">
 		{% for sublist in upcoming.get_active_sublists %}
 		{{ sublist.get_html|safe }}
 		{% endfor %}
 	</ul>
 	{% endif %}
 
-	<ul class="items objects sortable" data-sort-uri="{% url 'sort_things' 'item' %}">
+	<ul class="items objects sortable" data-sort-uri="{% url 'sort_things' 'item' %}" data-target="upcoming">
 		{% for item in upcoming.get_active_items %}
 		{{ item.get_html|safe }}
 		{% endfor %}
@@ -46,14 +46,14 @@
 <div class="group">
 	<h2 class="contextview"><a href="{% url 'list_detail' ctext.slug 'inbox' %}">Inbox</a></h2>
 	{% if inbox.get_active_sublists|length > 0 %}
-	<ul class="sublists lists objects sortable" data-sort-uri="{% url 'sort_things' 'list' %}">
+	<ul class="sublists lists objects sortable" data-sort-uri="{% url 'sort_things' 'list' %}" data-target="inbox">
 		{% for sublist in inbox.get_active_sublists %}
 		{{ sublist.get_html|safe }}
 		{% endfor %}
 	</ul>
 	{% endif %}
 
-	<ul class="items objects sortable" data-sort-uri="{% url 'sort_things' 'item' %}">
+	<ul class="items objects sortable" data-sort-uri="{% url 'sort_things' 'item' %}" data-target="inbox">
 		{% for item in inbox.get_active_items %}
 		{{ item.get_html|safe }}
 		{% endfor %}

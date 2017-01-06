@@ -250,6 +250,7 @@ def sort_things(request, type):
     """ Sorts contexts, lists, and items. """
 
     key = request.POST.get('key', '')
+    list_slug = request.POST.get('list', '')
     id_list = [int(x) for x in request.POST.get('ids', '').split(',') if x != '']
 
     # Make sure we have the secret key
@@ -275,6 +276,12 @@ def sort_things(request, type):
                 thing.starred_order = i
             else:
                 thing.order = i
+
+            if list_slug != '':
+                # Possibly dragging between lists in contextview
+                ctx = thing.parent_list.context
+                new_list = List.objects.filter(slug=list_slug, context=ctx)[0]
+                thing.parent_list = new_list
 
             thing.save()
 

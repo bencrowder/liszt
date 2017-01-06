@@ -696,6 +696,12 @@ main#content {
 
 	/* Items */
 	ul.items {
+		li.empty {
+			background: #eee;
+			border-radius: 5px;
+			min-height: 2em;
+		}
+
 		li.item {
 			/* Checkbox */
 			.checkbox {

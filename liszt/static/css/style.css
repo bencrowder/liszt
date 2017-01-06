@@ -558,6 +558,10 @@ main#content {
       color: #d0356b; }
       main#content ul.lists.contexts li.list a:hover {
         color: #95234b; }
+  main#content ul.items li.empty {
+    background: #eee;
+    border-radius: 5px;
+    min-height: 2em; }
   main#content ul.items li.item {
     /* Checkbox */
     /* Label */ }

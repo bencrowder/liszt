@@ -193,41 +193,52 @@ $(document).ready(function() {
 
 	// Sorting items in a list
 	// --------------------------------------------------
+	
+	function updateSort(e) {
+		var item = $(e.item);
+		var order = [];
+		var itemList = item.closest("ul.items");
+		var items = itemList.find("li.item");
+		var target = itemList.attr("data-target");
+
+		for (var i=0; i<items.length; i++) {
+			var item = $(items[i]);
+			order.push(parseInt(item.attr("data-item-id")));
+		}
+
+		var url = itemList.attr("data-sort-uri");
+
+		var data = {
+			ids: order.join(','),
+			key: config.apiKey,
+			list: target,
+		};
+
+		$.ajax({
+			url: url,
+			method: 'POST',
+			data: data,
+			success: function(data) {
+			},
+			error: function(data) {
+				console.log("Error! :(", data);
+			},
+		});
+	}
 
 	var itemLists = $("ul.items.sortable");
 	for (var i=0; i<itemLists.length; i++) {
 		var itemList = itemLists[i];
 		var sortable = new Sortable(itemList, {
+			group: "group",
 			draggable: "li.item",
 			handle: ".handle",
 			ghostClass: "placeholder",
+			onAdd: function(e) {
+				updateSort(e);
+			},
 			onUpdate: function(e) {
-				var item = $(e.item);
-				var order = [];
-				var items = item.parents("ul.items").find("li.item");
-
-				for (var i=0; i<items.length; i++) {
-					var item = $(items[i]);
-					order.push(parseInt(item.attr("data-item-id")));
-				}
-
-				var url = item.parents("ul.items").attr("data-sort-uri");
-
-				var data = {
-					ids: order.join(','),
-					key: config.apiKey,
-				};
-
-				$.ajax({
-					url: url,
-					method: 'POST',
-					data: data,
-					success: function(data) {
-					},
-					error: function(data) {
-						console.log("Error! :(", data);
-					},
-				});
+				updateSort(e);
 			},
 		});
 	}
