@@ -286,6 +286,7 @@ $(document).ready(function() {
 			controls.fadeIn(75, function () {
 				autosize(controls.find("textarea"));
 				controls.find("textarea.item-text").focus();
+				controls.closest("li.item").addClass("edit");
 			});
 		});
 
@@ -306,6 +307,8 @@ $(document).ready(function() {
 				labels.fadeIn(75);
 			});
 		}
+
+		controls.closest("li.item").removeClass("edit");
 	}
 
 	$("#content").on("tap", "li.item .wrapper .edit-controls .cancel", function(e) {
@@ -424,6 +427,7 @@ $(document).ready(function() {
 			controls.fadeIn(75, function () {
 				autosize(controls.find("textarea"));
 				controls.find("textarea.list-name").focus();
+				controls.closest("li.list").addClass("edit");
 			});
 		});
 
@@ -444,6 +448,8 @@ $(document).ready(function() {
 				labels.fadeIn(75);
 			});
 		}
+
+		controls.closest("li.list").removeClass("edit");
 	}
 
 	$("#content").on("tap", "li.list .wrapper .edit-controls .cancel", function() {

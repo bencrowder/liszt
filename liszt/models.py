@@ -69,10 +69,10 @@ class Item(models.Model):
 
         html += '\t\t<div class="edit-controls" data-update-uri="{}">\n'.format(resolve_url('update_item', self.id))
         html += '\t\t\t<textarea class="item-text">{}</textarea>\n'.format(self.get_text_with_notes())
+        html += '\t\t\t<textarea class="item-metadata">{}{}\n:id {}</textarea>\n'.format(self.get_context().get_display_slug(html=False), self.parent_list.get_full_display_slug(html=False), self.id)
         html += '\t\t\t<div class="meta">\n'
         html += '\t\t\t\t<div class="right"><span class="star {}"></span></div>\n'.format('selected' if self.starred else '')
         html += '\t\t\t</div>\n'
-        html += '\t\t\t<textarea class="item-metadata">{}{}\n:id {}</textarea>\n'.format(self.get_context().get_display_slug(html=False), self.parent_list.get_full_display_slug(html=False), self.id)
 
         html += '\t\t\t<div class="buttons">\n'
         html += '\t\t\t\t<a class="save button" href="">Save</a>\n'
@@ -205,11 +205,11 @@ class List(models.Model):
 
         html += '\t\t<div class="edit-controls" data-update-uri="{}">\n'.format(resolve_url('update_list', self.id))
         html += '\t\t\t<textarea class="list-name">/{}</textarea>\n'.format(self.slug)
+        html += '\t\t\t<textarea class="list-metadata">{}{}\n:id {}</textarea>\n'.format(self.get_context().get_display_slug(html=False), self.parent_list.get_full_display_slug(html=False) if self.parent_list else '', self.id)
         html += '\t\t\t<div class="meta">\n'
         html += '\t\t\t\t<div class="left"><span><input type="checkbox" name="for-review" class="for-review" {}/> <label for="for-review">Review</label></div></span> <span><input type="checkbox" name="archive" class="archive" /> <label for="archive">Archive</label></span>\n'.format('checked' if self.for_review else '')
         html += '\t\t\t\t<div class="right"><span class="star {}"></span></div>\n'.format('selected' if self.starred else '')
         html += '\t\t\t</div>\n'
-        html += '\t\t\t<textarea class="list-metadata">{}{}\n:id {}</textarea>\n'.format(self.get_context().get_display_slug(html=False), self.parent_list.get_full_display_slug(html=False) if self.parent_list else '', self.id)
 
         html += '\t\t\t<div class="buttons">\n'
         html += '\t\t\t\t<a class="save button" href="">Save</a>\n'

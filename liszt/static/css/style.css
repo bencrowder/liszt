@@ -365,7 +365,6 @@ main#content {
       /* Content wrapper */
       /* Star */
       /* Handle */
-      /* Edit icon */
       /* Subtitle */
       /* Placeholder for sorting */
       /* List editing */ }
@@ -383,41 +382,18 @@ main#content {
             border: none;
             font-size: 1.2em;
             line-height: 1.2em;
-            margin: 0;
-            padding: 0;
+            margin: 0 -5px;
+            padding: 0 5px;
             resize: none;
             width: 100%; }
             main#content ul.objects li > div.wrapper .edit-controls textarea:focus {
               outline: none; }
             main#content ul.objects li > div.wrapper .edit-controls textarea.item-metadata, main#content ul.objects li > div.wrapper .edit-controls textarea.list-metadata {
-              background: #d3eefd;
+              color: #666;
               font-size: 1.1em;
+              font-style: italic;
               margin-bottom: 5px;
-              padding: 7px 9px; }
-          main#content ul.objects li > div.wrapper .edit-controls .meta {
-            background: #a5c3d9;
-            border-radius: 3px 3px 0 0;
-            display: -webkit-flex;
-            display: flex;
-            margin-top: .5em;
-            padding: 5px 9px; }
-            main#content ul.objects li > div.wrapper .edit-controls .meta .left {
-              -webkit-flex: 1;
-              flex: 1; }
-            main#content ul.objects li > div.wrapper .edit-controls .meta .right {
-              -webkit-flex: 1;
-              flex: 1;
-              text-align: right; }
-            main#content ul.objects li > div.wrapper .edit-controls .meta .star {
-              color: #779dbb;
-              cursor: pointer;
-              margin-left: 0; }
-              main#content ul.objects li > div.wrapper .edit-controls .meta .star:before {
-                content: '\2605'; }
-              main#content ul.objects li > div.wrapper .edit-controls .meta .star:hover {
-                color: #444; }
-              main#content ul.objects li > div.wrapper .edit-controls .meta .star.selected {
-                color: #fff; }
+              margin-top: 5px; }
           main#content ul.objects li > div.wrapper .edit-controls .group {
             align-items: center;
             display: flex;
@@ -443,6 +419,30 @@ main#content {
               color: #0f97d2; }
             main#content ul.objects li > div.wrapper .edit-controls .group.tag input {
               color: #3b9b59; }
+          main#content ul.objects li > div.wrapper .edit-controls .meta {
+            border: solid 1px #ddd;
+            border-radius: 3px;
+            display: -webkit-flex;
+            display: flex;
+            margin: .5em 0 1.5em;
+            padding: 5px 9px; }
+            main#content ul.objects li > div.wrapper .edit-controls .meta .left {
+              -webkit-flex: 1;
+              flex: 1; }
+            main#content ul.objects li > div.wrapper .edit-controls .meta .right {
+              -webkit-flex: 1;
+              flex: 1;
+              text-align: right; }
+            main#content ul.objects li > div.wrapper .edit-controls .meta .star {
+              color: #ddd;
+              cursor: pointer;
+              margin-left: 0; }
+              main#content ul.objects li > div.wrapper .edit-controls .meta .star:before {
+                content: '\2605'; }
+              main#content ul.objects li > div.wrapper .edit-controls .meta .star:hover {
+                color: #444; }
+              main#content ul.objects li > div.wrapper .edit-controls .meta .star.selected {
+                color: #111; }
         main#content ul.objects li > div.wrapper .buttons {
           display: flex;
           margin-top: 10px; }
@@ -478,13 +478,6 @@ main#content {
         cursor: move;
         font-size: 1.5em;
         margin-left: 8px; }
-      main#content ul.objects li .edit {
-        -webkit-user-select: none;
-        cursor: move;
-        margin-left: 8px; }
-        main#content ul.objects li .edit img {
-          height: 12px;
-          width: 12px; }
       main#content ul.objects li span.subtitle {
         color: #a6a6a6;
         display: block;
@@ -510,7 +503,7 @@ main#content {
       main#content ul.objects li.list > div.wrapper .edit-controls input[type=checkbox] {
         -webkit-user-select: none;
         -webkit-appearance: none;
-        border: solid 1px #698fb0;
+        border: solid 1px #888;
         border-radius: 2px;
         cursor: pointer;
         font-size: 1.2em;
@@ -521,19 +514,21 @@ main#content {
         main#content ul.objects li.list > div.wrapper .edit-controls input[type=checkbox]:focus {
           outline: none; }
         main#content ul.objects li.list > div.wrapper .edit-controls input[type=checkbox]:hover {
-          border-color: #1a2732; }
+          border-color: #111; }
         main#content ul.objects li.list > div.wrapper .edit-controls input[type=checkbox]:checked {
-          background: #1f4260;
-          border-color: #1f4260; }
+          background: #444;
+          border-color: #444; }
           main#content ul.objects li.list > div.wrapper .edit-controls input[type=checkbox]:checked:hover {
-            background: #020b12;
-            border-color: #020b12; }
+            background: #111;
+            border-color: #111; }
       main#content ul.objects li.list > div.wrapper .edit-controls label {
-        color: #698fb0; }
+        color: #888; }
       main#content ul.objects li.list > div.wrapper .edit-controls textarea.list-name {
         font-size: 1.4em;
         line-height: 1.2em;
-        max-height: 1.4em; }
+        margin: 0 -5px;
+        max-height: 1.4em;
+        padding: 0 5px; }
     main#content ul.objects.heading {
       margin-bottom: 0; }
   main#content ul.lists {
@@ -548,6 +543,17 @@ main#content {
         text-decoration: none; }
         main#content ul.lists li.list .wrapper > a:hover {
           color: #0a648a; }
+      main#content ul.lists li.list .wrapper .subtitle {
+        -webkit-user-select: none;
+        cursor: pointer; }
+        main#content ul.lists li.list .wrapper .subtitle:hover {
+          color: #888; }
+      main#content ul.lists li.list.edit {
+        border-radius: 5px;
+        box-shadow: 0 0 15px #999;
+        padding: 15px; }
+        main#content ul.lists li.list.edit .handle {
+          display: none; }
     main#content ul.lists.contexts li.list a {
       color: #d0356b; }
       main#content ul.lists.contexts li.list a:hover {
@@ -594,6 +600,12 @@ main#content {
       font-style: italic; }
     main#content ul.items li.item.urgent {
       font-weight: 600; }
+    main#content ul.items li.item.edit {
+      border-radius: 5px;
+      box-shadow: 0 0 15px #999;
+      padding: 15px; }
+      main#content ul.items li.item.edit .handle {
+        display: none; }
   main#content ul.items.starred .subtitle {
     font-size: .8em;
     line-height: 1.3em; }
