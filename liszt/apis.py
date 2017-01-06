@@ -312,6 +312,8 @@ def update_item(request, item_id):
     new_text = request.POST.get('text', '').strip()
     new_selector = request.POST.get('selector', '').strip()
     new_id = request.POST.get('id', '').strip()
+    new_target_date = request.POST.get('target', '').strip()
+    new_linked_list = request.POST.get('link', '').strip()
 
     # Review mode
     review_mode = request.POST.get('review_mode', False)
@@ -366,18 +368,43 @@ def update_item(request, item_id):
         item = Item.objects.get(id=item_id)
 
         # Update the text if it's changed
-        new_text, item_notes, item_starred, edit_item_id = parse_item(new_text)
-        if new_text != '' and item.text != new_text:
-            item.text = new_text
+        response = parse_item(new_text)
+
+        if 'label' in response and response['label'] != '' and item.text != response['label']:
+            item.text = response['label']
 
         # Update the notes
-        if item_notes:
-            item.notes = item_notes
+        if 'notes' in response and response['notes']:
+            item.notes = response['notes']
         else:
             item.notes = None
 
         # Update starred
-        item.starred = item_starred
+        if 'starred' in response and response['starred']:
+            item.starred = response['starred']
+        else:
+            item.starred = False
+
+        # Get target date
+        if new_target_date != '' or ('target_date' in response and response['target_date']):
+            if new_target_date:
+                item.target_date = new_target_date
+            else:
+                item.target_date = response['target_date']
+        else:
+            item.target_date = None
+
+        # Get linked list
+        if new_linked_list != '' or ('linked_list' in response and response['linked_list']):
+            if new_linked_list:
+                sel = new_linked_list
+            else:
+                sel = response['linked_list']
+
+            linked_context, linked_lists = parse_selector(sel)
+            item.linked_list = get_list(linked_context, linked_lists)
+        else:
+            item.linked_list = None
 
         # Get or create the context
         if new_context != '':
@@ -413,10 +440,16 @@ def update_item(request, item_id):
 
     if status == 'success':
         response['item'] = {
-            'text': item.text,
+            'label': item.text,
             'notes': item.get_notes(),
             'starred': item.starred,
         }
+
+        if item.linked_list:
+            response['linked_list'] = '{}{}'.format(item.linked_list.context.get_display_slug(), item.linked_list.get_full_display_slug(html=False))
+
+        if item.target_date:
+            response['target_date'] = item.target_date
 
     # Return JSON response
     return JsonResponse(response)

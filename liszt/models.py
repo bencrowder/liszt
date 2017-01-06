@@ -35,6 +35,21 @@ class Item(models.Model):
         else:
             return ''
 
+    def get_target_date(self):
+        if self.target_date:
+            return self.target_date
+        else:
+            return ''
+
+    def get_linked_list(self):
+        if self.linked_list:
+            return {
+                'label': '{}{}'.format(self.linked_list.context.get_display_slug(), self.linked_list.get_full_display_slug()),
+                'url': self.linked_list.get_url(),
+            }
+        else:
+            return {}
+
     def get_text_with_notes(self):
         response = self.text
         if self.notes and self.notes != '':
@@ -71,9 +86,27 @@ class Item(models.Model):
         if self.notes:
             html += '\t\t<span class="subtitle notes">{}</span>\n'.format(self.get_notes())
 
+        if self.target_date:
+            html += '\t\t<span class="subtitle date">{}</span>\n'.format(self.get_target_date())
+
+        if self.linked_list:
+            ll = self.get_linked_list()
+            html += '\t\t<span class="subtitle list"><a href="{}">{}</a></span>\n'.format(ll['url'], ll['label'])
+
         html += '\t\t<div class="edit-controls" data-update-uri="{}">\n'.format(resolve_url('update_item', self.id))
         html += '\t\t\t<textarea class="item-text">{}</textarea>\n'.format(self.get_text_with_notes())
-        html += '\t\t\t<textarea class="item-metadata">{}{}\n:id {}</textarea>\n'.format(self.get_context().get_display_slug(html=False), self.parent_list.get_full_display_slug(html=False), self.id)
+
+        html += '\t\t\t<textarea class="item-metadata">'
+        lines = []
+        lines.append('{}{}'.format(self.get_context().get_display_slug(html=False), self.parent_list.get_full_display_slug(html=False)))
+        lines.append(':id {}'.format(self.id))
+        if self.target_date:
+            lines.append(':target {}'.format(self.target_date))
+        if self.linked_list:
+            lines.append(':link {}{}\n'.format(self.linked_list.context.get_display_slug(html=False), self.linked_list.get_full_display_slug(html=False)))
+        html += '\n'.join(lines)
+        html += '</textarea>\n'
+
         html += '\t\t\t<div class="meta">\n'
         html += '\t\t\t\t<div class="right"><span class="star {}"></span></div>\n'.format('selected' if self.starred else '')
         html += '\t\t\t</div>\n'

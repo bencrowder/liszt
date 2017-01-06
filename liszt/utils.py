@@ -1,5 +1,6 @@
 from django.conf import settings
 from liszt.models import Item, List, Context
+import re
 
 def parse_list_string(list_string):
     """
@@ -164,15 +165,8 @@ def parse_block(block):
                 group_response['lists'] = parse_list_string(line)
             else:
                 # Normal item
-
-                # Get info and notes
-                label, notes, starred, item_id = parse_item(line)
-
-                group_response['items'].append({
-                    'label': label,
-                    'notes': notes,
-                    'starred': starred,
-                })
+                item_data = parse_item(line)
+                group_response['items'].append(item_data)
 
         response.append(group_response)
 
@@ -187,6 +181,7 @@ def process_payload(payload, default_context=None, default_list=None):
     message = ''
 
     blocks = parse_block(payload)
+    print(blocks)
 
     for block in blocks:
         try:
@@ -223,10 +218,19 @@ def process_payload(payload, default_context=None, default_list=None):
                 b_item.parent_list = b_list
                 b_item.text = item['label'].strip()
 
-                if item['notes'] != '':
+                if 'notes' in item and item['notes'] != '':
                     b_item.notes = item['notes']
 
-                if item['starred']:
+                # Get target date
+                if 'target_date' in item and item['target_date']:
+                    b_item.target_date = item['target_date']
+
+                # Get linked list
+                if 'linked_list' in item and item['linked_list'] != '':
+                    linked_context, linked_lists = parse_selector(item['linked_list'])
+                    b_item.linked_list = get_list(linked_context, linked_lists)
+
+                if 'starred' in item and item['starred']:
                     # Reorder the starred list
                     starred_items = Item.objects.filter(starred=True, checked=False).order_by('starred_order', 'parent_list__context__order', 'parent_list__order', 'parent_list__parent_list__order', 'order')
 
@@ -248,33 +252,57 @@ def process_payload(payload, default_context=None, default_list=None):
     return status, message
 
 def parse_item(item):
-    """ Parses a line. Returns tuple with string and notes. """
-    label = []
-    notes = ''
-    id = None
-    starred = False
+    """
+    Parses a line. Returns dictionary with metadata.
+    """
 
-    # Check for starring at beginning or end
-    if item[0:2] == '* ':
-        starred = True
-        item = item[2:]
-    if item[-2:] == ' *':
-        starred = True
-        item = item[:-2]
+    response = {
+        'label': [],
+        'notes': [],
+    }
+    target = 'label'
 
-    # Pull out notes if there
-    if ':::' in item:
-        item, notes = [x.strip() for x in item.split(':::')]
+    # Create stripped token list
+    tokens = [x.strip() for x in item.strip().split(' ')]
 
-    # Now go through and get metadata if any
-    for token in item.split(' '):
-        if token[0:3] == ":id":
-            id = int(token[3:])
+    # Go through tokens
+    for token in tokens:
+        if token == '!':
+            # If token is !, urgent and append
+            response['urgent'] = True
+            response[target].append(token)
+        elif token == '*':
+            # If token is *, starred and don't append
+            response['starred'] = True
+        elif token == '@waiting':
+            # If token is @waiting, waiting and append
+            response['waiting'] = True
+            response[target].append(token)
+        elif token == ':::':
+            # If token is :::, target is now notes
+            target = 'notes'
+        elif re.match(r"^@\d\d\d\d-\d\d-\d\d$", token):
+            # If token matches @YYYY-MM-DD pattern, date field and don't append
+            response['target_date'] = token[1:]
+        elif re.match(r"^:\d+$", token):
+            # If token matches :[id] pattern, id field and don't append
+            response['id'] = token[1:]
+        elif token[0:3] == "[::" and token[-1] == "]":
+            # If token starts with '[::' and ends with ']', linked list field and don't append
+            response['linked_list'] = token[1:-1]
         else:
-            # Not metadata
-            label.append(token)
+            # Normal words
+            response[target].append(token)
 
-    return (' '.join(label).strip(), notes, starred, id)
+    # Consolidate response
+    response['label'] = ' '.join(response['label'])
+
+    if len(response['notes']) > 0:
+        response['notes'] = ' '.join(response['notes'])
+    else:
+        del(response['notes'])
+
+    return response
 
 def get_all_contexts():
     return Context.objects.filter(status=Context.STATUS.active).order_by('slug').values()

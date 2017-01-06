@@ -349,11 +349,19 @@ $(document).ready(function() {
 			_hideEditControls($(e.target))
 		});
 
-		Mousetrap(fields[i]).bind(['mod+enter', 'shift+enter', 'enter'], function(e) {
-			_saveItem($(e.target))
+		if (fields[i].className != "item-metadata") {
+			Mousetrap(fields[i]).bind(['mod+enter', 'shift+enter', 'enter'], function(e) {
+				_saveItem($(e.target))
 
-			return false;
-		});
+				return false;
+			});
+		} else {
+			Mousetrap(fields[i]).bind(['mod+enter', 'shift+enter'], function(e) {
+				_saveItem($(e.target))
+
+				return false;
+			});
+		}
 	}
 
 	// Save
@@ -373,15 +381,23 @@ $(document).ready(function() {
 			newText += " *";
 		}
 
-		var selector = metadata.split("\n")[0];
-		var itemId = metadata.split("\n")[1].slice(4).trim();
+		var metadataLines = metadata.split("\n");
+		var selector = metadataLines[0];
 
 		var data = {
 			'key': config.apiKey,
 			'text': newText,
 			'selector': selector,
-			'id': itemId,
 		};
+
+		var remainingLines = metadataLines.slice(1);
+		for (var i in remainingLines) {
+			var line = remainingLines[i];
+			var token = line.split(' ')[0].slice(1);
+			var value = line.split(' ').slice(1).join(' ');
+
+			data[token] = value;
+		}
 
 		$.ajax({
 			url: url,
@@ -404,6 +420,8 @@ $(document).ready(function() {
 						notes.slideUp(200).remove();
 					}
 				}
+
+				// TODO: update date and list here
 
 				// Update star
 				var star = controls.closest(".wrapper").siblings(".star");
