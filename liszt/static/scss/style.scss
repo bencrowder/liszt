@@ -580,7 +580,7 @@ main#content {
 
 				&.list {
 					a {
-						color: $list-color;
+						color: lighten(desaturate($list-color, 55%), 20%);
 
 						&:hover {
 							color: #444;

@@ -33,7 +33,12 @@ class Item(models.Model):
         if self.notes:
             return self.notes.replace('\\n', '<br/>')
         else:
-            return ''
+            items = self.linked_list.get_active_items() if self.linked_list else None
+
+            if self.linked_list and items and items.count() > 0:
+                return self.linked_list.get_active_items().first().text
+            else:
+                return ''
 
     def get_target_date(self):
         if self.target_date:
@@ -83,11 +88,15 @@ class Item(models.Model):
                 html += '<a class="list" href="{}">{}</a></span>'.format(self.parent_list.get_url(), self.parent_list.get_full_display_slug())
             html += '</span>'
 
-        if self.notes:
-            html += '\t\t<span class="subtitle notes">{}</span>\n'.format(self.get_notes())
-
-        if self.target_date:
-            html += '\t\t<span class="subtitle date">{}</span>\n'.format(self.get_target_date())
+        notes = self.get_notes()
+        if notes or self.target_date:
+            html += '\t\t<span class="subtitle notes">'
+            html += notes
+            if self.target_date:
+                if notes:
+                    html += ' &mdash; '
+                html += '{}'.format(self.get_target_date())
+            html += '</span>\n'
 
         if self.linked_list:
             ll = self.get_linked_list()
