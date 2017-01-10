@@ -498,7 +498,9 @@ main#content {
             main#content ul.objects li span.subtitle a.list:hover {
               color: #0a648a; }
         main#content ul.objects li span.subtitle.list a {
-          color: #999; }
+          color: #0f97d2; }
+          main#content ul.objects li span.subtitle.list a:hover {
+            color: #444; }
       main#content ul.objects li.placeholder {
         background: #eee; }
       main#content ul.objects li.list > div.wrapper .edit-controls > span {

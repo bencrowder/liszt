@@ -580,7 +580,11 @@ main#content {
 
 				&.list {
 					a {
-						color: #999;
+						color: $list-color;
+
+						&:hover {
+							color: #444;
+						}
 					}
 				}
 			}
