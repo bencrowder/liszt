@@ -607,6 +607,8 @@ main#content {
       font-style: italic; }
     main#content ul.items li.item.urgent {
       font-weight: 600; }
+      main#content ul.items li.item.urgent .subtitle {
+        font-weight: 300; }
     main#content ul.items li.item.edit {
       border-radius: 5px;
       box-shadow: 0 0 15px #999;

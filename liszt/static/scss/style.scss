@@ -769,6 +769,10 @@ main#content {
 
 			&.urgent {
 				font-weight: 600;
+
+				.subtitle {
+					font-weight: 300;
+				}
 			}
 
 			&.edit {
