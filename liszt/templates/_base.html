@@ -51,9 +51,12 @@
 				{% if context %}<a class="contextview-link" href="{% url 'context_view' context.slug %}">contextview</a>{% endif %}
 			</div>
 
-			<div class="group">	
+			<div class="group">
 			{% for c in all_contexts %}
-				<a href="{% url 'context_detail' c.slug %}"><span class="selector">::</span>{{ c.slug|safe }}</a>
+				<div>
+					<a class="cv" href="{% url 'context_view' c.slug %}">cv</a>
+					<a href="{% url 'context_detail' c.slug %}"><span class="selector">::</span>{{ c.slug|safe }}</a>
+				</div>
 			{% endfor %}
 			</div>
 

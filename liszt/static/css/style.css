@@ -256,6 +256,15 @@ nav[role=menu] {
   nav[role=menu] .group.system span {
     color: #bbd2e2;
     font-size: .9em; }
+  nav[role=menu] .group > div {
+    padding-left: -25px;
+    padding-right: -25px;
+    text-align: right; }
+    nav[role=menu] .group > div a {
+      display: inline; }
+      nav[role=menu] .group > div a.cv {
+        color: #8dab69;
+        padding-right: 0; }
   nav[role=menu] .group h2 {
     color: #444;
     font-size: .8em;

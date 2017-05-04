@@ -226,6 +226,21 @@ nav[role=menu] {
       }
     }
 
+    & > div {
+	  padding-left: -25px;
+	  padding-right: -25px;
+	  text-align: right;
+
+      a {
+        display: inline;
+
+		&.cv {
+			color: hsl(87, 28%, 54%);
+			padding-right: 0;
+		}
+      }
+    }
+
     h2 {
       color: #444;
       font-size: .8em;
