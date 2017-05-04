@@ -438,7 +438,7 @@ main#content {
               color: #ddd;
               cursor: pointer;
               margin-left: 0; }
-              main#content ul.objects li > div.wrapper .edit-controls .meta .star:before {
+              main#content ul.objects li > div.wrapper .edit-controls .meta .star::before {
                 content: '\2605'; }
               main#content ul.objects li > div.wrapper .edit-controls .meta .star:hover {
                 color: #444; }
@@ -641,13 +641,13 @@ main#content {
       main#content .group h2.contextview a:hover {
         color: #222; }
   main#content .group:first-child h2.contextview {
-    margin-top: .5em; }
+    margin-top: 0.5em; }
   main#content .results h2 {
     border-bottom: solid 1px #ddd;
     color: #ccc;
     font-size: 1em;
     font-weight: 400;
-    margin: 0 0 1em 0;
+    margin: 0 0 1em;
     padding-bottom: 1px; }
 
 /* Overview */
@@ -672,7 +672,7 @@ main#content {
     text-decoration: none; }
   #overview ul.entries li span {
     color: #bbb;
-    font-size: .8em;
+    font-size: 0.8em;
     line-height: 1.1em;
     margin-left: 1px; }
   #overview ul.entries li.context:first-child {

@@ -1,0 +1,9 @@
+-   repo: git://github.com/pre-commit/pre-commit-hooks
+    sha: 5bf6c09bfa1297d3692cadd621ef95f1284e33c0
+    hooks:
+    -   id: flake8
+    -   id: trailing-whitespace
+-   repo: git://github.com/pre-commit/mirrors-yapf
+    sha: v0.16.1
+    hooks:
+    -   id: yapf
