@@ -122,59 +122,59 @@ $(document).ready(function() {
 
 	// Contextviews
 	// TODO: make this suck less
-	Mousetrap.bind('c v 1', function() {
+	Mousetrap.bind('v 1', function() {
 		window.location.href = $("nav[role=menu] .context:nth-child(1) a.cv").attr("href");
 	});
 
-	Mousetrap.bind('c v 2', function() {
+	Mousetrap.bind('v 2', function() {
 		window.location.href = $("nav[role=menu] .context:nth-child(2) a.cv").attr("href");
 	});
 
-	Mousetrap.bind('c v 3', function() {
+	Mousetrap.bind('v 3', function() {
 		window.location.href = $("nav[role=menu] .context:nth-child(3) a.cv").attr("href");
 	});
 
-	Mousetrap.bind('c v 4', function() {
+	Mousetrap.bind('v 4', function() {
 		window.location.href = $("nav[role=menu] .context:nth-child(4) a.cv").attr("href");
 	});
 
-	Mousetrap.bind('c v 5', function() {
+	Mousetrap.bind('v 5', function() {
 		window.location.href = $("nav[role=menu] .context:nth-child(5) a.cv").attr("href");
 	});
 
-	Mousetrap.bind('c v 6', function() {
+	Mousetrap.bind('v 6', function() {
 		window.location.href = $("nav[role=menu] .context:nth-child(6) a.cv").attr("href");
 	});
 
-	Mousetrap.bind('c v 7', function() {
+	Mousetrap.bind('v 7', function() {
 		window.location.href = $("nav[role=menu] .context:nth-child(7) a.cv").attr("href");
 	});
 
-	Mousetrap.bind('c v 8', function() {
+	Mousetrap.bind('v 8', function() {
 		window.location.href = $("nav[role=menu] .context:nth-child(8) a.cv").attr("href");
 	});
 
-	Mousetrap.bind('c v 9', function() {
+	Mousetrap.bind('v 9', function() {
 		window.location.href = $("nav[role=menu] .context:nth-child(9) a.cv").attr("href");
 	});
 
-	Mousetrap.bind('c v h', function() {
+	Mousetrap.bind('v h', function() {
 		window.location.href = $("nav[role=menu] a.cv[data-slug=home]").attr("href");
 	});
 
-	Mousetrap.bind('c v p', function() {
+	Mousetrap.bind('v p', function() {
 		window.location.href = $("nav[role=menu] a.cv[data-slug=projects]").attr("href");
 	});
 
-	Mousetrap.bind('c v s', function() {
+	Mousetrap.bind('v s', function() {
 		window.location.href = $("nav[role=menu] a.cv[data-slug=school]").attr("href");
 	});
 
-	Mousetrap.bind('c v w', function() {
+	Mousetrap.bind('v w', function() {
 		window.location.href = $("nav[role=menu] a.cv[data-slug=work]").attr("href");
 	});
 
-	Mousetrap.bind('c v r', function() {
+	Mousetrap.bind('v r', function() {
 		window.location.href = $("nav[role=menu] a.cv[data-slug=church]").attr("href");
 	});
 
