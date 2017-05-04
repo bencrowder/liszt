@@ -53,8 +53,8 @@
 
 			<div class="group">
 			{% for c in all_contexts %}
-				<div>
-					<a class="cv" href="{% url 'context_view' c.slug %}">cv</a>
+				<div class="context">
+					<a class="cv" data-slug="{{ c.slug }}" href="{% url 'context_view' c.slug %}">cv</a>
 					<a href="{% url 'context_detail' c.slug %}"><span class="selector">::</span>{{ c.slug|safe }}</a>
 				</div>
 			{% endfor %}

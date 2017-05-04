@@ -105,7 +105,7 @@ $(document).ready(function() {
 		return false;
 	});
 
-	// Overview
+	// Contextview
 	Mousetrap.bind('g c', function() {
 		window.location.href = $("nav[role=menu] .contextview-link").attr("href");
 	});
@@ -118,6 +118,64 @@ $(document).ready(function() {
 	// Review
 	Mousetrap.bind('g r', function() {
 		window.location.href = $("nav[role=menu] .review-link").attr("href");
+	});
+
+	// Contextviews
+	// TODO: make this suck less
+	Mousetrap.bind('c v 1', function() {
+		window.location.href = $("nav[role=menu] .context:nth-child(1) a.cv").attr("href");
+	});
+
+	Mousetrap.bind('c v 2', function() {
+		window.location.href = $("nav[role=menu] .context:nth-child(2) a.cv").attr("href");
+	});
+
+	Mousetrap.bind('c v 3', function() {
+		window.location.href = $("nav[role=menu] .context:nth-child(3) a.cv").attr("href");
+	});
+
+	Mousetrap.bind('c v 4', function() {
+		window.location.href = $("nav[role=menu] .context:nth-child(4) a.cv").attr("href");
+	});
+
+	Mousetrap.bind('c v 5', function() {
+		window.location.href = $("nav[role=menu] .context:nth-child(5) a.cv").attr("href");
+	});
+
+	Mousetrap.bind('c v 6', function() {
+		window.location.href = $("nav[role=menu] .context:nth-child(6) a.cv").attr("href");
+	});
+
+	Mousetrap.bind('c v 7', function() {
+		window.location.href = $("nav[role=menu] .context:nth-child(7) a.cv").attr("href");
+	});
+
+	Mousetrap.bind('c v 8', function() {
+		window.location.href = $("nav[role=menu] .context:nth-child(8) a.cv").attr("href");
+	});
+
+	Mousetrap.bind('c v 9', function() {
+		window.location.href = $("nav[role=menu] .context:nth-child(9) a.cv").attr("href");
+	});
+
+	Mousetrap.bind('c v h', function() {
+		window.location.href = $("nav[role=menu] a.cv[data-slug=home]").attr("href");
+	});
+
+	Mousetrap.bind('c v p', function() {
+		window.location.href = $("nav[role=menu] a.cv[data-slug=projects]").attr("href");
+	});
+
+	Mousetrap.bind('c v s', function() {
+		window.location.href = $("nav[role=menu] a.cv[data-slug=school]").attr("href");
+	});
+
+	Mousetrap.bind('c v w', function() {
+		window.location.href = $("nav[role=menu] a.cv[data-slug=work]").attr("href");
+	});
+
+	Mousetrap.bind('c v r', function() {
+		window.location.href = $("nav[role=menu] a.cv[data-slug=church]").attr("href");
 	});
 
 
@@ -198,7 +256,7 @@ $(document).ready(function() {
 
 	// Sorting items in a list
 	// --------------------------------------------------
-	
+
 	function updateSort(e) {
 		var item = $(e.item);
 		var order = [];
@@ -586,7 +644,7 @@ $(document).ready(function() {
 
 	// Review mode
 	// --------------------------------------------------
-	
+
 	if ($("#review").length > 0) {
 		_loadReviewMode();
 	}
@@ -613,7 +671,7 @@ $(document).ready(function() {
 
 		return false;
 	});
-	
+
 	if ($("#review").length > 0) {
 		Mousetrap.bind('x', function() {
 			$(".group.actions .checked").toggleClass("selected");
@@ -925,7 +983,7 @@ function _startReviewMode(items) {
 	if (reviewItems.length > 0) {
 		// Load the first item
 		_loadReviewItem(0);
-	}	
+	}
 }
 
 function _loadReviewItem(index) {
