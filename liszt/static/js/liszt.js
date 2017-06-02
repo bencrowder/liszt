@@ -174,7 +174,7 @@ $(document).ready(function() {
 		window.location.href = $("nav[role=menu] a.cv[data-slug=work]").attr("href");
 	});
 
-	Mousetrap.bind('v r', function() {
+	Mousetrap.bind('v c', function() {
 		window.location.href = $("nav[role=menu] a.cv[data-slug=church]").attr("href");
 	});
 
