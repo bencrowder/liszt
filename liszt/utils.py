@@ -181,7 +181,6 @@ def process_payload(payload, default_context=None, default_list=None):
     message = ''
 
     blocks = parse_block(payload)
-    print(blocks)
 
     for block in blocks:
         try:
@@ -234,8 +233,8 @@ def process_payload(payload, default_context=None, default_list=None):
                     # Reorder the starred list
                     starred_items = Item.objects.filter(starred=True, checked=False).order_by('starred_order', 'parent_list__context__order', 'parent_list__order', 'parent_list__parent_list__order', 'order')
 
-                    for i, starred_item in enumerate(starred_items):
-                        starred_item.starred_order = i + 1
+                    for j, starred_item in enumerate(starred_items):
+                        starred_item.starred_order = j + 1
                         starred_item.save()
 
                     # And put this item at the top
