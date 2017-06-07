@@ -67,14 +67,14 @@ $(document).ready(function() {
 	Mousetrap(field).bind(['mod+enter', 'shift+enter'], _submitAddTray);
 
 	// Home
-	Mousetrap.bind('g h', function() {
+	Mousetrap.bind('g -', function() {
 		window.location.href = config.url;
 
 		return false;
 	});
 
 	// Starred
-	Mousetrap.bind('g s', function() {
+	Mousetrap.bind('g .', function() {
 		window.location.href = config.url + "starred/";
 
 		return false;
@@ -106,7 +106,7 @@ $(document).ready(function() {
 	});
 
 	// Contextview
-	Mousetrap.bind('g c', function() {
+	Mousetrap.bind('g v', function() {
 		window.location.href = $("nav[role=menu] .contextview-link").attr("href");
 	});
 
@@ -122,59 +122,59 @@ $(document).ready(function() {
 
 	// Contextviews
 	// TODO: make this suck less
-	Mousetrap.bind('v 1', function() {
+	Mousetrap.bind('g 1', function() {
 		window.location.href = $("nav[role=menu] .context:nth-child(1) a.cv").attr("href");
 	});
 
-	Mousetrap.bind('v 2', function() {
+	Mousetrap.bind('g 2', function() {
 		window.location.href = $("nav[role=menu] .context:nth-child(2) a.cv").attr("href");
 	});
 
-	Mousetrap.bind('v 3', function() {
+	Mousetrap.bind('g 3', function() {
 		window.location.href = $("nav[role=menu] .context:nth-child(3) a.cv").attr("href");
 	});
 
-	Mousetrap.bind('v 4', function() {
+	Mousetrap.bind('g 4', function() {
 		window.location.href = $("nav[role=menu] .context:nth-child(4) a.cv").attr("href");
 	});
 
-	Mousetrap.bind('v 5', function() {
+	Mousetrap.bind('g 5', function() {
 		window.location.href = $("nav[role=menu] .context:nth-child(5) a.cv").attr("href");
 	});
 
-	Mousetrap.bind('v 6', function() {
+	Mousetrap.bind('g 6', function() {
 		window.location.href = $("nav[role=menu] .context:nth-child(6) a.cv").attr("href");
 	});
 
-	Mousetrap.bind('v 7', function() {
+	Mousetrap.bind('g 7', function() {
 		window.location.href = $("nav[role=menu] .context:nth-child(7) a.cv").attr("href");
 	});
 
-	Mousetrap.bind('v 8', function() {
+	Mousetrap.bind('g 8', function() {
 		window.location.href = $("nav[role=menu] .context:nth-child(8) a.cv").attr("href");
 	});
 
-	Mousetrap.bind('v 9', function() {
+	Mousetrap.bind('g 9', function() {
 		window.location.href = $("nav[role=menu] .context:nth-child(9) a.cv").attr("href");
 	});
 
-	Mousetrap.bind('v h', function() {
+	Mousetrap.bind('g h', function() {
 		window.location.href = $("nav[role=menu] a.cv[data-slug=home]").attr("href");
 	});
 
-	Mousetrap.bind('v p', function() {
+	Mousetrap.bind('g p', function() {
 		window.location.href = $("nav[role=menu] a.cv[data-slug=projects]").attr("href");
 	});
 
-	Mousetrap.bind('v s', function() {
+	Mousetrap.bind('g s', function() {
 		window.location.href = $("nav[role=menu] a.cv[data-slug=school]").attr("href");
 	});
 
-	Mousetrap.bind('v w', function() {
+	Mousetrap.bind('g w', function() {
 		window.location.href = $("nav[role=menu] a.cv[data-slug=work]").attr("href");
 	});
 
-	Mousetrap.bind('v c', function() {
+	Mousetrap.bind('g c', function() {
 		window.location.href = $("nav[role=menu] a.cv[data-slug=church]").attr("href");
 	});
 
