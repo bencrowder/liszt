@@ -382,6 +382,20 @@ main#content {
       display: flex;
       padding: 8px 0;
 
+	  &.edit {
+		.star {
+			color: #ddd;
+		}
+
+		.star.selected {
+			color: #111;
+		}
+
+		.star.hide {
+			display: block;
+		}
+	  }
+
       /* Content wrapper */
       & > div.wrapper {
         -webkit-flex: 1;
@@ -483,24 +497,6 @@ main#content {
               flex: 1;
               text-align: right;
             }
-
-            .star {
-              color: #ddd;
-              cursor: pointer;
-              margin-left: 0;
-
-              &::before {
-                content: '\2605';
-              }
-
-              &:hover {
-                color: #444;
-              }
-
-              &.selected {
-                color: #111;
-              }
-            }
           }
         }
 
@@ -543,12 +539,20 @@ main#content {
       .star {
         -webkit-user-select: none;
         color: lighten($starred-color, 45%);
+		cursor: pointer;
         font-size: 1.2em;
         margin-left: 10px;
 
         &.hide {
           display: none;
         }
+
+		&:hover {
+			color: #444;
+		}
+
+		&.selected {
+		}
       }
 
       /* Handle */

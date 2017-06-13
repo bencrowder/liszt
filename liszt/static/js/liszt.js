@@ -393,7 +393,7 @@ $(document).ready(function() {
 		return false;
 	});
 
-	$("#content").on("tap", "li.item .wrapper .edit-controls .star", function(e) {
+	$("#content").on("tap", "li.item .star", function(e) {
 		$(this).toggleClass("selected");
 
 		e.preventDefault();
@@ -434,7 +434,7 @@ $(document).ready(function() {
 		var newText = controls.find("textarea.item-text").val().trim();
 		var metadata = controls.find("textarea.item-metadata").val().trim();
 
-		var starred = controls.find(".star").hasClass("selected");
+		var starred = controls.parents(".wrapper").siblings(".star").hasClass("selected");
 		if (starred) {
 			newText += " *";
 		}
@@ -550,7 +550,7 @@ $(document).ready(function() {
 		return false;
 	});
 
-	$("#content").on("tap", "li.list .wrapper .edit-controls .star", function() {
+	$("#content").on("tap", "li.list .star", function() {
 		$(this).toggleClass("selected");
 
 		return false;
@@ -581,7 +581,7 @@ $(document).ready(function() {
 		var newName = controls.find("textarea.list-name").val().trim();
 		var metadata = controls.find("textarea.list-metadata").val().trim();
 
-		var starred = controls.find(".star").hasClass("selected");
+		var starred = controls.parents(".wrapper").siblings(".star").hasClass("selected");
 		var forReview = controls.find(".for-review").prop("checked");
 		var archive = controls.find(".archive").prop("checked");
 
@@ -597,6 +597,7 @@ $(document).ready(function() {
 			'selector': selector,
 			'id': listId,
 		};
+		console.log(data);
 
 		$.ajax({
 			url: url,

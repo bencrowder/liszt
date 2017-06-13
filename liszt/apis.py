@@ -473,12 +473,18 @@ def update_list(request, list_id):
 
     if starred == 'false':
         starred = False
+    else:
+        starred = True
 
     if for_review == 'false':
         for_review = False
+    else:
+        for_review = True
 
     if archive == 'false':
         archive = False
+    else:
+        archive = True
 
     new_context, new_lists = parse_selector(new_selector)
 
@@ -535,24 +541,30 @@ def update_list(request, list_id):
 
         status = 'success'
         message = ''
+
+        response = {
+            'status': status,
+            'message': message,
+            'list': {
+                'slug': the_list.slug,
+                'for_review': the_list.for_review,
+                'starred': the_list.starred,
+            },
+        }
+
+        # Return JSON response
+        return JsonResponse(response)
     except Exception as e:
         status = 'error'
         message = e
 
-    response = {
-        'status': status,
-        'message': message,
-    }
-
-    if status == 'success':
-        response['list'] = {
-            'slug': the_list.slug,
-            'for_review': the_list.for_review,
-            'starred': the_list.starred,
+        response = {
+            'status': status,
+            'message': message,
         }
 
-    # Return JSON response
-    return JsonResponse(response)
+        # Return JSON response
+        return JsonResponse(response, status=500)
 
 @login_required
 def get_review_items(request):

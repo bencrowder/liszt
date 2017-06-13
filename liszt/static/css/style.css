@@ -378,6 +378,12 @@ main#content {
       /* Subtitle */
       /* Placeholder for sorting */
       /* List editing */ }
+      main#content ul.objects li.edit .star {
+        color: #ddd; }
+      main#content ul.objects li.edit .star.selected {
+        color: #111; }
+      main#content ul.objects li.edit .star.hide {
+        display: block; }
       main#content ul.objects li > div.wrapper {
         -webkit-flex: 1;
         -webkit-hyphens: auto;
@@ -443,16 +449,6 @@ main#content {
               -webkit-flex: 1;
               flex: 1;
               text-align: right; }
-            main#content ul.objects li > div.wrapper .edit-controls .meta .star {
-              color: #ddd;
-              cursor: pointer;
-              margin-left: 0; }
-              main#content ul.objects li > div.wrapper .edit-controls .meta .star::before {
-                content: '\2605'; }
-              main#content ul.objects li > div.wrapper .edit-controls .meta .star:hover {
-                color: #444; }
-              main#content ul.objects li > div.wrapper .edit-controls .meta .star.selected {
-                color: #111; }
         main#content ul.objects li > div.wrapper .buttons {
           display: flex;
           margin-top: 10px; }
@@ -478,10 +474,13 @@ main#content {
       main#content ul.objects li .star {
         -webkit-user-select: none;
         color: #edcfcf;
+        cursor: pointer;
         font-size: 1.2em;
         margin-left: 10px; }
         main#content ul.objects li .star.hide {
           display: none; }
+        main#content ul.objects li .star:hover {
+          color: #444; }
       main#content ul.objects li .handle {
         -webkit-user-select: none;
         color: #bbb;

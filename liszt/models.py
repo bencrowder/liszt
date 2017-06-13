@@ -116,10 +116,6 @@ class Item(models.Model):
         html += '\n'.join(lines)
         html += '</textarea>\n'
 
-        html += '\t\t\t<div class="meta">\n'
-        html += '\t\t\t\t<div class="right"><span class="star {}"></span></div>\n'.format('selected' if self.starred else '')
-        html += '\t\t\t</div>\n'
-
         html += '\t\t\t<div class="buttons">\n'
         html += '\t\t\t\t<a class="save button" href="">Save</a>\n'
         html += '\t\t\t\t<a class="cancel button" href="">Cancel</a>\n'
@@ -128,7 +124,7 @@ class Item(models.Model):
         html += '\t\t</div>\n'
         html += '\t</div>\n'
 
-        html += '\t<span class="star{}">&#x2605;</span>\n'.format(' hide' if not self.starred else '')
+        html += '\t<span class="star{}">&#x2605;</span>\n'.format(' hide' if not self.starred else ' selected')
 
         if sortable:
             html += '\t<span class="handle">=</span>\n'
@@ -254,7 +250,6 @@ class List(models.Model):
         html += '\t\t\t<textarea class="list-metadata">{}{}\n:id {}</textarea>\n'.format(self.get_context().get_display_slug(html=False), self.parent_list.get_full_display_slug(html=False) if self.parent_list else '', self.id)
         html += '\t\t\t<div class="meta">\n'
         html += '\t\t\t\t<div class="left"><span><input type="checkbox" name="for-review" class="for-review" {}/> <label for="for-review">Review</label></div></span> <span><input type="checkbox" name="archive" class="archive" /> <label for="archive">Archive</label></span>\n'.format('checked' if self.for_review else '')
-        html += '\t\t\t\t<div class="right"><span class="star {}"></span></div>\n'.format('selected' if self.starred else '')
         html += '\t\t\t</div>\n'
 
         html += '\t\t\t<div class="buttons">\n'
@@ -265,7 +260,7 @@ class List(models.Model):
         html += '\t\t</div>\n'
         html += '\t</div>\n'
 
-        html += '\t<span class="star{}">&#x2605;</span>\n'.format(' hide' if not self.starred else '')
+        html += '\t<span class="star{}">&#x2605;</span>\n'.format(' hide' if not self.starred else ' selected')
 
         if sortable:
             html += '\t<span class="handle">=</span>\n'
