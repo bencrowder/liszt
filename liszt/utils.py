@@ -149,7 +149,7 @@ def parse_block(block):
         for line in [x.strip() for x in group.split('\n') if x != '']:
             # If it starts with ::, it's a context
             if line[0:2] == '::':
-                remainder = line[2:]
+                remainder = line[2:].lower()
 
                 # See if there's a list
                 if '/' in remainder:
@@ -162,7 +162,7 @@ def parse_block(block):
                     group_response['context'] = remainder
             elif line[0] == '/':
                 # List (not a context)
-                group_response['lists'] = parse_list_string(line)
+                group_response['lists'] = parse_list_string(line.lower())
             else:
                 # Normal item
                 item_data = parse_item(line)
