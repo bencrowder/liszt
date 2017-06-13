@@ -496,6 +496,7 @@ main#content {
         margin-top: 3px;
         word-wrap: break-word; }
         main#content ul.objects li span.subtitle a {
+          color: #a6a6a6;
           text-decoration: none; }
           main#content ul.objects li span.subtitle a.context {
             color: #d0356b; }

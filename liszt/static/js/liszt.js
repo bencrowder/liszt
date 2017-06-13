@@ -597,7 +597,6 @@ $(document).ready(function() {
 			'selector': selector,
 			'id': listId,
 		};
-		console.log(data);
 
 		$.ajax({
 			url: url,

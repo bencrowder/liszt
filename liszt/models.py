@@ -6,6 +6,7 @@ from django.utils import timezone
 from django.utils.text import slugify
 from model_utils import Choices
 from django.shortcuts import resolve_url
+import re
 
 
 class Item(models.Model):
@@ -31,7 +32,11 @@ class Item(models.Model):
 
     def get_notes(self):
         if self.notes:
-            return self.notes.replace('\\n', '<br/>')
+            notes = self.notes.replace('\\n', '<br/>')
+            # Autolink
+            notes = re.sub(r'(https?://[^\s]+)', r'<a href="\1" target="_blank">\1</a>', notes)
+
+            return notes
         else:
             items = self.linked_list.get_active_items() if self.linked_list else None
 
