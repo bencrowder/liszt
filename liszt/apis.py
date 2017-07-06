@@ -343,7 +343,9 @@ def update_item(request, item_id):
                 the_context = get_or_create_context(the_context)
                 to_list = get_or_create_list(the_context, the_lists)
 
-                item.parent_list = to_list
+                if to_list != item.parent_list:
+                    item.parent_list = to_list
+                    item.order = -1
 
             item.save()
 
